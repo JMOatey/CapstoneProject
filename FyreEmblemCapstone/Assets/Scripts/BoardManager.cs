@@ -11,10 +11,7 @@ public class BoardManager : MonoBehaviour
 	private int selectionX = -1;
 	private int selectionY = -1;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+	public List<GameObject> chessmanPrefabs;
 	
 	// Update is called once per frame
 	void Update () {
@@ -37,6 +34,18 @@ public class BoardManager : MonoBehaviour
 				Debug.DrawLine(start, start + heightLine);
 			}
 		}
+
+		if(selectionX >= 0 && selectionY >= 0)
+		{
+			Debug.DrawLine(
+				Vector3.forward * selectionY + Vector3.right * selectionX,
+				Vector3.forward * (selectionY + 1) + Vector3.right * (selectionX + 1)
+			);
+			Debug.DrawLine(
+				Vector3.forward * (selectionY + 1) + Vector3.right * selectionX,
+				Vector3.forward * selectionY + Vector3.right * (selectionX + 1)
+			);
+		}
 	}
 
 	private void UpdateSelection()
@@ -49,7 +58,13 @@ public class BoardManager : MonoBehaviour
 		RaycastHit hit;
 		if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out hit, 25.0f, LayerMask.GetMask("ChessPlane")))
 		{
-			Debug.Log(hit.point);
+			selectionX = (int)hit.point.x;
+			selectionY = (int)hit.point.z;
+		}
+		else
+		{
+			selectionX = -1;
+			selectionY = -1;
 		}
 	}
 }
