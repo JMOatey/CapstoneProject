@@ -12,6 +12,7 @@ public class BoardManager : MonoBehaviour
 	private int selectionY = -1;
 
 	public List<GameObject> chessmanPrefabs;
+	private List<GameObject> activeChessman;
 	
 	// Update is called once per frame
 	void Update () {
