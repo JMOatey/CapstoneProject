@@ -457,6 +457,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9bf375f724144de4b66fe13cf8dffb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Width: 8
+  Height: 8
+  Cube1: {fileID: 1743591931316998, guid: 0cc401de9f8a54ea89107645aefe6267, type: 2}
+  Cube2: {fileID: 1024393199964426, guid: f27beb774602849acbb4df98eb8c95f4, type: 2}
 --- !u!1 &1049960228
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,22 +488,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cd1751dc12d41ecbbbb3e6a2336e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionX: -1
-  selectionY: -1
-  chessmanPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  activeChessman: []
 --- !u!4 &1049960230
 Transform:
   m_ObjectHideFlags: 0

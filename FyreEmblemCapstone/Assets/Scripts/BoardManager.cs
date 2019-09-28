@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour 
-{
-	public int Width;
-	public int Height;
+{	
 	public GameObject Cube1;
 	public GameObject Cube2;
+	public Board ChessBoard;
 
 	// Use this for initialization
 	void Start()
@@ -23,9 +22,9 @@ public class BoardManager : MonoBehaviour
 	private void CreateBoard()
 	{
 		bool isWhite = true;
-		for(int i = 0; i < this.Width; i++)
+		for(int i = 0; i < ChessBoard.Width; i++)
 		{
-			for(int j = 0; j < this.Height; j++)
+			for(int j = 0; j < ChessBoard.Height; j++)
 			{
 				if(isWhite)
 				{
