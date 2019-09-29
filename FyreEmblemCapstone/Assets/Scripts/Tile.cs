@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Tile : MonoBehaviour
 {
-    public bool Walkable = false;
+    public bool Walkable = true;
     public bool Current = false;
     public bool Target = false;
     public bool Selectable = false;
@@ -34,7 +34,7 @@ public class Tile : MonoBehaviour
 
     public void Reset()
     {
-        Walkable = false;
+        Walkable = true;
         Current = false;
         Target = false;
         Selectable = false;
