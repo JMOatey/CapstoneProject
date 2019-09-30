@@ -14,18 +14,13 @@ public class PlayerMove : TacticsMove
 	// Update is called once per frame
 	protected void MoveUpdate ()
 	{
-		Debug.DrawRay(transform.position, transform.forward);
-
 		if(!Turn)
 		{
 			return;
 		}
 		if(!Moving)
 		{
-			if(SelectableTiles.Count < 1)
-			{
-				FindSelectableTiles();
-			}
+			DisplayPossibleMoves();
 			CheckMouse();
 		}
 		else

@@ -36,9 +36,34 @@ public class TacticsMove : MonoBehaviour
 	{
 		Tiles = GameObject.FindGameObjectsWithTag("Tile");
 
-		HalfHeight = GetComponent<Collider>().bounds.extents.y;
+		HalfHeight = GetComponent<Collider>().bounds.extents.y;		
+	}
 
-		TurnManager.AddUnit(this);
+	public void DisplayPossibleMoves()
+	{
+		if(SelectableTiles.Count == 0)
+		{
+			FindSelectableTiles();
+			foreach(Tile tile in SelectableTiles)
+			{
+				tile.Selectable = true;
+			}
+		}
+		else
+		{
+			foreach(Tile tile in SelectableTiles)
+			{
+				tile.Selectable = true;
+			}
+		}
+	}
+
+	public void HidePossibleMoves()
+	{
+		foreach(Tile tile in SelectableTiles)
+		{
+			tile.Reset();
+		}
 	}
 
 	public void GetCurrentTile()
@@ -134,14 +159,12 @@ public class TacticsMove : MonoBehaviour
 				transform.position = target;
 				Path.Pop();
 			}
-
 		}
 		else
 		{
 			RemoveSelectableTiles();
 			Moving = false;
-
-			TurnManager.EndTurn();
+			// TurnManager.EndTurn();
 		}
 	}
 
@@ -254,15 +277,5 @@ public class TacticsMove : MonoBehaviour
 			velocity /= 5.0f;
 			velocity.y = 1.5f;
 		}
-	}
-
-	public void BeginTurn()
-	{
-		Turn = true;
-	}
-
-	public void EndTurn()
-	{
-		Turn = false;
 	}
 }
