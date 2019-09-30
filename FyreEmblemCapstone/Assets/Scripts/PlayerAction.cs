@@ -40,6 +40,7 @@ public class PlayerAction : PlayerMove
 
 	public void BeginTurn()
 	{
+		HasMoved = false;
 		Turn = true;
 	}
 

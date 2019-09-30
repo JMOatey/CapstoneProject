@@ -14,7 +14,7 @@ public class PlayerMove : TacticsMove
 	// Update is called once per frame
 	protected void MoveUpdate ()
 	{
-		if(!Turn)
+		if(!Turn || HasMoved)
 		{
 			return;
 		}

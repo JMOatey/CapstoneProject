@@ -26,6 +26,7 @@ public class TacticsMove : MonoBehaviour
 	public float MoveSpeed = 2;
 	public float JumpVelocity = 4.5f;
 	float HalfHeight = 0;
+	public bool HasMoved = false;
 
 	Vector3 velocity = new Vector3();
 	Vector3 heading = new Vector3();
@@ -164,6 +165,7 @@ public class TacticsMove : MonoBehaviour
 		{
 			RemoveSelectableTiles();
 			Moving = false;
+			HasMoved = true;
 			// TurnManager.EndTurn();
 		}
 	}
