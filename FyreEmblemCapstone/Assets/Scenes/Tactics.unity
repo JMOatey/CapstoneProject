@@ -3904,7 +3904,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 527680845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71a41cc4f7d564155a44a309a35e7193, type: 3}
+  m_Script: {fileID: 11500000, guid: fcbe37cd75a424466bee4801117986f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Turn: 0
@@ -3916,6 +3916,8 @@ MonoBehaviour:
   JumpHeight: 2
   MoveSpeed: 2
   JumpVelocity: 4.5
+  HasMoved: 0
+  Speed: 1
   CurrentAction: 3
 --- !u!23 &527680847
 MeshRenderer:
@@ -5502,7 +5504,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 711263790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71a41cc4f7d564155a44a309a35e7193, type: 3}
+  m_Script: {fileID: 11500000, guid: fcbe37cd75a424466bee4801117986f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Turn: 0
@@ -5514,6 +5516,8 @@ MonoBehaviour:
   JumpHeight: 2
   MoveSpeed: 2
   JumpVelocity: 4.5
+  HasMoved: 0
+  Speed: 7
   CurrentAction: 3
 --- !u!23 &711263792
 MeshRenderer:
@@ -8364,7 +8368,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1032607807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71a41cc4f7d564155a44a309a35e7193, type: 3}
+  m_Script: {fileID: 11500000, guid: fcbe37cd75a424466bee4801117986f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Turn: 0
@@ -8376,6 +8380,8 @@ MonoBehaviour:
   JumpHeight: 2
   MoveSpeed: 2
   JumpVelocity: 4.5
+  HasMoved: 0
+  Speed: 4
   CurrentAction: 3
 --- !u!1 &1052916751
 GameObject:

@@ -10,12 +10,17 @@ public enum SelectedAction
 	Nothing
 }
 
-public class PlayerAction : PlayerMove 
+
+public class Unit : PlayerMove 
 {
+	public float Speed = 0;
+	public int Health = 10;
+	public int Attack = 2;
+
 	public SelectedAction CurrentAction = SelectedAction.Nothing;
 
 	void Start () {
-		TurnManager.AddUnit(this);
+		TurnManager.Instance.AddUnit(this);
 
 		MoveStart();
 	}
@@ -31,12 +36,22 @@ public class PlayerAction : PlayerMove
 				break;
 			case SelectedAction.Wait:
 				HidePossibleMoves();
-				TurnManager.EndTurn();
+				TurnManager.Instance.EndTurn();
 				break;
 			case SelectedAction.Nothing:
 				break;
 		}
 	}
+
+	void OnMouseOver()
+    {
+        DisplayPossibleMoves();
+    }
+
+    void OnMouseExit()
+    {
+        HidePossibleMoves();
+    }
 
 	public void BeginTurn()
 	{

@@ -4,15 +4,36 @@ using System.Linq;
 using UnityEngine;
 
 
-public class TurnManager : MonoBehaviour {
+public class TurnManager : MonoBehaviour 
+{
 
-	static Dictionary<string, List<PlayerAction>> Units = new Dictionary<string, List<PlayerAction>>();
-	static Queue<string> TurnQueue = new Queue<string>();
-	// static Queue<PlayerAction> TeamQueue = new Queue<PlayerAction>();
-	static PlayerAction CurrentUnit;
+	private static TurnManager _instance;
+	public static TurnManager Instance
+	{
+		get
+        {
+            return _instance;
+        }
+	}
+
+	private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        } else {
+            _instance = this;
+        }
+    }
+
+	Dictionary<string, List<Unit>> Units = new Dictionary<string, List<Unit>>();
+	// Queue<string> TurnQueue = new Queue<string>();
+	Queue<Unit> UnitQueue = new Queue<Unit>();
+	Unit CurrentUnit;
 
 	// Use this for initialization
 	void Start () {
+		
 		StartTurn();
 	}
 	
@@ -30,103 +51,108 @@ public class TurnManager : MonoBehaviour {
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit))
 			{
-				if(hit.collider.tag == TurnQueue.Peek())
+				if(Instance.UnitQueue.Peek())
 				{
-					if(CurrentUnit)
+					if(Instance.CurrentUnit)
 					{
-						CurrentUnit.HidePossibleMoves();
+						Instance.CurrentUnit.HidePossibleMoves();
 						Debug.Log("Should be hiding!");
 					}
-					PlayerAction player = hit.collider.GetComponent<PlayerAction>();
+					Unit player = hit.collider.GetComponent<Unit>();
 
-					CurrentUnit = player;
+					Instance.CurrentUnit = player;
 				}
 			}
 		}
 	}
 
-	// static void InitTeamQueue()
+	// static void InitUnitQueue()
 	// {
-	// 	List<PlayerAction> teamList = Units[TurnQueue.Peek()];
+	// 	List<Unit> teamList = Instance.Units[UnitQueue.Peek()];
 
-	// 	foreach(PlayerAction unit in teamList)
+	// 	foreach(Unit unit in teamList)
 	// 	{
-	// 		TeamQueue.Enqueue(unit);
+	// 		Instance.UnitQueue.Enqueue(unit);
 	// 	}
 
-	// 	StartTurn();
+	// 	Instance.StartTurn();
 	// }
 
 	
 
-	public static void StartTurn()
+	public void StartTurn()
 	{
-		foreach(PlayerAction pa in Units[TurnQueue.Peek()])
-		{
-			pa.BeginTurn();
-		}
-		// if(TeamQueue.Count > 0)
+		UnitQueue.OrderBy( u => u.Speed);
+		// foreach(PlayerAction pa in Units[TurnQueue.Peek()])
 		// {
-		// 	CurrentUnit = TeamQueue.Peek();
-		// 	CurrentUnit.BeginTurn();
+		// 	pa.BeginTurn();
 		// }
+		if(Instance.UnitQueue.Count > 0)
+		{
+			Instance.CurrentUnit = Instance.UnitQueue.Peek();
+			Instance.CurrentUnit.BeginTurn();
+			Debug.Log(Instance.CurrentUnit.gameObject.name);
+		}
 	}
 
-	public static void EndTurn()
+	public void EndTurn()
 	{
-		foreach(PlayerAction pa in Units[TurnQueue.Peek()])
-		{
-			pa.EndTurn();
-		}
-		// PlayerAction unit = TeamQueue.Dequeue();
-		// unit.EndTurn();
-
-		// if(TeamQueue.Count > 0)
+		// foreach(PlayerAction pa in Units[TurnQueue.Peek()])
 		// {
-		// 	StartTurn();
+		// 	pa.EndTurn();
 		// }
-		// else
-		// {
-		string team = TurnQueue.Dequeue();
-		TurnQueue.Enqueue(team);
-		StartTurn();
-		// InitTeamQueue();
-		// }
-	}
+		Unit unit = Instance.UnitQueue.Dequeue();
+		unit.EndTurn();
+		Instance.UnitQueue.Enqueue(unit);
 
-	public static void AddUnit(PlayerAction unit)
-	{
-		List<PlayerAction> list;
 
-		if(!Units.ContainsKey(unit.tag))
+		if(Instance.UnitQueue.Count > 0)
 		{
-			list = new List<PlayerAction>();
-			Units[unit.tag] = list;
-
-			if(!TurnQueue.Contains(unit.tag))
-			{
-				TurnQueue.Enqueue(unit.tag);
-			}
+			StartTurn();
 		}
 		else
 		{
-			list = Units[unit.tag];
+			// string team = TurnQueue.Dequeue();
+			// TurnQueue.Enqueue(team);
+			StartTurn();
+			// InitUnitQueue();
+		}
+	}
+
+	public void AddUnit(Unit unit)
+	{
+		List<Unit> list;
+
+		if(!Instance.Units.ContainsKey(unit.tag))
+		{
+			list = new List<Unit>();
+			Instance.Units[unit.tag] = list;
+
+			// if(!Instance.TurnQueue.Contains(unit.tag))
+			// {
+			// 	Instance.TurnQueue.Enqueue(unit.tag);
+			// }
+		}
+		else
+		{
+			list = Instance.Units[unit.tag];
 		}
 		list.Add(unit);
+		Instance.UnitQueue.Enqueue(unit);
 	}
 
 	public void SelectAttack()
 	{
-		CurrentUnit.CurrentAction = SelectedAction.Attack;
+		Instance.CurrentUnit.CurrentAction = SelectedAction.Attack;
 	}
 
 	public void SelectMove()
 	{
-		CurrentUnit.CurrentAction = SelectedAction.Move;
+		Instance.CurrentUnit.CurrentAction = SelectedAction.Move;
 	}
 
 	public void SelectWait()
 	{
-		CurrentUnit.CurrentAction = SelectedAction.Wait;
+		Instance.CurrentUnit.CurrentAction = SelectedAction.Wait;
 	}
 }
