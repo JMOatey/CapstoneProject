@@ -43,27 +43,28 @@ public class TurnManager : MonoBehaviour
 		// {
 		// 	InitTeamQueue();
 		// }
+//______________________________________________________________________
+		// if(Input.GetMouseButtonUp(0))
+		// {
+		// 	Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		if(Input.GetMouseButtonUp(0))
-		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		// 	RaycastHit hit;
+		// 	if(Physics.Raycast(ray, out hit))
+		// 	{
+		// 		if(Instance.UnitQueue.Peek())
+		// 		{
+		// 			if(Instance.CurrentUnit)
+		// 			{
+		// 				Instance.CurrentUnit.HidePossibleMoves();
+		// 				Debug.Log("Should be hiding!");
+		// 			}
+		// 			Unit player = hit.collider.GetComponent<Unit>();
 
-			RaycastHit hit;
-			if(Physics.Raycast(ray, out hit))
-			{
-				if(Instance.UnitQueue.Peek())
-				{
-					if(Instance.CurrentUnit)
-					{
-						Instance.CurrentUnit.HidePossibleMoves();
-						Debug.Log("Should be hiding!");
-					}
-					Unit player = hit.collider.GetComponent<Unit>();
-
-					Instance.CurrentUnit = player;
-				}
-			}
-		}
+		// 			Instance.CurrentUnit = player;
+		// 		}
+		// 	}
+		// }
+//______________________________________________________________________
 	}
 
 	// static void InitUnitQueue()
