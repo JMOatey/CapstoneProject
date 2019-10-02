@@ -25,7 +25,12 @@ public class PlayerMove : TacticsMove
 		if(!Moving)
 		{
 			DisplayPossibleMoves();
-			CheckMouse();
+			if(this.tag == "Enemy"){
+				aiMove();
+			}else{
+				CheckMouse();
+			}
+
 		}
 		else
 		{
@@ -66,5 +71,11 @@ public class PlayerMove : TacticsMove
 			Path.Push(next);
 			next = next.Parent;
 		}
+	}
+
+	//Move to random title
+	void aiMove(){
+		List<Tile> list = this.SelectableTiles;
+		MoveToTile(list[Random.Range(0,list.Count)]);
 	}
 }
