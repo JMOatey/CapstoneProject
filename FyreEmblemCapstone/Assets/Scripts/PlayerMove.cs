@@ -24,10 +24,10 @@ public class PlayerMove : TacticsMove
 		}
 		if(!Moving)
 		{
-			DisplayPossibleMoves();
 			if(this.tag == "Enemy"){
 				aiMove();
 			}else{
+				DisplayPossibleMoves();
 				CheckMouse();
 			}
 
@@ -73,7 +73,7 @@ public class PlayerMove : TacticsMove
 		}
 	}
 
-	//Move to random title
+	//Move to random tile
 	void aiMove(){
 		List<Tile> list = this.SelectableTiles;
 		MoveToTile(list[Random.Range(0,list.Count)]);
