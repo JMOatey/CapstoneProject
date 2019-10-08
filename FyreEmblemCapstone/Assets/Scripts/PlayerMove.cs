@@ -14,14 +14,23 @@ public class PlayerMove : TacticsMove
 	// Update is called once per frame
 	protected void MoveUpdate ()
 	{
-		if(!Turn || HasMoved)
+		if(!Turn)
 		{
+			return;
+		}
+		if(HasMoved){
+			TurnManager.Instance.EndTurn();
 			return;
 		}
 		if(!Moving)
 		{
-			DisplayPossibleMoves();
-			CheckMouse();
+			if(this.tag == "Enemy"){
+				aiMove();
+			}else{
+				DisplayPossibleMoves();
+				CheckMouse();
+			}
+
 		}
 		else
 		{
@@ -62,5 +71,11 @@ public class PlayerMove : TacticsMove
 			Path.Push(next);
 			next = next.Parent;
 		}
+	}
+
+	//Move to random tile
+	void aiMove(){
+		List<Tile> list = this.SelectableTiles;
+		MoveToTile(list[Random.Range(0,list.Count)]);
 	}
 }
