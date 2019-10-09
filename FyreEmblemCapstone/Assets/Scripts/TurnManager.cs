@@ -29,7 +29,7 @@ public class TurnManager : MonoBehaviour
 	Dictionary<string, List<Unit>> Units = new Dictionary<string, List<Unit>>();
 	// Queue<string> TurnQueue = new Queue<string>();
 	Queue<Unit> UnitQueue = new Queue<Unit>();
-	Unit CurrentUnit;
+	public Unit CurrentUnit;
 
 	// Use this for initialization
 	void Start () {
@@ -43,27 +43,28 @@ public class TurnManager : MonoBehaviour
 		// {
 		// 	InitTeamQueue();
 		// }
+//______________________________________________________________________
+		// if(Input.GetMouseButtonUp(0))
+		// {
+		// 	Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		if(Input.GetMouseButtonUp(0))
-		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		// 	RaycastHit hit;
+		// 	if(Physics.Raycast(ray, out hit))
+		// 	{
+		// 		if(Instance.UnitQueue.Peek())
+		// 		{
+		// 			if(Instance.CurrentUnit)
+		// 			{
+		// 				Instance.CurrentUnit.HidePossibleMoves();
+		// 				Debug.Log("Should be hiding!");
+		// 			}
+		// 			Unit player = hit.collider.GetComponent<Unit>();
 
-			RaycastHit hit;
-			if(Physics.Raycast(ray, out hit))
-			{
-				if(Instance.UnitQueue.Peek())
-				{
-					if(Instance.CurrentUnit)
-					{
-						Instance.CurrentUnit.HidePossibleMoves();
-						Debug.Log("Should be hiding!");
-					}
-					Unit player = hit.collider.GetComponent<Unit>();
-
-					Instance.CurrentUnit = player;
-				}
-			}
-		}
+		// 			Instance.CurrentUnit = player;
+		// 		}
+		// 	}
+		// }
+//______________________________________________________________________
 	}
 
 	// static void InitUnitQueue()
@@ -92,6 +93,9 @@ public class TurnManager : MonoBehaviour
 			Instance.CurrentUnit = Instance.UnitQueue.Peek();
 			Instance.CurrentUnit.BeginTurn();
 			Debug.Log(Instance.CurrentUnit.gameObject.name);
+			if(CurrentUnit.tag == "Enemy"){
+				aiAction();
+			}
 		}
 	}
 
@@ -154,5 +158,28 @@ public class TurnManager : MonoBehaviour
 	public void SelectWait()
 	{
 		Instance.CurrentUnit.CurrentAction = SelectedAction.Wait;
+	}
+
+	//AI choose action base on the current situation
+	public void aiAction(){
+		CurrentUnit.DisplayPossibleMoves();
+		List<Tile> list = CurrentUnit.SelectableTiles;
+		List<Tile> enemy = new List<Tile>();
+		for(int i = 0; i < list.Count; i++){
+			// if(list[i].Selectable){
+			// 	enemy.Add(list[i]);  //add all tile have enemy list
+			// }
+			if(!list[i].Selectable){
+				enemy.Add(list[i]);  //add all tile have enemy list
+			}
+		}
+
+		if(enemy.Count != 0){
+			SelectAttack(); //attack
+		}else if(CurrentUnit.Health < 5){
+			SelectWait();
+		}else{
+			SelectMove();
+		}
 	}
 }
