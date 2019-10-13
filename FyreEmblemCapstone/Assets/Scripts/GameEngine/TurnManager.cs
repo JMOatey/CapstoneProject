@@ -33,7 +33,6 @@ public class TurnManager : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-		
 		StartTurn();
 	}
 	
@@ -94,7 +93,7 @@ public class TurnManager : MonoBehaviour
 			Instance.CurrentUnit.BeginTurn();
 			Debug.Log(Instance.CurrentUnit.gameObject.name);
 			if(CurrentUnit.tag == "Enemy"){
-				aiAction();
+				AI.aiAction(TurnManager.Instance);
 			}
 		}
 	}
@@ -160,26 +159,4 @@ public class TurnManager : MonoBehaviour
 		Instance.CurrentUnit.CurrentAction = SelectedAction.Wait;
 	}
 
-	//AI choose action base on the current situation
-	public void aiAction(){
-		CurrentUnit.DisplayPossibleMoves();
-		List<Tile> list = CurrentUnit.SelectableTiles;
-		List<Tile> enemy = new List<Tile>();
-		for(int i = 0; i < list.Count; i++){
-			// if(list[i].Selectable){
-			// 	enemy.Add(list[i]);  //add all tile have enemy list
-			// }
-			if(!list[i].Selectable){
-				enemy.Add(list[i]);  //add all tile have enemy list
-			}
-		}
-
-		if(enemy.Count != 0){
-			SelectAttack(); //attack
-		}else if(CurrentUnit.Health < 5){
-			SelectWait();
-		}else{
-			SelectMove();
-		}
-	}
 }
