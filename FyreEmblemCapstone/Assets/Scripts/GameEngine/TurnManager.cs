@@ -30,46 +30,45 @@ public class TurnManager : MonoBehaviour
 	// Queue<string> TurnQueue = new Queue<string>();
 	Queue<Unit> UnitQueue = new Queue<Unit>();
 	public Unit CurrentUnit;
+	public List<Tile> Board;
+	public int Turn = 1;
 
-	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+	{
+		// Board = C
 		StartTurn();
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		// if(TeamQueue.Count == 0)
-		// {
-		// 	InitTeamQueue();
-		// }
-//______________________________________________________________________
-		// if(Input.GetMouseButtonUp(0))
-		// {
-		// 	Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+	// 	if(TeamQueue.Count == 0)
+	// 	{
+	// 		InitTeamQueue();
+	// 	}
+	// 	if(Input.GetMouseButtonUp(0))
+	// 	{
+	// 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		// 	RaycastHit hit;
-		// 	if(Physics.Raycast(ray, out hit))
-		// 	{
-		// 		if(Instance.UnitQueue.Peek())
-		// 		{
-		// 			if(Instance.CurrentUnit)
-		// 			{
-		// 				Instance.CurrentUnit.HidePossibleMoves();
-		// 				Debug.Log("Should be hiding!");
-		// 			}
-		// 			Unit player = hit.collider.GetComponent<Unit>();
+	// 		RaycastHit hit;
+	// 		if(Physics.Raycast(ray, out hit))
+	// 		{
+	// 			if(Instance.UnitQueue.Peek())
+	// 			{
+	// 				if(Instance.CurrentUnit)
+	// 				{
+	// 					Instance.CurrentUnit.HidePossibleMoves();
+	// 					Debug.Log("Should be hiding!");
+	// 				}
+	// 				Unit player = hit.collider.GetComponent<Unit>();
 
-		// 			Instance.CurrentUnit = player;
-		// 		}
-		// 	}
-		// }
-//______________________________________________________________________
+	// 				Instance.CurrentUnit = player;
+	// 			}
+	// 		}
+	// 	}
 	}
 
 	// static void InitUnitQueue()
 	// {
-	// 	List<Unit> teamList = Instance.Units[UnitQueue.Peek()];
+	// 	List<Unit> teamList = Instance.Units[Instance.UnitQueue.Peek()];
 
 	// 	foreach(Unit unit in teamList)
 	// 	{
@@ -83,7 +82,7 @@ public class TurnManager : MonoBehaviour
 
 	public void StartTurn()
 	{
-		UnitQueue.OrderBy( u => u.Speed);
+		Instance.UnitQueue.OrderBy( u => u.Speed);
 		// foreach(PlayerAction pa in Units[TurnQueue.Peek()])
 		// {
 		// 	pa.BeginTurn();
@@ -107,20 +106,20 @@ public class TurnManager : MonoBehaviour
 		// }
 		Unit unit = Instance.UnitQueue.Dequeue();
 		unit.EndTurn();
+		unit.Finished = true;
 		Instance.UnitQueue.Enqueue(unit);
 
 
-		if(Instance.UnitQueue.Count > 0)
+		if(Instance.UnitQueue.Count > 0 && Instance.UnitQueue.Peek().Finished)
 		{
-			StartTurn();
+			foreach(Unit u in Instance.UnitQueue)
+			{
+				u.Finished = false;
+			}
+			Instance.UnitQueue.OrderBy(u => u.Speed);
+			Instance.Turn++;
 		}
-		else
-		{
-			// string team = TurnQueue.Dequeue();
-			// TurnQueue.Enqueue(team);
-			StartTurn();
-			// InitUnitQueue();
-		}
+		StartTurn();
 	}
 
 	public void AddUnit(Unit unit)

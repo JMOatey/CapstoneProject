@@ -12,6 +12,7 @@ public enum SelectedAction
 
 public class Unit : PlayerMove 
 {
+	public bool Finished = false;
 	public float Speed = 0;
 	public int Health = 10;
 	public int Attack = 2;
