@@ -29,6 +29,9 @@ public class TurnManager : MonoBehaviour
 	Dictionary<string, List<Unit>> Units = new Dictionary<string, List<Unit>>();
 	// Queue<string> TurnQueue = new Queue<string>();
 	Queue<Unit> UnitQueue = new Queue<Unit>();
+	public Queue<Unit> UQ{
+		get {return UnitQueue; }
+	}
 	public Unit CurrentUnit;
 	public List<Tile> Board;
 	public int Turn = 1;
