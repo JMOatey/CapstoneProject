@@ -31,16 +31,17 @@ public class AI : MonoBehaviour
 
 		List<Tile> enemyPos = new List<Tile>();
 		foreach(var i in TM.UQ.ToArray()){
-			if(i.tag == "Enemy" && MOVE == i.CurrentTile){
-				tm.SelectAttack();
+			if(i.tag == "Player" && MOVE == i.CurrentTile){
+				TM.SelectAttack();
 				return;
 			}
 		}
 		
 		if(MOVE == null){
-			tm.SelectWait();
+			//tm.SelectWait();
+			TM.EndTurn();
 		}else{
-			tm.SelectMove();
+			TM.SelectMove();
 		}
 
 		// tm.CurrentUnit.FindSelectableTiles();
@@ -62,27 +63,35 @@ public class AI : MonoBehaviour
 	}
 
 	public int eval(Tile tile, int score, Queue<Unit> unitQ){
-		return 1;
+		int eScore = score;
+		foreach (var i in unitQ.ToArray()){
+			if(i.tag == "Enemy"){
+				eScore += i.Health;
+			}else{
+				eScore -= i.Health;
+			}
+		}
+		return eScore;
 	}
 
 	public bool isWon(Queue<Unit> units){
-		int unitCount = 0;
+		int playerCount = 0;
 		int enemyCount = 0;
 
 		foreach (var i in units.ToArray()){
 			if(i.tag == "Player"){
-				unitCount++;
-			}
-			if(i.tag == "Enemies"){
 				enemyCount++;
+			}
+			if(i.tag == "Enemy"){
+				playerCount++;
 			}
 		}
 
-		if(unitCount == 0 || enemyCount == 0){
+		if(playerCount == 0 || enemyCount == 0){
 			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	public int decisionTree(Tile tile, int depth, int score, Queue<Unit> unitQ, int turn){
@@ -98,86 +107,89 @@ public class AI : MonoBehaviour
 			return bestScore;
 		
 		}else if(depth == 0){
-			bestScore = eval(tile, bestScore, uq);
+			bestScore = eval(tile, 0, uq);
 			return bestScore;        //end of the tree, return best score for the move
 		
-		}else if(turn == 0){         //allied turn
-			uq.ToArray().ToList().ElementAt(1).FindSelectableTiles();
-			List<Tile> list = uq.ToArray().ToList().ElementAt(1).SelectableTiles;
+		// }else if(turn == 0){         //allied turn
+		// 	uq.ToArray().ToList().ElementAt(1).FindSelectableTiles();
+		// 	List<Tile> list = uq.ToArray().ToList().ElementAt(1).SelectableTiles;
 			
-			int ind = 0;  //keep track of indexes
-			foreach (var i in uq.ToArray()){
-				//Unit taking damge from attack
-				if(i.CurrentTile == tile && i.tag == "Player"){
-					i.Health -= TM.CurrentUnit.Attack;
-				}
-				if(i.Health <= 0){
-					uq.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
-				}
-				ind++;
-			}
+		// 	int ind = 0;  //keep track of indexes
+		// 	foreach (var i in uq.ToArray()){
+		// 		//Unit taking damge from attack
+		// 		if(i.CurrentTile == tile && i.tag == "Player"){
+		// 			i.Health -= TM.CurrentUnit.Attack;
+		// 		}
+		// 		if(i.Health <= 0){
+		// 			uq.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
+		// 		}
+		// 		ind++;
+		// 	}
 			
-			Unit unit = uq.Dequeue();
-			uq.Enqueue(unit);
-
-			for(int i = 0; i < list.Count; i++){
-				int tempScore;
-				if(uq.ToArray().ToList().ElementAt(1).tag == "Enemy"){
-					tempScore = decisionTree(list[i], depth-1, 0, uq, 0);
-				}else{
-					tempScore = decisionTree(list[i], depth-1, 0, uq, 1);
-				}
+		// 	Unit unit = uq.Dequeue();
+		// 	uq.Enqueue(unit);
+		// 	Debug.Log("Reach here");
+		// 	for(int i = 0; i < list.Count; i++){
+		// 		int tempScore;
+		// 		if(uq.ToArray().ToList().ElementAt(1).tag == "Enemy"){
+		// 			tempScore = decisionTree(list[i], depth-1, 0, uq, 0);
+		// 		}else{
+		// 			tempScore = decisionTree(list[i], depth-1, 0, uq, 1);
+		// 		}
 				
-				if(tempScore > bestScore){
-					bestScore = tempScore;
-				}
-			}
+		// 		if(tempScore > bestScore){
+		// 			bestScore = tempScore;
+		// 		}
+		// 	}
 		
-		}else if(turn == 1){        //enemies turn
-			uq.ToArray().ToList().ElementAt(1).FindSelectableTiles();
-			List<Tile> list = uq.ToArray().ToList().ElementAt(1).SelectableTiles;
+		// }else if(turn == 1){        //enemies turn
+		// 	uq.ToArray().ToList().ElementAt(1).FindSelectableTiles();
+		// 	List<Tile> list = uq.ToArray().ToList().ElementAt(1).SelectableTiles;
 			
-			int ind = 0;  //keep track of indexes
-			foreach (var i in uq.ToArray()){
-				//Unit taking damge from attack
-				if(i.CurrentTile == tile && i.tag == "Enemy"){
-					i.Health -= TM.CurrentUnit.Attack;
-				}
-				if(i.Health <= 0){
-					uq.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
-				}
-				ind++;
-			}
+		// 	int ind = 0;  //keep track of indexes
+		// 	foreach (var i in uq.ToArray()){
+		// 		//Unit taking damge from attack
+		// 		if(i.CurrentTile == tile && i.tag == "Enemy"){
+		// 			i.Health -= TM.CurrentUnit.Attack;
+		// 		}
+		// 		if(i.Health <= 0){
+		// 			uq.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
+		// 		}
+		// 		ind++;
+		// 	}
 
-			Unit unit = uq.Dequeue();
-			uq.Enqueue(unit);
+		// 	Unit unit = uq.Dequeue();
+		// 	uq.Enqueue(unit);
 			
-			for(int i = 0; i < list.Count; i++){
-				int tempScore;
-				if(uq.ToArray().ToList().ElementAt(1).tag == "Enemy"){
-					tempScore = decisionTree(list[i], depth-1, 0, uq, 0);
-				}else{
-					tempScore = decisionTree(list[i], depth-1, 0, uq, 1);
-				}
-				if(tempScore < bestScore){
-					bestScore = tempScore;
-				}
-			}
+		// 	for(int i = 0; i < list.Count; i++){
+		// 		int tempScore;
+		// 		if(uq.ToArray().ToList().ElementAt(1).tag == "Enemy"){
+		// 			tempScore = decisionTree(list[i], depth-1, 0, uq, 0);
+		// 		}else{
+		// 			tempScore = decisionTree(list[i], depth-1, 0, uq, 1);
+		// 		}
+		// 		if(tempScore < bestScore){
+		// 			bestScore = tempScore;
+		// 		}
+		// 	}
+		}else{
+			return bestScore;
 		}
-
-		return bestScore;
 	}
 	public Tile bestMove(List<Tile> tiles){
 		Tile bestMv = null;
-		int bestScore = -1;
+		int bestScore = -9999;
 		for(int i = 0; i < tiles.Count; i++){
-			int tempScore = decisionTree(tiles[i], 2, 0, TM.UQ, 0);
-			if(tempScore > bestScore){
+			int tempScore = decisionTree(tiles[i], 0, bestScore, TM.UQ, 0);
+			//Debug.Log(tempScore);
+			if(tempScore >= bestScore){          //for move with equal values, get the lastest one
 				bestScore = tempScore;
 				bestMv = tiles[i];
 			}
 
 		}
+		//Debug.Log(bestMv);
 		return bestMv;
+		
 	}
 }
