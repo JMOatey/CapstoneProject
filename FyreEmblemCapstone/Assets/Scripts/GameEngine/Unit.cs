@@ -63,5 +63,6 @@ public class Unit : PlayerMove
 	public void EndTurn()
 	{
 		Turn = false;
+		CurrentAction = SelectedAction.Nothing;
 	}
 }
