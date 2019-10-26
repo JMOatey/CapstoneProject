@@ -38,7 +38,6 @@ public class AI : MonoBehaviour
 		}
 		
 		if(MOVE == null){
-			//tm.SelectWait();
 			TM.EndTurn();
 		}else{
 			TM.SelectMove();
@@ -62,21 +61,56 @@ public class AI : MonoBehaviour
 		// }
 	}
 
-	public int eval(Tile tile, int score, Queue<Unit> unitQ){
-		int eScore = score;
+	public int eval(Tile tile, Queue<Unit> unitQ){
+		int totalScore = 0;
+		int ind = 0;
+		bool[] result = new bool[2];
+
+		//Calculate damage and score of attack move
+		foreach (var i in unitQ.ToArray()){
+			//Unit taking damge from attack
+			if(i.CurrentTile == tile && i.tag == "Player"){
+				i.Health -= TM.CurrentUnit.Attack;
+			}
+			if(i.Health <= 0){
+				unitQ.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
+			}
+				ind++;
+		}
+
+		//Calculate the game over score
+		result = gameOver(unitQ);
+		if(result[0]){
+			if(result[1] == true){
+				totalScore += 9999;        //ai won
+			}else{
+				totalScore -= 9999;        //player won
+			}
+			return totalScore;
+		}
+
+		//Calculate total health score
 		foreach (var i in unitQ.ToArray()){
 			if(i.tag == "Enemy"){
-				eScore += i.Health;
+				totalScore += i.Health;
 			}else{
-				eScore -= i.Health;
+				totalScore -= i.Health;
+				//Caculate distance score (if the unit health is low, run away as far as they can)
+				if(TM.CurrentUnit.Health < 5){
+					totalScore += distance(i.CurrentTile,tile);
+				}
 			}
 		}
-		return eScore;
+		
+		
+		return totalScore;
 	}
 
-	public bool isWon(Queue<Unit> units){
+	//return  whether the game is over and AI win or lose
+	private bool[] gameOver(Queue<Unit> units){
 		int playerCount = 0;
 		int enemyCount = 0;
+		bool[] result = new bool[2];
 
 		foreach (var i in units.ToArray()){
 			if(i.tag == "Player"){
@@ -87,109 +121,134 @@ public class AI : MonoBehaviour
 			}
 		}
 
-		if(playerCount == 0 || enemyCount == 0){
-			return true;
+		if(playerCount == 0){
+			result[0] = true;
+			result[1] = false;
+			return result;
 		}
 
-		return false;
+		if(enemyCount == 0){
+			result[0] = true;
+			result[1] = true;
+			return result;
+		}
+
+		result[0] = false;
+		result[1] = false;
+		return result;
 	}
 
-	public int decisionTree(Tile tile, int depth, int score, Queue<Unit> unitQ, int turn){
-		int bestScore = score;
-		Queue<Unit> uq = unitQ;
+	//calcualte the distance between 2 tiles
+	int distance(Tile start, Tile end){
+		int dis;
 		
-		if(isWon(uq)){
-			if(turn == 1){
-				bestScore += 9999;        //ai won
-			}else{
-				bestScore -= 9999;        //player won
-			}
-			return bestScore;
+		float x1 = start.transform.position.x;
+		float y1 = start.Parent.transform.position.z;
+		float x2 = end.transform.position.x;
+		float y2 = end.Parent.transform.position.z;
+
+		dis = (int)Mathf.Sqrt(Mathf.Pow(Mathf.Abs(x1-x2),2)+Mathf.Pow(Mathf.Abs(y1-y2),2));
+
+		return dis;	
+	}
+	// public int decisionAlgorithm(Tile tile, int score, Queue<Unit> unitQ){
+	// 	int bestScore = score;
+	// 	Queue<Unit> uq = unitQ;
 		
-		}else if(depth == 0){
-			bestScore = eval(tile, 0, uq);
-			return bestScore;        //end of the tree, return best score for the move
+	// 	if(isWon(uq)){
+	// 		if(turn == 1){
+	// 			bestScore += 9999;        //ai won
+	// 		}else{
+	// 			bestScore -= 9999;        //player won
+	// 		}
+	// 		return bestScore;
 		
-		// }else if(turn == 0){         //allied turn
-		// 	uq.ToArray().ToList().ElementAt(1).FindSelectableTiles();
-		// 	List<Tile> list = uq.ToArray().ToList().ElementAt(1).SelectableTiles;
+	// 	}else if(depth == 0){
+	// 		bestScore = eval(tile, 0, uq);
+	// 		return bestScore;        //end of the tree, return best score for the move
+		
+	// 	}else if(turn == 0){         //allied turn
+	// 		List<Unit> units = uq.ToArray().ToList();
+	// 		units[1].DisplayPossibleMoves();
+	// 		List<Tile> list = units[1].SelectableTiles;
 			
-		// 	int ind = 0;  //keep track of indexes
-		// 	foreach (var i in uq.ToArray()){
-		// 		//Unit taking damge from attack
-		// 		if(i.CurrentTile == tile && i.tag == "Player"){
-		// 			i.Health -= TM.CurrentUnit.Attack;
-		// 		}
-		// 		if(i.Health <= 0){
-		// 			uq.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
-		// 		}
-		// 		ind++;
-		// 	}
+	// 		int ind = 0;  //keep track of indexes
+	// 		foreach (var i in uq.ToArray()){
+	// 			//Unit taking damge from attack
+	// 			if(i.CurrentTile == tile && i.tag == "Player"){
+	// 				i.Health -= TM.CurrentUnit.Attack;
+	// 			}
+	// 			if(i.Health <= 0){
+	// 				uq.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
+	// 			}
+	// 			ind++;
+	// 		}
 			
-		// 	Unit unit = uq.Dequeue();
-		// 	uq.Enqueue(unit);
-		// 	Debug.Log("Reach here");
-		// 	for(int i = 0; i < list.Count; i++){
-		// 		int tempScore;
-		// 		if(uq.ToArray().ToList().ElementAt(1).tag == "Enemy"){
-		// 			tempScore = decisionTree(list[i], depth-1, 0, uq, 0);
-		// 		}else{
-		// 			tempScore = decisionTree(list[i], depth-1, 0, uq, 1);
-		// 		}
+	// 		Unit unit = uq.Dequeue();
+	// 		uq.Enqueue(unit);
+	// 		for(int i = 0; i < list.Count; i++){
+	// 			int tempScore;
+	// 			if(units[1].tag == "Enemy"){
+	// 				tempScore = decisionTree(list[i], depth-1, 0, uq, 0);
+	// 			}else{
+	// 				tempScore = decisionTree(list[i], depth-1, 0, uq, 1);
+	// 			}
 				
-		// 		if(tempScore > bestScore){
-		// 			bestScore = tempScore;
-		// 		}
-		// 	}
+	// 			if(tempScore > bestScore){
+	// 				bestScore = tempScore;
+	// 			}
+	// 		}
+	// 		return bestScore;
+	// 	}else if(turn == 1){        //enemies turn
+	// 		List<Unit> units = uq.ToArray().ToList();
 		
-		// }else if(turn == 1){        //enemies turn
-		// 	uq.ToArray().ToList().ElementAt(1).FindSelectableTiles();
-		// 	List<Tile> list = uq.ToArray().ToList().ElementAt(1).SelectableTiles;
+	// 		//units[1].FindSelectableTiles();
+	// 		List<Tile> list = units[1].SelectableTiles;
 			
-		// 	int ind = 0;  //keep track of indexes
-		// 	foreach (var i in uq.ToArray()){
-		// 		//Unit taking damge from attack
-		// 		if(i.CurrentTile == tile && i.tag == "Enemy"){
-		// 			i.Health -= TM.CurrentUnit.Attack;
-		// 		}
-		// 		if(i.Health <= 0){
-		// 			uq.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
-		// 		}
-		// 		ind++;
-		// 	}
+	// 		int ind = 0;  //keep track of indexes
+	// 		foreach (var i in uq.ToArray()){
+	// 			//Unit taking damge from attack
+	// 			if(i.CurrentTile == tile && i.tag == "Enemy"){
+	// 				i.Health -= TM.CurrentUnit.Attack;
+	// 			}
+	// 			if(i.Health <= 0){
+	// 				uq.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
+	// 			}
+	// 			ind++;
+	// 		}
 
-		// 	Unit unit = uq.Dequeue();
-		// 	uq.Enqueue(unit);
+	// 		Unit unit = uq.Dequeue();
+	// 		uq.Enqueue(unit);
 			
-		// 	for(int i = 0; i < list.Count; i++){
-		// 		int tempScore;
-		// 		if(uq.ToArray().ToList().ElementAt(1).tag == "Enemy"){
-		// 			tempScore = decisionTree(list[i], depth-1, 0, uq, 0);
-		// 		}else{
-		// 			tempScore = decisionTree(list[i], depth-1, 0, uq, 1);
-		// 		}
-		// 		if(tempScore < bestScore){
-		// 			bestScore = tempScore;
-		// 		}
-		// 	}
-		}else{
-			return bestScore;
-		}
-	}
+	// 		for(int i = 0; i < list.Count; i++){
+	// 			int tempScore;
+	// 			if(units[1].tag == "Enemy"){
+	// 				tempScore = decisionTree(list[i], depth-1, 0, uq, 0);
+	// 			}else{
+	// 				tempScore = decisionTree(list[i], depth-1, 0, uq, 1);
+	// 			}
+	// 			if(tempScore < bestScore){
+	// 				bestScore = tempScore;
+	// 			}
+	// 		}
+	// 		return bestScore;
+	// 	}else{
+	// 		return bestScore;
+	// 	}
+	// }
 	public Tile bestMove(List<Tile> tiles){
 		Tile bestMv = null;
 		int bestScore = -9999;
 		for(int i = 0; i < tiles.Count; i++){
-			int tempScore = decisionTree(tiles[i], 0, bestScore, TM.UQ, 0);
-			//Debug.Log(tempScore);
-			if(tempScore >= bestScore){          //for move with equal values, get the lastest one
+			int tempScore = eval(tiles[i], TM.UQ);
+			Debug.Log(tempScore);
+			if(tempScore > bestScore){          //for move with equal values, get the lastest one
 				bestScore = tempScore;
 				bestMv = tiles[i];
 			}
 
 		}
 		//Debug.Log(bestMv);
-		return bestMv;
-		
+		return bestMv;	
 	}
 }
