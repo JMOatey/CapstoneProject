@@ -244,15 +244,23 @@ public class AI : MonoBehaviour
 	public Tile bestMove(List<Tile> tiles){
 		Tile bestMv = null;
 		int bestScore = -9999;
+		List<Tile> equalScore = new List<Tile>();
 		for(int i = 0; i < tiles.Count; i++){
 			int tempScore = eval(tiles[i], TM.UQ);
 			//Debug.Log(tempScore);
 			if(tempScore > bestScore){          //for move with equal values, get the lastest one
 				bestScore = tempScore;
+				equalScore.Clear();
+				equalScore.Add(tiles[i]);
 				bestMv = tiles[i];
 			}
-
+			if(tempScore == bestScore){
+				equalScore.Add(tiles[i]);
+			}
 		}
+
+		bestMv = equalScore[Random.Range(0,equalScore.Count)];
+
 		//Debug.Log(bestMv);
 		return bestMv;	
 	}
