@@ -40,7 +40,9 @@ public class PlayerMove : MonoBehaviour
 			return;
 		}
 		if(HasMoved){
-			// TurnManager.Instance.EndTurn();
+			if(this.tag == "Enemy"){
+				TurnManager.Instance.EndTurn();
+			}
 			return;
 		}
 		if(!Moving)

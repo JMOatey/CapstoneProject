@@ -97,7 +97,12 @@ public class AI : MonoBehaviour
 				totalScore -= i.Health;
 				//Caculate distance score (if the unit health is low, run away as far as they can)
 				if(TM.CurrentUnit.Health < 5){
+					i.GetCurrentTile();
 					totalScore += distance(i.CurrentTile,tile);
+				}else{
+					i.GetCurrentTile();
+					//Debug.Log(i.CurrentTile);
+					totalScore -= distance(i.CurrentTile,tile);
 				}
 			}
 		}
@@ -143,9 +148,9 @@ public class AI : MonoBehaviour
 		int dis;
 		
 		float x1 = start.transform.position.x;
-		float y1 = start.Parent.transform.position.z;
+		float y1 = start.transform.parent.position.z;
 		float x2 = end.transform.position.x;
-		float y2 = end.Parent.transform.position.z;
+		float y2 = end.transform.parent.position.z;
 
 		dis = (int)Mathf.Sqrt(Mathf.Pow(Mathf.Abs(x1-x2),2)+Mathf.Pow(Mathf.Abs(y1-y2),2));
 
@@ -241,7 +246,7 @@ public class AI : MonoBehaviour
 		int bestScore = -9999;
 		for(int i = 0; i < tiles.Count; i++){
 			int tempScore = eval(tiles[i], TM.UQ);
-			Debug.Log(tempScore);
+			//Debug.Log(tempScore);
 			if(tempScore > bestScore){          //for move with equal values, get the lastest one
 				bestScore = tempScore;
 				bestMv = tiles[i];
