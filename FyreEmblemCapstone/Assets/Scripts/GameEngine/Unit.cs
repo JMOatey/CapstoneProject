@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public enum SelectedAction
 {
@@ -83,16 +84,15 @@ public class Unit : PlayerMove
 
     void GetAttackableTiles()
     {
-		if(this.tag == "Enemy")
-		{
-			Tile[] tiles = GameObject.FindObjectsWithTag("Player");
-			
-	        // AttackableTiles.AddRange()
-		}
-		else
-		{
-        	AttackableTiles.AddRange(GameObject.FindObjectsWithTag("Enemy"));
-		}
+
+		// if(this.tag == "Enemy")
+		// {
+       	// 	AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile);
+		// }
+		// else
+		// {
+        // 	AttackableTiles.AddRange(GameObject.FindObjectsWithTag("Enemy"));
+		// }
     }
 	#endregion
 }

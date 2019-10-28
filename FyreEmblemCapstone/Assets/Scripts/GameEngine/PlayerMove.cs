@@ -34,15 +34,13 @@ public class PlayerMove : PlayerUtility
 			return;
 		}
 		if(HasMoved){
-			if(this.tag == "Enemy"){
-				TurnManager.Instance.EndTurn();
-			}
+			// TurnManager.Instance.EndTurn();
 			return;
 		}
 		if(!Moving)
 		{
 			if(this.tag == "Enemy"){
-				aiMove(AI.MOVE);
+				aiMove();
 			}else{
 				DisplayPossibleMoves();
 				CheckMouse();
@@ -91,10 +89,9 @@ public class PlayerMove : PlayerUtility
 	}
 
 	//Move to random tile
-	void aiMove(Tile move){
-		// List<Tile> list = this.SelectableTiles;
-		// MoveToTile(list[Random.Range(0,list.Count)]);
-		MoveToTile(move);
+	void aiMove(){
+		List<Tile> list = this.SelectableTiles;
+		MoveToTile(list[Random.Range(0,list.Count)]);
 	}
 
 	public enum JumpMove
