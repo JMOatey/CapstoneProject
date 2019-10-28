@@ -3,7 +3,7 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     public bool Walkable = true;
-    public bool Current = false;
+    public bool Occupied = false;
     public bool Target = false;
     public bool Selectable = false;
     public bool Attackable = false;
@@ -15,13 +15,13 @@ public class Tile : MonoBehaviour
     public int Distance = 0;
 
     void Update() {
-        if(Current)
+        if(Occupied)
         {
             GetComponent<Renderer>().material.color = Color.magenta;
         }
         else if(Target)
         {
-            GetComponent<Renderer>().material.color = Color.green;
+            GetComponent<Renderer>().material.color = Color.blue;
         }
         else if(Selectable)
         {
@@ -40,7 +40,7 @@ public class Tile : MonoBehaviour
     public void Reset()
     {
         Walkable = true;
-        Current = false;
+        Occupied = false;
         Target = false;
         Selectable = false;
 

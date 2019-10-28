@@ -82,7 +82,7 @@ public class TurnManager : MonoBehaviour
 
 	public void StartTurn()
 	{
-		Instance.UnitQueue.OrderBy( u => u.Speed);
+		Instance.UnitQueue.OrderBy( u => u.Speed );
 		// foreach(PlayerAction pa in Units[TurnQueue.Peek()])
 		// {
 		// 	pa.BeginTurn();
@@ -95,6 +95,12 @@ public class TurnManager : MonoBehaviour
 			if(CurrentUnit.tag == "Enemy"){
 				AI.aiAction(TurnManager.Instance);
 			}
+		}
+
+		foreach(Unit unit in Instance.UnitQueue)
+		{
+			unit.GetCurrentTile();
+			unit.CurrentTile.Occupied = true;
 		}
 	}
 

@@ -14,7 +14,7 @@ public class PlayerUtility : MonoBehaviour
     public void GetCurrentTile()
 	{
 		CurrentTile = GetTargetTile(gameObject);
-		CurrentTile.Current = true;
+		CurrentTile.Occupied = true;
 	}
 
     public Tile GetTargetTile(GameObject target)
@@ -105,5 +105,6 @@ public static class PathingExtensions
         {
             t.Reset();
         }
+        currentTile.Occupied = true;
     }
 }

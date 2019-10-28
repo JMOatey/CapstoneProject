@@ -112,7 +112,6 @@ public class PlayerMove : PlayerUtility
 	{
 		if(SelectableTiles.Count == 0)
 		{
-			GetCurrentTile();
 			SelectableTiles.FindAvailableTiles(MoveDistance, CurrentTile, JumpHeight, Tiles);
 		}
 		foreach(Tile tile in SelectableTiles)
@@ -220,7 +219,7 @@ public class PlayerMove : PlayerUtility
 	{
 		if(CurrentTile != null)
 		{
-			CurrentTile.Current = false;
+			CurrentTile.Occupied = false;
 			CurrentTile = null;
 		}
 		foreach(Tile tile in SelectableTiles)
