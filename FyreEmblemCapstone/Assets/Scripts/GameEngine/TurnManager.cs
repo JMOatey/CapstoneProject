@@ -29,9 +29,36 @@ public class TurnManager : MonoBehaviour
 	Dictionary<string, List<Unit>> Units = new Dictionary<string, List<Unit>>();
 	// Queue<string> TurnQueue = new Queue<string>();
 	Queue<Unit> UnitQueue = new Queue<Unit>();
+	public Queue<Unit> UQ{
+		get {return UnitQueue; }
+	}
 	public Unit CurrentUnit;
 	public List<Tile> Board;
 	public int Turn = 1;
+
+    void OnGUI ()
+    {
+        int offset = 50;
+        int startY = 40;
+
+        GUI.Label(new Rect(10, 10, 100, 40), "Turn Queue \n ----------------");
+
+        for(int i = 0; i < Instance.UnitQueue.Count; i++)
+        {   
+            if(Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
+            {
+                GUI.contentColor = Color.blue;
+                GUI.Label(new Rect(offset, 15 * i + offset, 50, 20), Instance.UnitQueue.ElementAt<Unit>(i).tag);
+            }
+            else
+            {
+                GUI.contentColor = Color.white;
+                GUI.Label(new Rect(offset, 15 * i + offset, 50, 20), Instance.UnitQueue.ElementAt<Unit>(i).tag);
+            }
+            
+        }
+
+    }
 
 	void Start () 
 	{
@@ -93,7 +120,7 @@ public class TurnManager : MonoBehaviour
 			Instance.CurrentUnit.BeginTurn();
 			Debug.Log(Instance.CurrentUnit.gameObject.name);
 			if(CurrentUnit.tag == "Enemy"){
-				AI.aiAction(TurnManager.Instance);
+				AI.aiAction(Instance);
 			}
 		}
 	}
