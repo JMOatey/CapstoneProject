@@ -55,6 +55,11 @@ public class Unit : PlayerMove
 
 	public void BeginTurn()
 	{
+		GetCurrentTile();
+		SelectableTiles.Clear();
+		AttackableTiles.Clear();
+		SelectableTiles.FindAvailableTiles(MoveDistance, CurrentTile, JumpHeight, Tiles);
+		AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles);
 		HasMoved = false;
 		Turn = true;
 	}
@@ -63,6 +68,11 @@ public class Unit : PlayerMove
 	{
 		Turn = false;
 		CurrentAction = SelectedAction.Nothing;
+		foreach(GameObject tile in Tiles)
+		{
+			Tile t = tile.GetComponent<Tile>();
+			t.Reset();
+		}
 	}
 
 	#region
@@ -84,15 +94,18 @@ public class Unit : PlayerMove
 
     void GetAttackableTiles()
     {
-
-		// if(this.tag == "Enemy")
-		// {
-       	// 	AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile);
-		// }
-		// else
-		// {
-        // 	AttackableTiles.AddRange(GameObject.FindObjectsWithTag("Enemy"));
-		// }
+		AttackableTiles.Clear();
+		if(this.tag == "Enemy")
+		{
+			foreach(Tile tile in SelectableTiles)
+			{
+       			AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles);
+			}
+		}
+		else
+		{
+        	// AttackableTiles.AddRange(GameObject.FindObjectsWithTag("Enemy"));
+		}
     }
 	#endregion
 }

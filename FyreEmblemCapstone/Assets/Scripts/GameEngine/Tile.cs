@@ -6,6 +6,7 @@ public class Tile : MonoBehaviour
     public bool Current = false;
     public bool Target = false;
     public bool Selectable = false;
+    public bool Attackable = false;
 
     public List<Tile> AdjacencyList = new List<Tile>();
 
@@ -23,6 +24,10 @@ public class Tile : MonoBehaviour
             GetComponent<Renderer>().material.color = Color.green;
         }
         else if(Selectable)
+        {
+            GetComponent<Renderer>().material.color = Color.green;
+        }
+        else if(Attackable)
         {
             GetComponent<Renderer>().material.color = Color.red;
         }

@@ -78,7 +78,6 @@ public static class PathingExtensions
 			t.FindNeighbors(jumpHeight);
 		}
 		Queue<Tile> process = new Queue<Tile>();
-        graph.Clear();
 
 		process.Enqueue(currentTile);
 		currentTile.Visited = true;

@@ -98,7 +98,6 @@ public class PlayerMove : PlayerUtility
 		FallingDown,
 		MovingEdge,
 		Regular
-
 	}
 
 
