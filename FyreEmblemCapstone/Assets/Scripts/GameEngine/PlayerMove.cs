@@ -10,10 +10,8 @@ public class PlayerMove : PlayerUtility
 	public Stack<Tile> Path = new Stack<Tile>();
 	public bool Moving = false;
 	public int MoveDistance = 5;
-	public float JumpHeight = 2;
 	public float MoveSpeed = 2;
 	public float JumpVelocity = 4.5f;
-	float HalfHeight = 0;
 	public bool HasMoved = false;
 
 	Vector3 velocity = new Vector3();
@@ -115,18 +113,12 @@ public class PlayerMove : PlayerUtility
 	{
 		if(SelectableTiles.Count == 0)
 		{
-			FindSelectableTiles();
-			foreach(Tile tile in SelectableTiles)
-			{
-				tile.Selectable = true;
-			}
+			GetCurrentTile();
+			SelectableTiles.FindAvailableTiles(MoveDistance, CurrentTile, JumpHeight, Tiles);
 		}
-		else
+		foreach(Tile tile in SelectableTiles)
 		{
-			foreach(Tile tile in SelectableTiles)
-			{
-				tile.Selectable = true;
-			}
+			tile.Selectable = true;
 		}
 	}
 
@@ -138,60 +130,49 @@ public class PlayerMove : PlayerUtility
 		}
 	}
 
-	public Tile GetTargetTile(GameObject target)
-	{
-		RaycastHit hit;
-		Tile tile = null;
+	
 
-		if(Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1))
-		{
-			tile = hit.collider.GetComponent<Tile>();
-		}
+	// public void ComputeAdjacencyLists()
+	// {
+	// 	foreach(GameObject tile in Tiles)
+	// 	{
+	// 		Tile t = tile.GetComponent<Tile>();
+	// 		t.FindNeighbors(JumpHeight);
+	// 	}
+	// }
 
-		return tile;
-	}
+	// public void FindSelectableTiles()
+	// {
+	// 	// ComputeAdjacencyLists();
+	// 	GetCurrentTile();
 
-	public void ComputeAdjacencyLists()
-	{
-		foreach(GameObject tile in Tiles)
-		{
-			Tile t = tile.GetComponent<Tile>();
-			t.FindNeighbors(JumpHeight);
-		}
-	}
+	// 	Queue<Tile> process = new Queue<Tile>();
 
-	public void FindSelectableTiles()
-	{
-		ComputeAdjacencyLists();
-		GetCurrentTile();
+	// 	process.Enqueue(CurrentTile);
+	// 	CurrentTile.Visited = true;
 
-		Queue<Tile> process = new Queue<Tile>();
-
-		process.Enqueue(CurrentTile);
-		CurrentTile.Visited = true;
-
-		while(process.Count > 0)
-		{
-			Tile t = process.Dequeue();
+	// 	while(process.Count > 0)
+	// 	{
+	// 		Tile t = process.Dequeue();
 			
-			SelectableTiles.Add(t);
-			t.Selectable = true;
+	// 		SelectableTiles.Add(t);
+	// 		t.Selectable = true;
 
-			if(t.Distance < MoveDistance)
-			{
-				foreach(Tile tile in t.AdjacencyList)
-				{
-					if(!tile.Visited)
-					{
-						tile.Parent = t;
-						tile.Visited = true;
-						tile.Distance = 1 + t.Distance;
-						process.Enqueue(tile);
-					}
-				}
-			}
-		}
-	}
+	// 		if(t.Distance < MoveDistance)
+	// 		{
+	// 			foreach(Tile tile in t.AdjacencyList)
+	// 			{
+	// 				if(!tile.Visited)
+	// 				{
+	// 					tile.Parent = t;
+	// 					tile.Visited = true;
+	// 					tile.Distance = 1 + t.Distance;
+	// 					process.Enqueue(tile);
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 	
 	public void Move()
 	{

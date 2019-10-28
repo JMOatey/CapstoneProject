@@ -8,6 +8,8 @@ public class PlayerUtility : MonoBehaviour
     public GameObject[] Tiles;
 	public Tile CurrentTile; 
 	public List<Tile> SelectableTiles = new List<Tile>();
+	public float JumpHeight = 2;
+	protected float HalfHeight = 0;
 
     public void GetCurrentTile()
 	{
@@ -15,22 +17,71 @@ public class PlayerUtility : MonoBehaviour
 		CurrentTile.Current = true;
 	}
 
+    public Tile GetTargetTile(GameObject target)
+	{
+		RaycastHit hit;
+		Tile tile = null;
+
+		if(Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1))
+		{
+			tile = hit.collider.GetComponent<Tile>();
+		}
+
+		return tile;
+	}
+    // public static void FindAvailableTiles(this List<Tile> graph, int distance)
+    // {
+	// 	foreach(GameObject tile in Tiles)
+	// 	{
+	// 		Tile t = tile.GetComponent<Tile>();
+	// 		t.FindNeighbors(jumpHeight);
+	// 	}
+	// 	Queue<Tile> process = new Queue<Tile>();
+    //     graph.Clear();
+
+	// 	process.Enqueue(currentTile);
+	// 	CurrentTile.Visited = true;
+
+	// 	while(process.Count > 0)
+	// 	{
+	// 		Tile t = process.Dequeue();
+			
+	// 		graph.Add(t);
+	// 		if(t.Distance < distance)
+	// 		{
+	// 			foreach(Tile tile in t.AdjacencyList)
+	// 			{
+	// 				if(!tile.Visited)
+	// 				{
+	// 					tile.Parent = t;
+	// 					tile.Visited = true;
+	// 					tile.Distance = 1 + t.Distance;
+	// 					process.Enqueue(tile);
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+    //     foreach(Tile t in graph)
+    //     {
+    //         t.Reset();
+    //     }
+    // }
 }
 
 public static class PathingExtensions
 {
-    public static FindAvailableTiles(this List<Tile> graph, int distance, Tile currentTile)
+    public static void FindAvailableTiles(this List<Tile> graph, int distance, Tile currentTile, float jumpHeight, GameObject[] tiles)
     {
-		foreach(GameObject tile in Tiles)
+		foreach(GameObject tile in tiles)
 		{
 			Tile t = tile.GetComponent<Tile>();
-			t.FindNeighbors(JumpHeight);
+			t.FindNeighbors(jumpHeight);
 		}
 		Queue<Tile> process = new Queue<Tile>();
         graph.Clear();
 
 		process.Enqueue(currentTile);
-		current.Visited = true;
+		currentTile.Visited = true;
 
 		while(process.Count > 0)
 		{
