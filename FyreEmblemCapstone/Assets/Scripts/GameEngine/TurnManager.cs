@@ -29,47 +29,73 @@ public class TurnManager : MonoBehaviour
 	Dictionary<string, List<Unit>> Units = new Dictionary<string, List<Unit>>();
 	// Queue<string> TurnQueue = new Queue<string>();
 	Queue<Unit> UnitQueue = new Queue<Unit>();
+	public Queue<Unit> UQ{
+		get {return UnitQueue; }
+	}
 	public Unit CurrentUnit;
+	public List<Tile> Board;
+	public int Turn = 1;
 
-	// Use this for initialization
-	void Start () {
-		
+    void OnGUI ()
+    {
+        int offset = 50;
+        int startY = 40;
+
+        GUI.Label(new Rect(10, 10, 100, 40), "Turn Queue \n ----------------");
+
+        for(int i = 0; i < Instance.UnitQueue.Count; i++)
+        {   
+            if(Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
+            {
+                GUI.contentColor = Color.blue;
+                GUI.Label(new Rect(offset, 15 * i + offset, 50, 20), Instance.UnitQueue.ElementAt<Unit>(i).tag);
+            }
+            else
+            {
+                GUI.contentColor = Color.white;
+                GUI.Label(new Rect(offset, 15 * i + offset, 50, 20), Instance.UnitQueue.ElementAt<Unit>(i).tag);
+            }
+            
+        }
+
+    }
+
+	void Start () 
+	{
+		// Board = C
 		StartTurn();
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		// if(TeamQueue.Count == 0)
-		// {
-		// 	InitTeamQueue();
-		// }
-//______________________________________________________________________
-		// if(Input.GetMouseButtonUp(0))
-		// {
-		// 	Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+	// 	if(TeamQueue.Count == 0)
+	// 	{
+	// 		InitTeamQueue();
+	// 	}
+	// 	if(Input.GetMouseButtonUp(0))
+	// 	{
+	// 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		// 	RaycastHit hit;
-		// 	if(Physics.Raycast(ray, out hit))
-		// 	{
-		// 		if(Instance.UnitQueue.Peek())
-		// 		{
-		// 			if(Instance.CurrentUnit)
-		// 			{
-		// 				Instance.CurrentUnit.HidePossibleMoves();
-		// 				Debug.Log("Should be hiding!");
-		// 			}
-		// 			Unit player = hit.collider.GetComponent<Unit>();
+	// 		RaycastHit hit;
+	// 		if(Physics.Raycast(ray, out hit))
+	// 		{
+	// 			if(Instance.UnitQueue.Peek())
+	// 			{
+	// 				if(Instance.CurrentUnit)
+	// 				{
+	// 					Instance.CurrentUnit.HidePossibleMoves();
+	// 					Debug.Log("Should be hiding!");
+	// 				}
+	// 				Unit player = hit.collider.GetComponent<Unit>();
 
-		// 			Instance.CurrentUnit = player;
-		// 		}
-		// 	}
-		// }
-//______________________________________________________________________
+	// 				Instance.CurrentUnit = player;
+	// 			}
+	// 		}
+	// 	}
 	}
 
 	// static void InitUnitQueue()
 	// {
-	// 	List<Unit> teamList = Instance.Units[UnitQueue.Peek()];
+	// 	List<Unit> teamList = Instance.Units[Instance.UnitQueue.Peek()];
 
 	// 	foreach(Unit unit in teamList)
 	// 	{
@@ -83,7 +109,7 @@ public class TurnManager : MonoBehaviour
 
 	public void StartTurn()
 	{
-		UnitQueue.OrderBy( u => u.Speed);
+		Instance.UnitQueue.OrderBy( u => u.Speed);
 		// foreach(PlayerAction pa in Units[TurnQueue.Peek()])
 		// {
 		// 	pa.BeginTurn();
@@ -94,7 +120,7 @@ public class TurnManager : MonoBehaviour
 			Instance.CurrentUnit.BeginTurn();
 			Debug.Log(Instance.CurrentUnit.gameObject.name);
 			if(CurrentUnit.tag == "Enemy"){
-				aiAction();
+				AI.aiAction(Instance);
 			}
 		}
 	}
@@ -107,20 +133,20 @@ public class TurnManager : MonoBehaviour
 		// }
 		Unit unit = Instance.UnitQueue.Dequeue();
 		unit.EndTurn();
+		unit.Finished = true;
 		Instance.UnitQueue.Enqueue(unit);
 
 
-		if(Instance.UnitQueue.Count > 0)
+		if(Instance.UnitQueue.Count > 0 && Instance.UnitQueue.Peek().Finished)
 		{
-			StartTurn();
+			foreach(Unit u in Instance.UnitQueue)
+			{
+				u.Finished = false;
+			}
+			Instance.UnitQueue.OrderBy(u => u.Speed);
+			Instance.Turn++;
 		}
-		else
-		{
-			// string team = TurnQueue.Dequeue();
-			// TurnQueue.Enqueue(team);
-			StartTurn();
-			// InitUnitQueue();
-		}
+		StartTurn();
 	}
 
 	public void AddUnit(Unit unit)
@@ -160,26 +186,4 @@ public class TurnManager : MonoBehaviour
 		Instance.CurrentUnit.CurrentAction = SelectedAction.Wait;
 	}
 
-	//AI choose action base on the current situation
-	public void aiAction(){
-		CurrentUnit.DisplayPossibleMoves();
-		List<Tile> list = CurrentUnit.SelectableTiles;
-		List<Tile> enemy = new List<Tile>();
-		for(int i = 0; i < list.Count; i++){
-			// if(list[i].Selectable){
-			// 	enemy.Add(list[i]);  //add all tile have enemy list
-			// }
-			if(!list[i].Selectable){
-				enemy.Add(list[i]);  //add all tile have enemy list
-			}
-		}
-
-		if(enemy.Count != 0){
-			SelectAttack(); //attack
-		}else if(CurrentUnit.Health < 5){
-			SelectWait();
-		}else{
-			SelectMove();
-		}
-	}
 }

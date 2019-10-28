@@ -10,12 +10,13 @@ public enum SelectedAction
 	Nothing
 }
 
-
 public class Unit : PlayerMove 
 {
+	public bool Finished = false;
 	public float Speed = 0;
 	public int Health = 10;
 	public int Attack = 2;
+	public int AttackRange = 1;
 
 	public SelectedAction CurrentAction = SelectedAction.Nothing;
 
@@ -62,5 +63,6 @@ public class Unit : PlayerMove
 	public void EndTurn()
 	{
 		Turn = false;
+		CurrentAction = SelectedAction.Nothing;
 	}
 }

@@ -1,16 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class TacticsMove : MonoBehaviour 
-{
-	public enum JumpMove
-	{
-		JumpingUp,
-		FallingDown,
-		MovingEdge,
-		Regular
 
-	}
+public class PlayerMove : MonoBehaviour
+{
 
 	public bool Turn = false;
 	JumpMove JumpEnum = JumpMove.Regular;
@@ -31,6 +25,92 @@ public class TacticsMove : MonoBehaviour
 	Vector3 velocity = new Vector3();
 	Vector3 heading = new Vector3();
 	Vector3 JumpTarget = new Vector3();
+
+	// Use this for initialization
+	protected void MoveStart ()
+	{
+		MoveInit();
+	}
+	
+	// Update is called once per frame
+	protected void MoveUpdate ()
+	{
+		if(!Turn)
+		{
+			return;
+		}
+		if(HasMoved){
+			if(this.tag == "Enemy"){
+				TurnManager.Instance.EndTurn();
+			}
+			return;
+		}
+		if(!Moving)
+		{
+			if(this.tag == "Enemy"){
+				aiMove(AI.MOVE);
+			}else{
+				DisplayPossibleMoves();
+				CheckMouse();
+			}
+
+		}
+		else
+		{
+			Move();
+		}
+	}
+	
+	void CheckMouse()
+	{
+		if(Input.GetMouseButtonUp(0))
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+			RaycastHit hit;
+			if(Physics.Raycast(ray, out hit))
+			{
+				if(hit.collider.tag == "Tile")
+				{
+					Tile t = hit.collider.GetComponent<Tile>();
+					if(t.Selectable)
+					{
+						MoveToTile(t);
+					}
+				}
+			}
+		}
+	}
+
+	public void MoveToTile(Tile tile)
+	{
+		Path.Clear();
+		tile.Target = true;
+		Moving = true;
+
+		Tile next = tile;
+		while(next != null)
+		{
+			Path.Push(next);
+			next = next.Parent;
+		}
+	}
+
+	//Move to random tile
+	void aiMove(Tile move){
+		// List<Tile> list = this.SelectableTiles;
+		// MoveToTile(list[Random.Range(0,list.Count)]);
+		MoveToTile(move);
+	}
+
+	public enum JumpMove
+	{
+		JumpingUp,
+		FallingDown,
+		MovingEdge,
+		Regular
+
+	}
 
 
 	protected void MoveInit()
@@ -166,6 +246,7 @@ public class TacticsMove : MonoBehaviour
 			RemoveSelectableTiles();
 			Moving = false;
 			HasMoved = true;
+			GetCurrentTile();
 			// TurnManager.EndTurn();
 		}
 	}
