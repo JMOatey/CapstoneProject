@@ -3,17 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : PlayerUtility
 {
 
-	public bool Turn = false;
 	JumpMove JumpEnum = JumpMove.Regular;
-	public List<Tile> SelectableTiles = new List<Tile>();
-	public GameObject[] Tiles;
-
 	public Stack<Tile> Path = new Stack<Tile>();
-	public Tile CurrentTile;
-
 	public bool Moving = false;
 	public int MoveDistance = 5;
 	public float JumpHeight = 2;
@@ -144,12 +138,6 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
-	public void GetCurrentTile()
-	{
-		CurrentTile = GetTargetTile(gameObject);
-		CurrentTile.Current = true;
-	}
-
 	public Tile GetTargetTile(GameObject target)
 	{
 		RaycastHit hit;
@@ -274,6 +262,8 @@ public class PlayerMove : MonoBehaviour
 		velocity = heading * MoveSpeed;
 	}
 
+	//Jump Stuff
+	#region
 	void Jump(Vector3 target)
 	{
 		switch(JumpEnum)
@@ -358,4 +348,5 @@ public class PlayerMove : MonoBehaviour
 			velocity.y = 1.5f;
 		}
 	}
+	#endregion
 }
