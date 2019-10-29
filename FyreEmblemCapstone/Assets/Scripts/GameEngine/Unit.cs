@@ -138,7 +138,7 @@ public class Unit : PlayerMove
 
 	public void ShowEveryOption()
 	{
-		if(CurrentAction == SelectedAction.Nothing)
+		if(TurnManager.Instance.CurrentUnit.CurrentAction == SelectedAction.Nothing)
 		{
 			DisplayPossibleMoves();
 			DisplayAttackableTiles();
@@ -148,7 +148,7 @@ public class Unit : PlayerMove
 
 	public void HideEverything()
 	{
-		if(CurrentAction == SelectedAction.Nothing)
+		if(TurnManager.Instance.CurrentUnit.CurrentAction == SelectedAction.Nothing)
 		{
 			HideAttackableTiles();
 			HidePossibleMoves();
@@ -170,6 +170,10 @@ public class Unit : PlayerMove
     // Update is called once per frame
     void AttackUpdate()
     {
+		if(!HasAttacked)
+		{
+			Attack();
+		}
         GetAttackableTiles();
 		DisplayAttackableTiles();
     }
@@ -188,6 +192,7 @@ public class Unit : PlayerMove
 					Unit unit = hit.collider.GetComponent<Unit>();
 					Debug.Log(unit);
 					unit.Health -= AttackDamage;
+					HasAttacked = true;
 				}
 			}
 		}
