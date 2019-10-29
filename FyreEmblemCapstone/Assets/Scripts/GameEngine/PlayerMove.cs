@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerMove : PlayerUtility
 {
-
 	JumpMove JumpEnum = JumpMove.Regular;
 	public Stack<Tile> Path = new Stack<Tile>();
 	public bool Moving = false;
@@ -24,34 +23,7 @@ public class PlayerMove : PlayerUtility
 		MoveInit();
 	}
 	
-	// Update is called once per frame
-	protected void MoveUpdate ()
-	{
-		if(!Turn)
-		{
-			return;
-		}
-		if(HasMoved){
-			// TurnManager.Instance.EndTurn();
-			return;
-		}
-		if(!Moving)
-		{
-			if(this.tag == "Enemy"){
-				aiMove();
-			}else{
-				DisplayPossibleMoves();
-				CheckMouse();
-			}
-
-		}
-		else
-		{
-			Move();
-		}
-	}
-	
-	void CheckMouse()
+	protected void CheckMouse()
 	{
 		if(Input.GetMouseButtonUp(0))
 		{
@@ -86,11 +58,7 @@ public class PlayerMove : PlayerUtility
 		}
 	}
 
-	//Move to random tile
-	void aiMove(){
-		List<Tile> list = this.SelectableTiles;
-		MoveToTile(list[Random.Range(0,list.Count)]);
-	}
+	
 
 	public enum JumpMove
 	{
@@ -108,25 +76,7 @@ public class PlayerMove : PlayerUtility
 		HalfHeight = GetComponent<Collider>().bounds.extents.y;		
 	}
 
-	public void DisplayPossibleMoves()
-	{
-		if(SelectableTiles.Count == 0)
-		{
-			SelectableTiles.FindAvailableTiles(MoveDistance, CurrentTile, JumpHeight, Tiles);
-		}
-		foreach(Tile tile in SelectableTiles)
-		{
-			tile.Selectable = true;
-		}
-	}
-
-	public void HidePossibleMoves()
-	{
-		foreach(Tile tile in SelectableTiles)
-		{
-			tile.Reset();
-		}
-	}
+	
 
 	
 
@@ -211,6 +161,7 @@ public class PlayerMove : PlayerUtility
 			Moving = false;
 			HasMoved = true;
 			GetCurrentTile();
+			AttackableTiles.Clear();
 			// TurnManager.EndTurn();
 		}
 	}

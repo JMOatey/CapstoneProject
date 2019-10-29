@@ -43,6 +43,7 @@ public class Tile : MonoBehaviour
         Occupied = false;
         Target = false;
         Selectable = false;
+        Attackable = false;
 
         AdjacencyList.Clear();
 
