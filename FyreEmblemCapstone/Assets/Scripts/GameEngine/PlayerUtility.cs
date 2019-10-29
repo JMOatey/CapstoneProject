@@ -112,4 +112,37 @@ public static class PathingExtensions
         }
         currentTile.Occupied = true;
     }
+
+    public static void CalculateDistance(this List<Tile> graph, int distance, Tile currentTile, float jumpHeight, GameObject[] tiles)
+    {
+        foreach(GameObject tile in tiles)
+		{
+			Tile t = tile.GetComponent<Tile>();
+			t.FindNeighbors(jumpHeight);
+		}
+		Queue<Tile> process = new Queue<Tile>();
+
+		process.Enqueue(currentTile);
+		currentTile.Visited = true;
+
+		while(process.Count > 0)
+		{
+			Tile t = process.Dequeue();
+			
+			graph.Add(t);
+			if(t.Distance < distance)
+			{
+				foreach(Tile tile in t.AdjacencyList)
+				{
+					if(!tile.Visited)
+					{
+						tile.Parent = t;
+						tile.Visited = true;
+						tile.Distance = 1 + t.Distance;
+						process.Enqueue(tile);
+					}
+				}
+			}
+		}
+    }
 }

@@ -77,9 +77,6 @@ public class PlayerMove : PlayerUtility
 	}
 
 	
-
-	
-
 	// public void ComputeAdjacencyLists()
 	// {
 	// 	foreach(GameObject tile in Tiles)

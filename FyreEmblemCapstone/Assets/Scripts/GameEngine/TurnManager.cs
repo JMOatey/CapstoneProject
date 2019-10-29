@@ -116,7 +116,6 @@ public class TurnManager : MonoBehaviour
 		{
 			Instance.CurrentUnit = Instance.UnitQueue.Peek();
 			Instance.CurrentUnit.BeginTurn();
-			Debug.Log(Instance.CurrentUnit.gameObject.name);
 			if(CurrentUnit.tag == "Enemy"){
 				AI.aiAction(Instance);
 			}

@@ -53,7 +53,7 @@ public class Unit : PlayerMove
 			return;
 		}
 		if(HasMoved){
-			if(this.tag == "Enenmy"){
+			if(this.tag == "Enemy"){
 				TurnManager.Instance.EndTurn();
 			}
 			return;
@@ -226,6 +226,35 @@ public class Unit : PlayerMove
 
     public void GetAttackableTiles()
     {
+        foreach(GameObject tile in Tiles)
+		{
+			Tile t = tile.GetComponent<Tile>();
+			t.FindNeighbors(JumpHeight);
+		}
+		Queue<Tile> process = new Queue<Tile>();
+
+		process.Enqueue(CurrentTile);
+		CurrentTile.Visited = true;
+
+		while(process.Count > 0)
+		{
+			Tile t = process.Dequeue();
+			
+			// graph.Add(t);
+			if(t.Distance < MoveDistance)
+			{
+				foreach(Tile tile in t.AdjacencyList)
+				{
+					if(!tile.Visited)
+					{
+						tile.Parent = t;
+						tile.Visited = true;
+						tile.Distance = 1 + t.Distance;
+						process.Enqueue(tile);
+					}
+				}
+			}
+    	}
 		List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance || t.Occupied).ToList();
 		foreach(Tile tile in maxWalkDistance)
 		{
