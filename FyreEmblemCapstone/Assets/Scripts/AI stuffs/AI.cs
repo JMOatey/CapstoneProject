@@ -70,7 +70,7 @@ public class AI : MonoBehaviour
 		foreach (var i in unitQ.ToArray()){
 			//Unit taking damge from attack
 			if(i.CurrentTile == tile && i.tag == "Player"){
-				i.Health -= TM.CurrentUnit.Attack;
+				//i.Health -= TM.CurrentUnit.Attack; //implement later
 			}
 			if(i.Health <= 0){
 				unitQ.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
