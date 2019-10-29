@@ -66,7 +66,8 @@ public class Unit : PlayerMove
 				DisplayPossibleMoves();
 				CheckMouse();
 			}
-        }else
+		}
+		else
 		{
 			Move();
 		}
@@ -81,12 +82,12 @@ public class Unit : PlayerMove
 
 	void OnMouseOver()
     {
-        DisplayPossibleMoves();
+        ShowEveryOption();
     }
 
     void OnMouseExit()
     {
-        HidePossibleMoves();
+        HideEverything();
     }
 
 	public void BeginTurn()
@@ -98,6 +99,7 @@ public class Unit : PlayerMove
 		AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles);
 		HasMoved = false;
 		Turn = true;
+		HasAttacked = false;
 	}
 
 	public void EndTurn()
@@ -139,20 +141,28 @@ public class Unit : PlayerMove
 
 	public void ShowEveryOption()
 	{
-		DisplayPossibleMoves();
-		DisplayAttackableTiles();
+		if(CurrentAction == SelectedAction.Nothing)
+		{
+			DisplayPossibleMoves();
+			DisplayAttackableTiles();
+		}
+		
 	}
 
 	public void HideEverything()
 	{
-		HideAttackableTiles();
-		HidePossibleMoves();
+		if(CurrentAction == SelectedAction.Nothing)
+		{
+			HideAttackableTiles();
+			HidePossibleMoves();
+		}
 	}
 
 
 	#region
-	public int Attack = 2;
+	public int AttackDamage = 2;
 	public int AttackRange = 1;
+	public bool HasAttacked = false;
 
     // Start is called before the first frame update
     void AttackStart()
@@ -164,28 +174,42 @@ public class Unit : PlayerMove
     void AttackUpdate()
     {
         GetAttackableTiles();
-		foreach(Tile tile in AttackableTiles)
-		{
-			tile.Attackable = true;
-		}
+		DisplayAttackableTiles();
     }
+
+	void Attack()
+	{
+		if(Input.GetMouseButtonUp(0))
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+			RaycastHit hit;
+			if(Physics.Raycast(ray, out hit))
+			{
+				if(hit.collider.tag == "Player" || hit.collider.tag == "Enemy")
+				{
+					Unit unit = hit.collider.GetComponent<Unit>();
+					Debug.Log(unit);
+					unit.Health -= AttackDamage;
+				}
+			}
+		}
+	}
 
     void GetAttackableTiles()
     {
-		if(AttackableTiles.Count == 0)
+		List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance).ToList();
+		foreach(Tile tile in maxWalkDistance)
 		{
-			if(this.tag == "Enemy")
-			{
-				List<Tile> maxWalkDistance = SelectableTiles.Where( t => t.Distance == MoveDistance).ToList();
-				foreach(Tile tile in maxWalkDistance)
-				{
-					AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles);
-				}
-			}
-			else
-			{
-				// AttackableTiles.AddRange(GameObject.FindObjectsWithTag("Enemy"));
-			}
+			AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles);
+		}
+		if(this.tag == "Enemy")
+		{
+
+		}
+		else
+		{
+
 		}
     }
 
