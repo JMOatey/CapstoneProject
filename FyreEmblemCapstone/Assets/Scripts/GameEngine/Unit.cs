@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+// Lock this whenever executing an action
 public enum SelectedAction
 {
 	Attack,
@@ -30,17 +31,51 @@ public class Unit : PlayerMove
 		{
 			case SelectedAction.Attack:
 				HidePossibleMoves();
+				AttackUpdate();
 				break;
 			case SelectedAction.Move:
+				HideAttackableTiles();
 				MoveUpdate();
 				break;
 			case SelectedAction.Wait:
+				HideAttackableTiles();
 				HidePossibleMoves();
 				TurnManager.Instance.EndTurn();
 				break;
 			case SelectedAction.Nothing:
 				break;
 		}
+	}
+	protected void MoveUpdate ()
+	{
+		if(!Turn)
+		{
+			return;
+		}
+		if(HasMoved){
+			// TurnManager.Instance.EndTurn();
+			return;
+		}
+		if(!Moving)
+		{
+			if(this.tag == "Enemy"){
+				aiMove();
+			}else{
+				DisplayPossibleMoves();
+				CheckMouse();
+			}
+
+		}
+		else
+		{
+			Move();
+		}
+	}
+
+	//Move to random tile
+	void aiMove(){
+		List<Tile> list = this.SelectableTiles;
+		MoveToTile(list[Random.Range(0,list.Count)]);
 	}
 
 	void OnMouseOver()
@@ -75,10 +110,48 @@ public class Unit : PlayerMove
 		}
 	}
 
+	public void DisplayPossibleMoves()
+	{
+		if(SelectableTiles.Count == 0)
+		{
+			SelectableTiles.FindAvailableTiles(MoveDistance, CurrentTile, JumpHeight, Tiles);
+		}
+		foreach(Tile tile in SelectableTiles)
+		{
+			tile.Selectable = true;
+		}
+		CurrentTile.Occupied = true;		
+	}
+
+	public void HidePossibleMoves()
+	{
+		foreach(Tile tile in SelectableTiles)
+		{
+			tile.Reset();
+		}
+		foreach(Tile tile in AttackableTiles)
+		{
+			tile.Reset();
+		}
+		CurrentTile.Occupied = true;
+	}
+
+	public void ShowEveryOption()
+	{
+		DisplayPossibleMoves();
+		DisplayAttackableTiles();
+	}
+
+	public void HideEverything()
+	{
+		HideAttackableTiles();
+		HidePossibleMoves();
+	}
+
+
 	#region
 	public int Attack = 2;
 	public int AttackRange = 1;
-    List<Tile> AttackableTiles = new List<Tile>();
 
     // Start is called before the first frame update
     void AttackStart()
@@ -89,23 +162,50 @@ public class Unit : PlayerMove
     // Update is called once per frame
     void AttackUpdate()
     {
-        
+        GetAttackableTiles();
+		foreach(Tile tile in AttackableTiles)
+		{
+			tile.Attackable = true;
+		}
     }
 
     void GetAttackableTiles()
     {
-		AttackableTiles.Clear();
-		if(this.tag == "Enemy")
+		if(AttackableTiles.Count == 0)
 		{
-			foreach(Tile tile in SelectableTiles)
+			if(this.tag == "Enemy")
 			{
-       			AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles);
+				List<Tile> maxWalkDistance = SelectableTiles.Where( t => t.Distance == MoveDistance).ToList();
+				foreach(Tile tile in maxWalkDistance)
+				{
+					AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles);
+				}
+			}
+			else
+			{
+				// AttackableTiles.AddRange(GameObject.FindObjectsWithTag("Enemy"));
 			}
 		}
-		else
-		{
-        	// AttackableTiles.AddRange(GameObject.FindObjectsWithTag("Enemy"));
-		}
     }
+
+	void DisplayAttackableTiles()
+	{
+		if(AttackableTiles.Count == 0)
+		{
+			GetAttackableTiles();
+		}
+		foreach(Tile tile in AttackableTiles)
+		{
+			tile.Attackable = true;
+		}
+	}
+
+	void HideAttackableTiles()
+	{
+		foreach(Tile tile in AttackableTiles)
+		{
+			tile.Attackable = false;
+		}
+	}
 	#endregion
 }
