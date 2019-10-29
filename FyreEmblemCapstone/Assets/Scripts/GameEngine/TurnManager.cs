@@ -33,7 +33,32 @@ public class TurnManager : MonoBehaviour
 	public List<Tile> Board;
 	public int Turn = 1;
 
-	void Start () 
+    private void OnGUI()
+    {
+        int offset = 20;
+        int initY = 30;
+
+        //Turn Queue Label
+        GUI.contentColor = Color.black;
+        GUI.Label(new Rect(10, 10, 100, 50), "Turn Queue \n ----------------");
+
+        //Turn Queue Data
+        for(int i = 0; i < Instance.UnitQueue.Count; i++)
+        {   //Current Unit
+            if(Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
+            {
+                GUI.contentColor = Color.blue;
+                GUI.Label(new Rect(10, initY += offset, 100, 50), Instance.CurrentUnit.name);
+            }
+            else //All Other Units
+            {
+                GUI.contentColor = Color.black;
+                GUI.Label(new Rect(10, initY += offset, 100, 50), Instance.UnitQueue.ElementAt<Unit>(i).name);
+            }
+        }
+    }
+
+    void Start () 
 	{
 		// Board = C
 		StartTurn();
