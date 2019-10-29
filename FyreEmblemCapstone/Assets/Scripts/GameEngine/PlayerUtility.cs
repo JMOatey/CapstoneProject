@@ -11,6 +11,9 @@ public class PlayerUtility : MonoBehaviour
 	public float JumpHeight = 2;
 	protected float HalfHeight = 0;
     protected List<Tile> AttackableTiles = new List<Tile>();
+	public List<Tile> attackTiles{
+		get {return AttackableTiles; }
+	}
 
 
     public void GetCurrentTile()

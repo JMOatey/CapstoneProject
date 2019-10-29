@@ -31,7 +31,7 @@ public class Unit : PlayerMove
 		{
 			case SelectedAction.Attack:
 				HidePossibleMoves();
-				AttackUpdate();
+				AttackUpdate();	
 				break;
 			case SelectedAction.Move:
 				HideAttackableTiles();
@@ -53,7 +53,7 @@ public class Unit : PlayerMove
 			return;
 		}
 		if(HasMoved){
-			if(this.tag == "Enemy"){
+			if(this.tag == "Enenmy"){
 				TurnManager.Instance.EndTurn();
 			}
 			return;
@@ -78,6 +78,15 @@ public class Unit : PlayerMove
 		// List<Tile> list = this.SelectableTiles;
 		// MoveToTile(list[Random.Range(0,list.Count)]);
 		MoveToTile(move);
+	}
+	void aiAttack(Tile attack){
+		foreach (var i in TurnManager.Instance.UQ.ToArray()){
+			i.GetCurrentTile();
+			if(i.tag == "Player" && i.CurrentTile == attack){
+				i.Health -= AttackDamage;
+				HasAttacked = true;
+			}
+		}
 	}
 
 	void OnMouseOver()
@@ -175,10 +184,23 @@ public class Unit : PlayerMove
     {
 		if(!HasAttacked)
 		{
-			Attack();
+			if(this.tag == "Enemy"){
+				if(AI.ATTACK != null){
+					aiAttack(AI.ATTACK);
+				}else{
+					HasAttacked = true;
+				}
+			}else{
+				Attack();
+			}	
 		}
-        GetAttackableTiles();
-		DisplayAttackableTiles();
+			GetAttackableTiles();
+			DisplayAttackableTiles();
+        
+		
+		if(HasAttacked && this.tag == "Enemy"){
+			TurnManager.Instance.EndTurn();
+		}
     }
 
 	void Attack()
@@ -194,6 +216,7 @@ public class Unit : PlayerMove
 				{
 					Unit unit = hit.collider.GetComponent<Unit>();
 					Debug.Log(unit);
+					Debug.Log(unit.Health);
 					unit.Health -= AttackDamage;
 					HasAttacked = true;
 				}
@@ -201,7 +224,7 @@ public class Unit : PlayerMove
 		}
 	}
 
-    void GetAttackableTiles()
+    public void GetAttackableTiles()
     {
 		List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance).ToList();
 		foreach(Tile tile in maxWalkDistance)

@@ -9,6 +9,10 @@ public class AI : MonoBehaviour
 
 	//variable to keep current best move for current unit
 	public static Tile MOVE;
+
+	//variable to keep the current tile for attack
+	public static Tile ATTACK;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,31 +22,43 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 	//Reference: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
     //AI choose action base on the current situation
 	public static void aiAction(TurnManager tm){
 		TM = tm;
 		AI ai = new AI();
-		TM.CurrentUnit.DisplayPossibleMoves();
-		List<Tile> list = tm.CurrentUnit.SelectableTiles;
-		MOVE = ai.bestMove(list);
 
-		List<Tile> enemyPos = new List<Tile>();
-		foreach(var i in TM.UQ.ToArray()){
-			if(i.tag == "Player" && MOVE == i.CurrentTile){
-				TM.SelectAttack();
-				return;
+		//try to attack first
+		int minHealth = 9999;
+		TM.CurrentUnit.GetAttackableTiles();
+		List<Tile> attackPos = TM.CurrentUnit.attackTiles;
+		for(int x = 0; x < attackPos.Count;x++){
+			foreach(var i in TM.UQ.ToArray()){
+				i.GetCurrentTile();
+				if(i.tag == "Player" && attackPos[x] == i.CurrentTile){
+					if(minHealth > i.Health){
+						minHealth = i.Health;
+						ATTACK = attackPos[x];
+					}
+				}
 			}
 		}
+		//if no enemy to attack, don't attack
+		if(minHealth != 9999 && TM.CurrentUnit.Health > 5){
+			TM.SelectAttack();
+		}
 		
+		TM.CurrentUnit.DisplayPossibleMoves();
+		List<Tile> list = TM.CurrentUnit.SelectableTiles;
+		MOVE = ai.bestMove(list);
 		if(MOVE == null){
 			TM.EndTurn();
 		}else{
 			TM.SelectMove();
 		}
-
+		
 		// tm.CurrentUnit.FindSelectableTiles();
 		// List<Tile> list = tm.CurrentUnit.SelectableTiles;
 		// List<Tile> enemy = new List<Tile>();
@@ -63,20 +79,20 @@ public class AI : MonoBehaviour
 
 	public int eval(Tile tile, Queue<Unit> unitQ){
 		int totalScore = 0;
-		int ind = 0;
+		//int ind = 0;
 		bool[] result = new bool[2];
 
-		//Calculate damage and score of attack move
-		foreach (var i in unitQ.ToArray()){
-			//Unit taking damge from attack
-			if(i.CurrentTile == tile && i.tag == "Player"){
-				//i.Health -= TM.CurrentUnit.Attack; //implement later
-			}
-			if(i.Health <= 0){
-				unitQ.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
-			}
-				ind++;
-		}
+		// //Calculate damage and score of attack move
+		// foreach (var i in unitQ.ToArray()){
+		// 	//Unit taking damge from attack
+		// 	if(i.CurrentTile == tile && i.tag == "Player"){
+		// 		//i.Health -= TM.CurrentUnit.Attack; //implement later
+		// 	}
+		// 	if(i.Health <= 0){
+		// 		unitQ.ToArray().ToList().RemoveAt(ind);   //remove unit from queue if health is zero
+		// 	}
+		// 		ind++;
+		// }
 
 		//Calculate the game over score
 		result = gameOver(unitQ);
