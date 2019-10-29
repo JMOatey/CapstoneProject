@@ -53,18 +53,19 @@ public class Unit : PlayerMove
 			return;
 		}
 		if(HasMoved){
-			// TurnManager.Instance.EndTurn();
+			if(this.tag == "Enemy"){
+				TurnManager.Instance.EndTurn();
+			}
 			return;
 		}
 		if(!Moving)
 		{
 			if(this.tag == "Enemy"){
-				aiMove();
+				aiMove(AI.MOVE);
 			}else{
 				DisplayPossibleMoves();
 				CheckMouse();
 			}
-
 		}
 		else
 		{
@@ -73,19 +74,20 @@ public class Unit : PlayerMove
 	}
 
 	//Move to random tile
-	void aiMove(){
-		List<Tile> list = this.SelectableTiles;
-		MoveToTile(list[Random.Range(0,list.Count)]);
+	void aiMove(Tile move){
+		// List<Tile> list = this.SelectableTiles;
+		// MoveToTile(list[Random.Range(0,list.Count)]);
+		MoveToTile(move);
 	}
 
 	void OnMouseOver()
     {
-        DisplayPossibleMoves();
+        ShowEveryOption();
     }
 
     void OnMouseExit()
     {
-        HidePossibleMoves();
+        HideEverything();
     }
 
 	public void BeginTurn()
@@ -97,6 +99,7 @@ public class Unit : PlayerMove
 		AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles);
 		HasMoved = false;
 		Turn = true;
+		HasAttacked = false;
 	}
 
 	public void EndTurn()
@@ -138,20 +141,28 @@ public class Unit : PlayerMove
 
 	public void ShowEveryOption()
 	{
-		DisplayPossibleMoves();
-		DisplayAttackableTiles();
+		if(TurnManager.Instance.CurrentUnit.CurrentAction == SelectedAction.Nothing)
+		{
+			DisplayPossibleMoves();
+			DisplayAttackableTiles();
+		}
+		
 	}
 
 	public void HideEverything()
 	{
-		HideAttackableTiles();
-		HidePossibleMoves();
+		if(TurnManager.Instance.CurrentUnit.CurrentAction == SelectedAction.Nothing)
+		{
+			HideAttackableTiles();
+			HidePossibleMoves();
+		}
 	}
 
 
 	#region
-	public int Attack = 2;
+	public int AttackDamage = 2;
 	public int AttackRange = 1;
+	public bool HasAttacked = false;
 
     // Start is called before the first frame update
     void AttackStart()
@@ -162,29 +173,48 @@ public class Unit : PlayerMove
     // Update is called once per frame
     void AttackUpdate()
     {
-        GetAttackableTiles();
-		foreach(Tile tile in AttackableTiles)
+		if(!HasAttacked)
 		{
-			tile.Attackable = true;
+			Attack();
 		}
+        GetAttackableTiles();
+		DisplayAttackableTiles();
     }
+
+	void Attack()
+	{
+		if(Input.GetMouseButtonUp(0))
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+			RaycastHit hit;
+			if(Physics.Raycast(ray, out hit))
+			{
+				if(hit.collider.tag == "Player" || hit.collider.tag == "Enemy")
+				{
+					Unit unit = hit.collider.GetComponent<Unit>();
+					Debug.Log(unit);
+					unit.Health -= AttackDamage;
+					HasAttacked = true;
+				}
+			}
+		}
+	}
 
     void GetAttackableTiles()
     {
-		if(AttackableTiles.Count == 0)
+		List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance).ToList();
+		foreach(Tile tile in maxWalkDistance)
 		{
-			if(this.tag == "Enemy")
-			{
-				List<Tile> maxWalkDistance = SelectableTiles.Where( t => t.Distance == MoveDistance).ToList();
-				foreach(Tile tile in maxWalkDistance)
-				{
-					AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles);
-				}
-			}
-			else
-			{
-				// AttackableTiles.AddRange(GameObject.FindObjectsWithTag("Enemy"));
-			}
+			AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles);
+		}
+		if(this.tag == "Enemy")
+		{
+
+		}
+		else
+		{
+
 		}
     }
 
