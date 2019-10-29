@@ -5,7 +5,7 @@ using System.Linq;
 
 public class AI : MonoBehaviour
 {
-	public static TurnManager TM;
+	public static TurnManager TM = TurnManager.Instance;
 
 	//variable to keep current best move for current unit
 	public static Tile MOVE;
@@ -35,7 +35,7 @@ public class AI : MonoBehaviour
 		TM.CurrentUnit.GetAttackableTiles();
 		List<Tile> attackPos = TM.CurrentUnit.attackTiles;
 		for(int x = 0; x < attackPos.Count;x++){
-			foreach(var i in TM.UQ.ToArray()){
+			foreach(var i in TM.UnitQueue.ToArray()){
 				i.GetCurrentTile();
 				if(i.tag == "Player" && attackPos[x] == i.CurrentTile){
 					if(minHealth > i.Health){
@@ -262,7 +262,7 @@ public class AI : MonoBehaviour
 		int bestScore = -9999;
 		List<Tile> equalScore = new List<Tile>();
 		for(int i = 0; i < tiles.Count; i++){
-			int tempScore = eval(tiles[i], TM.UQ);
+			int tempScore = eval(tiles[i], TM.UnitQueue);
 			//Debug.Log(tempScore);
 			if(tempScore > bestScore){          //for move with equal values, get the lastest one
 				bestScore = tempScore;

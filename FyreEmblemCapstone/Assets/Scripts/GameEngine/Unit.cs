@@ -80,7 +80,7 @@ public class Unit : PlayerMove
 		MoveToTile(move);
 	}
 	void aiAttack(Tile attack){
-		foreach (var i in TurnManager.Instance.UQ.ToArray()){
+		foreach (var i in TurnManager.Instance.UnitQueue.ToArray()){
 			i.GetCurrentTile();
 			if(i.tag == "Player" && i.CurrentTile == attack){
 				i.Health -= AttackDamage;
@@ -226,7 +226,7 @@ public class Unit : PlayerMove
 
     public void GetAttackableTiles()
     {
-		List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance).ToList();
+		List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance || t.Occupied).ToList();
 		foreach(Tile tile in maxWalkDistance)
 		{
 			AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles);
