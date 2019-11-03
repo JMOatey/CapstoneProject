@@ -31,7 +31,7 @@ public class AI : MonoBehaviour
     //AI choose action base on the current situation
 	public static void aiAction(){
 		AI ai = new AI();
-		
+
 		//try to attack first
 		int minHealth = 9999;
 		TM.CurrentUnit.GetAttackableTiles();
@@ -63,17 +63,17 @@ public class AI : MonoBehaviour
 		
 	}
 
-	public int eval(Tile tile, Queue<Unit> unitQ){
-		int totalScore = 0;
+	public float eval(Tile tile, Queue<Unit> unitQ){
+		float totalScore = 0;
 		bool[] result = new bool[2];
 
 		//Calculate the game over score
 		result = gameOver(unitQ);
 		if(result[0]){
 			if(result[1] == true){
-				totalScore += 9999;        //ai won
+				totalScore += 9999f;        //ai won
 			}else{
-				totalScore -= 9999;        //player won
+				totalScore -= 9999f;        //player won
 			}
 			return totalScore;
 		}
@@ -84,14 +84,13 @@ public class AI : MonoBehaviour
 				totalScore += i.Health;
 			}else{
 				totalScore -= i.Health;
-				//Caculate distance score (if the unit health is low, run away as far as they can)
-				if(TM.CurrentUnit.Health < 5){
+				//Caculate distance score (if the unit health is lower than attack target, put as much distance between them and their enemy as they can)
+				if(TM.CurrentUnit.Health < i.Health){
 					i.GetCurrentTile();
-					totalScore += distance(i.CurrentTile,tile);
+					totalScore += Mathf.Sqrt(distance(i.CurrentTile,tile));
 				}else{
 					i.GetCurrentTile();
-					//Debug.Log(i.CurrentTile);
-					totalScore -= distance(i.CurrentTile,tile);
+					totalScore -= Mathf.Sqrt(distance(i.CurrentTile,tile));
 				}
 			}
 		}
@@ -133,25 +132,25 @@ public class AI : MonoBehaviour
 	}
 
 	//calcualte the distance between 2 tiles
-	int distance(Tile start, Tile end){
-		int dis;
+	float distance(Tile start, Tile end){
+		float dis;
 		
 		float x1 = start.transform.position.x;
 		float y1 = start.transform.parent.position.z;
 		float x2 = end.transform.position.x;
 		float y2 = end.transform.parent.position.z;
 
-		dis = (int)Mathf.Sqrt(Mathf.Pow(Mathf.Abs(x1-x2),2)+Mathf.Pow(Mathf.Abs(y1-y2),2));
+		dis = Mathf.Sqrt(Mathf.Pow(Mathf.Abs(x1-x2),2)+Mathf.Pow(Mathf.Abs(y1-y2),2));
 
 		return dis;	
 	}
 
 	public Tile bestMove(List<Tile> tiles){
 		Tile bestMv = null;
-		int bestScore = -9999;
+		float bestScore = -9999;
 		List<Tile> equalScore = new List<Tile>();
 		for(int i = 0; i < tiles.Count; i++){
-			int tempScore = eval(tiles[i], TM.UnitQueue);
+			float tempScore = eval(tiles[i], TM.UnitQueue);
 			if(tempScore > bestScore){          //for move with equal values, get the lastest one
 				bestScore = tempScore;
 				equalScore.Clear();
