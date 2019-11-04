@@ -5,10 +5,10 @@ using System.Linq;
 
 public class AI : MonoBehaviour
 {
-	public static TurnManager TM = TurnManager.Instance;
+	public static TurnManager TM;
 
-	public static string PLAYER = TM.CurrentUnit.tag;
-	public static string OPPONENT = PLAYER == "Enemy" ? OPPONENT = "Player" : OPPONENT = "Enemy";
+	public static string PLAYER;
+	public static string OPPONENT;
 
 	//variable to keep current best move for current unit
 	public static Tile MOVE;
@@ -30,6 +30,10 @@ public class AI : MonoBehaviour
 	//Reference: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
     //AI choose action base on the current situation
 	public static void aiAction(){
+		TM = TurnManager.Instance;
+		PLAYER = TM.CurrentUnit.tag;
+		OPPONENT = PLAYER == "Enemy" ? OPPONENT = "Player" : OPPONENT = "Enemy";
+		
 		AI ai = new AI();
 
 		//try to attack first
@@ -71,9 +75,9 @@ public class AI : MonoBehaviour
 		result = gameOver(unitQ);
 		if(result[0]){
 			if(result[1] == true){
-				totalScore += 9999f;        //ai won
+				totalScore += 9999;        //ai won
 			}else{
-				totalScore -= 9999f;        //player won
+				totalScore -= 9999;        //player won
 			}
 			return totalScore;
 		}
@@ -81,9 +85,9 @@ public class AI : MonoBehaviour
 		//Calculate total health score
 		foreach (var i in unitQ.ToArray()){
 			if(i.tag == PLAYER){
-				totalScore += i.Health;
+				//totalScore += i.Health;
 			}else{
-				totalScore -= i.Health;
+				//totalScore -= i.Health;
 				//Caculate distance score (if the unit health is lower than attack target, put as much distance between them and their enemy as they can)
 				if(TM.CurrentUnit.Health < i.Health){
 					i.GetCurrentTile();
@@ -151,6 +155,7 @@ public class AI : MonoBehaviour
 		List<Tile> equalScore = new List<Tile>();
 		for(int i = 0; i < tiles.Count; i++){
 			float tempScore = eval(tiles[i], TM.UnitQueue);
+			//Debug.Log(tempScore);
 			if(tempScore > bestScore){          //for move with equal values, get the lastest one
 				bestScore = tempScore;
 				equalScore.Clear();
