@@ -26,17 +26,39 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-	Dictionary<string, List<Unit>> Units = new Dictionary<string, List<Unit>>();
+	public Dictionary<string, List<Unit>> Units = new Dictionary<string, List<Unit>>();
 	// Queue<string> TurnQueue = new Queue<string>();
-	Queue<Unit> UnitQueue = new Queue<Unit>();
-	public Queue<Unit> UQ{
-		get {return UnitQueue; }
-	}
+	public Queue<Unit> UnitQueue = new Queue<Unit>();
 	public Unit CurrentUnit;
 	public List<Tile> Board;
 	public int Turn = 1;
 
-	void Start () 
+    private void OnGUI()
+    {
+        int offset = 20;
+        int initY = 30;
+
+        //Turn Queue Label
+        GUI.contentColor = Color.black;
+        GUI.Label(new Rect(10, 10, 100, 50), "Turn Queue \n ----------------");
+
+        //Turn Queue Data
+        for(int i = 0; i < Instance.UnitQueue.Count; i++)
+        {   //Current Unit
+            if(Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
+            {
+                GUI.contentColor = Color.blue;
+                GUI.Label(new Rect(10, initY += offset, 100, 50), Instance.CurrentUnit.name);
+            }
+            else //All Other Units
+            {
+                GUI.contentColor = Color.black;
+                GUI.Label(new Rect(10, initY += offset, 100, 50), Instance.UnitQueue.ElementAt<Unit>(i).name);
+            }
+        }
+    }
+
+    void Start () 
 	{
 		// Board = C
 		StartTurn();
@@ -85,7 +107,7 @@ public class TurnManager : MonoBehaviour
 
 	public void StartTurn()
 	{
-		Instance.UnitQueue.OrderBy( u => u.Speed);
+		Instance.UnitQueue.OrderBy( u => u.Speed );
 		// foreach(PlayerAction pa in Units[TurnQueue.Peek()])
 		// {
 		// 	pa.BeginTurn();
@@ -94,10 +116,15 @@ public class TurnManager : MonoBehaviour
 		{
 			Instance.CurrentUnit = Instance.UnitQueue.Peek();
 			Instance.CurrentUnit.BeginTurn();
-			Debug.Log(Instance.CurrentUnit.gameObject.name);
 			if(CurrentUnit.tag == "Enemy"){
-				AI.aiAction(Instance);
+				AI.aiAction();
 			}
+		}
+
+		foreach(Unit unit in Instance.UnitQueue)
+		{
+			unit.GetCurrentTile();
+			unit.CurrentTile.Occupied = true;
 		}
 	}
 

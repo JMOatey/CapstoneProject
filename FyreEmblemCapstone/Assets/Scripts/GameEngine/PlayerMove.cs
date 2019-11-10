@@ -3,23 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : PlayerUtility
 {
-
-	public bool Turn = false;
 	JumpMove JumpEnum = JumpMove.Regular;
-	public List<Tile> SelectableTiles = new List<Tile>();
-	public GameObject[] Tiles;
-
 	public Stack<Tile> Path = new Stack<Tile>();
-	public Tile CurrentTile;
-
 	public bool Moving = false;
 	public int MoveDistance = 5;
-	public float JumpHeight = 2;
 	public float MoveSpeed = 2;
 	public float JumpVelocity = 4.5f;
-	float HalfHeight = 0;
 	public bool HasMoved = false;
 
 	Vector3 velocity = new Vector3();
@@ -32,36 +23,7 @@ public class PlayerMove : MonoBehaviour
 		MoveInit();
 	}
 	
-	// Update is called once per frame
-	protected void MoveUpdate ()
-	{
-		if(!Turn)
-		{
-			return;
-		}
-		if(HasMoved){
-			if(this.tag == "Enemy"){
-				TurnManager.Instance.EndTurn();
-			}
-			return;
-		}
-		if(!Moving)
-		{
-			if(this.tag == "Enemy"){
-				aiMove(AI.MOVE);
-			}else{
-				DisplayPossibleMoves();
-				CheckMouse();
-			}
-
-		}
-		else
-		{
-			Move();
-		}
-	}
-	
-	void CheckMouse()
+	protected void CheckMouse()
 	{
 		if(Input.GetMouseButtonUp(0))
 		{
@@ -96,12 +58,7 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
-	//Move to random tile
-	void aiMove(Tile move){
-		// List<Tile> list = this.SelectableTiles;
-		// MoveToTile(list[Random.Range(0,list.Count)]);
-		MoveToTile(move);
-	}
+	
 
 	public enum JumpMove
 	{
@@ -109,7 +66,6 @@ public class PlayerMove : MonoBehaviour
 		FallingDown,
 		MovingEdge,
 		Regular
-
 	}
 
 
@@ -120,93 +76,48 @@ public class PlayerMove : MonoBehaviour
 		HalfHeight = GetComponent<Collider>().bounds.extents.y;		
 	}
 
-	public void DisplayPossibleMoves()
-	{
-		if(SelectableTiles.Count == 0)
-		{
-			FindSelectableTiles();
-			foreach(Tile tile in SelectableTiles)
-			{
-				tile.Selectable = true;
-			}
-		}
-		else
-		{
-			foreach(Tile tile in SelectableTiles)
-			{
-				tile.Selectable = true;
-			}
-		}
-	}
+	
+	// public void ComputeAdjacencyLists()
+	// {
+	// 	foreach(GameObject tile in Tiles)
+	// 	{
+	// 		Tile t = tile.GetComponent<Tile>();
+	// 		t.FindNeighbors(JumpHeight);
+	// 	}
+	// }
 
-	public void HidePossibleMoves()
-	{
-		foreach(Tile tile in SelectableTiles)
-		{
-			tile.Reset();
-		}
-	}
+	// public void FindSelectableTiles()
+	// {
+	// 	// ComputeAdjacencyLists();
+	// 	GetCurrentTile();
 
-	public void GetCurrentTile()
-	{
-		CurrentTile = GetTargetTile(gameObject);
-		CurrentTile.Current = true;
-	}
+	// 	Queue<Tile> process = new Queue<Tile>();
 
-	public Tile GetTargetTile(GameObject target)
-	{
-		RaycastHit hit;
-		Tile tile = null;
+	// 	process.Enqueue(CurrentTile);
+	// 	CurrentTile.Visited = true;
 
-		if(Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1))
-		{
-			tile = hit.collider.GetComponent<Tile>();
-		}
-
-		return tile;
-	}
-
-	public void ComputeAdjacencyLists()
-	{
-		foreach(GameObject tile in Tiles)
-		{
-			Tile t = tile.GetComponent<Tile>();
-			t.FindNeighbors(JumpHeight);
-		}
-	}
-
-	public void FindSelectableTiles()
-	{
-		ComputeAdjacencyLists();
-		GetCurrentTile();
-
-		Queue<Tile> process = new Queue<Tile>();
-
-		process.Enqueue(CurrentTile);
-		CurrentTile.Visited = true;
-
-		while(process.Count > 0)
-		{
-			Tile t = process.Dequeue();
+	// 	while(process.Count > 0)
+	// 	{
+	// 		Tile t = process.Dequeue();
 			
-			SelectableTiles.Add(t);
-			t.Selectable = true;
+	// 		SelectableTiles.Add(t);
+	// 		t.Selectable = true;
 
-			if(t.Distance < MoveDistance)
-			{
-				foreach(Tile tile in t.AdjacencyList)
-				{
-					if(!tile.Visited)
-					{
-						tile.Parent = t;
-						tile.Visited = true;
-						tile.Distance = 1 + t.Distance;
-						process.Enqueue(tile);
-					}
-				}
-			}
-		}
-	}
+	// 		if(t.Distance < MoveDistance)
+	// 		{
+	// 			foreach(Tile tile in t.AdjacencyList)
+	// 			{
+	// 				if(!tile.Visited)
+	// 				{
+	// 					tile.Parent = t;
+	// 					tile.Visited = true;
+	// 					tile.Distance = 1 + t.Distance;
+	// 					process.Enqueue(tile);
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 	
 	public void Move()
 	{
@@ -247,6 +158,7 @@ public class PlayerMove : MonoBehaviour
 			Moving = false;
 			HasMoved = true;
 			GetCurrentTile();
+			AttackableTiles.Clear();
 			// TurnManager.EndTurn();
 		}
 	}
@@ -255,7 +167,7 @@ public class PlayerMove : MonoBehaviour
 	{
 		if(CurrentTile != null)
 		{
-			CurrentTile.Current = false;
+			CurrentTile.Occupied = false;
 			CurrentTile = null;
 		}
 		foreach(Tile tile in SelectableTiles)
@@ -277,6 +189,8 @@ public class PlayerMove : MonoBehaviour
 		velocity = heading * MoveSpeed;
 	}
 
+	//Jump Stuff
+	#region
 	void Jump(Vector3 target)
 	{
 		switch(JumpEnum)
@@ -361,4 +275,5 @@ public class PlayerMove : MonoBehaviour
 			velocity.y = 1.5f;
 		}
 	}
+	#endregion
 }
