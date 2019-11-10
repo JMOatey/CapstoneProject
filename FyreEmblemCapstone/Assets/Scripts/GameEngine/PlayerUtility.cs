@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerUtility : MonoBehaviour 
 {
+	public bool isAI = false;
 	public bool Turn = false;
     public GameObject[] Tiles;
 	public Tile CurrentTile; 

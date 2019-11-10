@@ -116,7 +116,7 @@ public class TurnManager : MonoBehaviour
 		{
 			Instance.CurrentUnit = Instance.UnitQueue.Peek();
 			Instance.CurrentUnit.BeginTurn();
-			if(CurrentUnit.tag == "Enemy"){
+			if(CurrentUnit.isAI == true){
 				AI.aiAction();
 			}
 		}
