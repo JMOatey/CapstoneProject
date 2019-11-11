@@ -45,6 +45,9 @@ public class Unit : PlayerMove
 			case SelectedAction.Nothing:
 				break;
 		}
+
+        Transform bar = transform.Find("HealthBar");
+        bar.localScale = new Vector3((float)(Health / 10), (float)1.0);
 	}
 	protected void MoveUpdate ()
 	{
@@ -92,6 +95,11 @@ public class Unit : PlayerMove
 	void OnMouseOver()
     {
         ShowEveryOption();
+    }
+
+    private void OnMouseDown()
+    {
+        Debug.Log("Health: " + Health);
     }
 
     void OnMouseExit()

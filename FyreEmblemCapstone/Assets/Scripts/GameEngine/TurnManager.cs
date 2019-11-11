@@ -188,5 +188,4 @@ public class TurnManager : MonoBehaviour
 	{
 		Instance.CurrentUnit.CurrentAction = SelectedAction.Wait;
 	}
-
 }
