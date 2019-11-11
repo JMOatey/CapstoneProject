@@ -56,14 +56,14 @@ public class Unit : PlayerMove
 			return;
 		}
 		if(HasMoved){
-			if(this.tag == "Enemy"){
+			if(this.isAI == true){
 				TurnManager.Instance.EndTurn();
 			}
 			return;
 		}
 		if(!Moving)
 		{
-			if(this.tag == "Enemy"){
+			if(this.isAI == true){
 				aiMove(AI.MOVE);
 			}else{
 				DisplayPossibleMoves();
@@ -85,7 +85,7 @@ public class Unit : PlayerMove
 	void aiAttack(Tile attack){
 		foreach (var i in TurnManager.Instance.UnitQueue.ToArray()){
 			i.GetCurrentTile();
-			if(i.tag == "Player" && i.CurrentTile == attack){
+			if(i.tag == AI.OPPONENT && i.CurrentTile == attack){
 				i.Health -= AttackDamage;
 				HasAttacked = true;
 			}
@@ -192,7 +192,7 @@ public class Unit : PlayerMove
     {
 		if(!HasAttacked)
 		{
-			if(this.tag == "Enemy"){
+			if(this.isAI == true){
 				if(AI.ATTACK != null){
 					aiAttack(AI.ATTACK);
 				}else{
@@ -206,7 +206,7 @@ public class Unit : PlayerMove
 			DisplayAttackableTiles();
         
 		
-		if(HasAttacked && this.tag == "Enemy"){
+		if(HasAttacked && this.isAI == true){
 			TurnManager.Instance.EndTurn();
 		}
     }

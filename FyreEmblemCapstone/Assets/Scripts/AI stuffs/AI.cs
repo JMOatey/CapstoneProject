@@ -30,6 +30,7 @@ public class AI : MonoBehaviour
 	//Reference: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
     //AI choose action base on the current situation
 	public static void aiAction(){
+		bool isAttack = false;
 		TM = TurnManager.Instance;
 		PLAYER = TM.CurrentUnit.tag;
 		OPPONENT = PLAYER == "Enemy" ? OPPONENT = "Player" : OPPONENT = "Enemy";
@@ -38,31 +39,52 @@ public class AI : MonoBehaviour
 
 		//try to attack first
 		int minHealth = 9999;
-		TM.CurrentUnit.GetAttackableTiles();
-		List<Tile> attackPos = TM.CurrentUnit.attackTiles;
-		for(int x = 0; x < attackPos.Count;x++){
+		//TM.CurrentUnit.GetAttackableTiles();
+		//List<Tile> attackPos = TM.CurrentUnit.attackTiles;
+		//for(int x = 0; x < attackPos.Count;x++){
+		// 	foreach(var i in TM.UnitQueue.ToArray()){
+		// 		i.GetCurrentTile();
+		// 		if(i.tag == OPPONENT && attackPos[x] == i.CurrentTile){
+		// 			if(minHealth > i.Health){
+		// 				minHealth = i.Health;
+		// 				ATTACK = attackPos[x];
+		// 			}
+		// 		}
+		// 	}
+		// }
 			foreach(var i in TM.UnitQueue.ToArray()){
 				i.GetCurrentTile();
-				if(i.tag == OPPONENT && attackPos[x] == i.CurrentTile){
+				int ex = (int)i.CurrentTile.transform.position.x;
+				int ey = (int)i.CurrentTile.transform.parent.position.z;
+				int px = (int)TM.CurrentUnit.CurrentTile.transform.position.x;
+				int py = (int)TM.CurrentUnit.CurrentTile.transform.parent.position.z;
+				int range = TM.CurrentUnit.AttackRange;
+				//find unit within attack range
+				if(i.tag == OPPONENT && ex <= px+range && ex >= px-range && ey <= py+range && ey >= py-range){
 					if(minHealth > i.Health){
 						minHealth = i.Health;
-						ATTACK = attackPos[x];
+						ATTACK = i.CurrentTile;
 					}
 				}
 			}
-		}
+		
+
 		//if no enemy to attack, don't attack
 		if(minHealth != 9999 && TM.CurrentUnit.Health > 5){
+			isAttack = true;
 			TM.SelectAttack();
 		}
 		
-		TM.CurrentUnit.DisplayPossibleMoves();
-		List<Tile> list = TM.CurrentUnit.SelectableTiles;
-		MOVE = ai.bestMove(list);
-		if(MOVE == null){
-			TM.EndTurn();
-		}else{
-			TM.SelectMove();
+		//if not attack this turn, then move or wait
+		if(!isAttack){
+			TM.CurrentUnit.DisplayPossibleMoves();
+			List<Tile> list = TM.CurrentUnit.SelectableTiles;
+			MOVE = ai.bestMove(list);
+			if(MOVE == null){
+				TM.EndTurn();
+			}else{
+				TM.SelectMove();
+			}
 		}
 		
 	}
