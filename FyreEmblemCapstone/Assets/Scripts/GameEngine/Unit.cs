@@ -46,8 +46,8 @@ public class Unit : PlayerMove
 				break;
 		}
 
-        Transform bar = transform.Find("HP");
-        bar.localScale = new Vector3(((float)Health / 10.0f), 1.0f, 1.0f);
+        Transform bar = transform.Find("HP/HealthBar");
+        bar.localScale = new Vector3(((float)Health / 10.0f), 0.1f, 1.0f);
 	}
 	protected void MoveUpdate ()
 	{
