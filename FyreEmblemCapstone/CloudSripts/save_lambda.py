@@ -121,7 +121,7 @@ def lambda_handler(event, context):
             save_id = event_path[2]
             response = delete_save(username, save_id, database)
 
-    code = True if response else False
+    code = True if (response or type(response) == type([])) else False
 
     body = {
         "message": response, 

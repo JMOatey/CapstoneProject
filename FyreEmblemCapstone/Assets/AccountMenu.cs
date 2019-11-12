@@ -12,6 +12,7 @@ namespace Account
     public class AccountMenu : MonoBehaviour
     {
         public TextMeshProUGUI resultMessage;
+        public TextMeshProUGUI saveMessage;
         public GameObject signInButton;
         public GameObject signUpButton;
         public GameObject signOutButton;
@@ -52,7 +53,7 @@ namespace Account
                     Debug.Log("Signed in as " + userData.username);
                     
                     // Update UI
-                    resultMessage.text = "Welcome " + userData.username;
+                    resultMessage.SetText("Welcome " + userData.username);
                     signInButton.SetActive(false);
                     signUpButton.SetActive(false);
                     signOutButton.SetActive(true);
@@ -72,7 +73,8 @@ namespace Account
             DataSaver.DeleteData("user");
 
             // Update UI
-            resultMessage.text = "You are not signed in";
+            resultMessage.SetText("You are not signed in");
+            saveMessage.SetText("");
             signInButton.SetActive(true);
             signUpButton.SetActive(true);
             signOutButton.SetActive(false);
@@ -103,7 +105,11 @@ namespace Account
                     saveData = result.message;
                 
                     // Update UI
-                    if(saveData.Length == 1)
+                    if(saveData.Length == 0)
+                    {
+                        saveMessage.SetText("No saves found");
+                    }
+                    else if(saveData.Length == 1)
                     {
                         saveOne.SetActive(true);
                     }
