@@ -1,5 +1,6 @@
 import boto3
 import json
+from urllib.parse import unquote
 
 client = boto3.client('cognito-idp', region_name = 'us-east-1')
 
@@ -61,13 +62,20 @@ def sign_in(username, password):
 
 
 def lambda_handler(event, context):
-    event_body = json.loads(event.get("body"))
+    event_body_encoded = event.get("body")
+    event_body = unquote(event_body_encoded)
+
+    event_body = json.loads(event_body)
     
-    username = event_body.get('username')
-    password = event_body.get('password')
+    username = event_body.get('username').strip(u'\u200b')
+    password = event_body.get('password').strip(u'\u200b')
+    
+    print(event_body)
 
     result = sign_in(username, password)
     code = True if result else False
+
+    print(result)
 
     body = {
         "message": result, 
