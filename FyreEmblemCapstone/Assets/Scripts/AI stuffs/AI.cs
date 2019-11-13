@@ -7,7 +7,10 @@ public class AI : MonoBehaviour
 {
 	public static TurnManager TM;
 
+	//keep track of current AI
 	public static string PLAYER;
+
+	//keep track of current AI's opponent
 	public static string OPPONENT;
 
 	//variable to keep current best move for current unit
@@ -30,7 +33,7 @@ public class AI : MonoBehaviour
 	//Reference: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
     //AI choose action base on the current situation
 	public static void aiAction(){
-		bool isAttack = false;
+		//initialize the variables
 		TM = TurnManager.Instance;
 		PLAYER = TM.CurrentUnit.tag;
 		OPPONENT = PLAYER == "Enemy" ? OPPONENT = "Player" : OPPONENT = "Enemy";
@@ -38,48 +41,14 @@ public class AI : MonoBehaviour
 		AI ai = new AI();
 
 		//try to attack first
-		int minHealth = 9999;
-		//TM.CurrentUnit.GetAttackableTiles();
-		//List<Tile> attackPos = TM.CurrentUnit.attackTiles;
-		//for(int x = 0; x < attackPos.Count;x++){
-		// 	foreach(var i in TM.UnitQueue.ToArray()){
-		// 		i.GetCurrentTile();
-		// 		if(i.tag == OPPONENT && attackPos[x] == i.CurrentTile){
-		// 			if(minHealth > i.Health){
-		// 				minHealth = i.Health;
-		// 				ATTACK = attackPos[x];
-		// 			}
-		// 		}
-		// 	}
-		// }
-			foreach(var i in TM.UnitQueue.ToArray()){
-				i.GetCurrentTile();
-				int ex = (int)i.CurrentTile.transform.position.x;
-				int ey = (int)i.CurrentTile.transform.parent.position.z;
-				int px = (int)TM.CurrentUnit.CurrentTile.transform.position.x;
-				int py = (int)TM.CurrentUnit.CurrentTile.transform.parent.position.z;
-				int range = TM.CurrentUnit.AttackRange;
-				//find unit within attack range
-				if(i.tag == OPPONENT && ex <= px+range && ex >= px-range && ey <= py+range && ey >= py-range){
-					if(minHealth > i.Health){
-						minHealth = i.Health;
-						ATTACK = i.CurrentTile;
-					}
-				}
-			}
-		
-
-		//if no enemy to attack, don't attack
-		if(minHealth != 9999 && TM.CurrentUnit.Health > 5){
-			isAttack = true;
+		ATTACK = ai.bestMove(TM.CurrentUnit.attackTiles, true);
+		if(ATTACK != null){
 			TM.SelectAttack();
-		}
-		
 		//if not attack this turn, then move or wait
-		if(!isAttack){
+		}else{
 			TM.CurrentUnit.DisplayPossibleMoves();
 			List<Tile> list = TM.CurrentUnit.SelectableTiles;
-			MOVE = ai.bestMove(list);
+			MOVE = ai.bestMove(list, false);
 			if(MOVE == null){
 				TM.EndTurn();
 			}else{
@@ -89,22 +58,47 @@ public class AI : MonoBehaviour
 		
 	}
 
-	public float eval(Tile tile, Queue<Unit> unitQ){
+	public float eval(Tile tile, Queue<Unit> unitQ, bool isAttack){
 		float totalScore = 0;
 		bool[] result = new bool[2];
 
-		//Calculate the game over score
-		result = gameOver(unitQ);
-		if(result[0]){
-			if(result[1] == true){
-				totalScore += 9999;        //ai won
-			}else{
-				totalScore -= 9999;        //player won
+		//calculate the attack score
+		if(isAttack){
+			int ex = (int)tile.transform.position.x;
+			int ey = (int)tile.transform.parent.position.z;
+			int px = (int)TM.CurrentUnit.CurrentTile.transform.position.x;
+			int py = (int)TM.CurrentUnit.CurrentTile.transform.parent.position.z;
+			int range = TM.CurrentUnit.AttackRange;
+
+			foreach (var i in unitQ.ToArray()){
+				if(i.CurrentTile == tile && i.tag == OPPONENT && ex <= px+range && ex >= px-range && ey <= py+range && ey >= py-range){
+					if(TM.CurrentUnit.Health > 5){
+						i.Health -= TM.CurrentUnit.AttackDamage;
+						totalScore -= i.Health;
+						isAttack = true;
+					}
+				}
 			}
-			return totalScore;
+
+			//Calculate the game over score
+			result = gameOver(unitQ);
+			if(result[0]){
+				if(result[1] == true){
+					totalScore += 9999;        //ai won
+				}else{
+					totalScore -= 9999;        //player won
+				}
+				return totalScore;
+			}
+			
+			if(totalScore != 0){
+				return totalScore;
+			}else{
+				return -10000;
+			}
 		}
 
-		//Calculate total health score
+		//Calculate the moving score
 		foreach (var i in unitQ.ToArray()){
 			if(i.tag == PLAYER){
 				//totalScore += i.Health;
@@ -132,21 +126,21 @@ public class AI : MonoBehaviour
 		bool[] result = new bool[2];
 
 		foreach (var i in units.ToArray()){
-			if(i.tag == OPPONENT){
+			if(i.tag == OPPONENT && i.Health > 0){
 				enemyCount++;
 			}
-			if(i.tag == PLAYER){
+			if(i.tag == PLAYER && i.Health > 0){
 				playerCount++;
 			}
 		}
 
-		if(playerCount == 0){
+		if(playerCount == 0){       //ai win
 			result[0] = true;
 			result[1] = false;
 			return result;
 		}
 
-		if(enemyCount == 0){
+		if(enemyCount == 0){         //ai lose
 			result[0] = true;
 			result[1] = true;
 			return result;
@@ -171,12 +165,39 @@ public class AI : MonoBehaviour
 		return dis;	
 	}
 
-	public Tile bestMove(List<Tile> tiles){
+	public Tile bestMove(List<Tile> tiles, bool isAttack){
 		Tile bestMv = null;
 		float bestScore = -9999;
 		List<Tile> equalScore = new List<Tile>();
+
+		//return the best attack move, null if it is not possible to attack
+		if(isAttack){
+			foreach(var i in TM.UnitQueue.ToArray()){
+				i.GetCurrentTile();
+				//find unit within attack range
+				if(i.tag == OPPONENT){
+					float tempScore = eval(i.CurrentTile, TM.UnitQueue, isAttack);
+				
+					if(tempScore > bestScore){          //for move with equal values, get the lastest one
+						bestScore = tempScore;
+						equalScore.Clear();
+						equalScore.Add(i.CurrentTile);
+						bestMv = i.CurrentTile;
+					}
+					if(tempScore == bestScore){
+						equalScore.Add(i.CurrentTile);
+					}
+				}
+			}
+			
+			if(equalScore.Count != 0){
+				bestMv = equalScore[Random.Range(0,equalScore.Count)];
+			}
+			return bestMv;	
+		}
+
 		for(int i = 0; i < tiles.Count; i++){
-			float tempScore = eval(tiles[i], TM.UnitQueue);
+			float tempScore = eval(tiles[i], TM.UnitQueue, isAttack);
 			//Debug.Log(tempScore);
 			if(tempScore > bestScore){          //for move with equal values, get the lastest one
 				bestScore = tempScore;
