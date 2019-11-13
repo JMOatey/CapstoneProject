@@ -174,6 +174,14 @@ public class TurnManager : MonoBehaviour
 		Instance.UnitQueue.Enqueue(unit);
 	}
 
+    public void RemoveUnit(Unit unit)
+    {
+        if(Instance.Units.ContainsKey(unit.tag))
+        {
+            Instance.Units.Remove(unit.tag);
+        }
+    }
+
 	public void SelectAttack()
 	{
 		Instance.CurrentUnit.CurrentAction = SelectedAction.Attack;

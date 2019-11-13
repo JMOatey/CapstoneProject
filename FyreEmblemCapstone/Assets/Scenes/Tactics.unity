@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1386,19 +1386,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 182410, guid: 75925c365bd895145beefbc806717633, type: 3}
       propertyPath: m_Name
-      value: TT_HeavySwordman
+      value: Player Model
       objectReference: {fileID: 0}
     - target: {fileID: 419716, guid: 75925c365bd895145beefbc806717633, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.037
       objectReference: {fileID: 0}
     - target: {fileID: 419716, guid: 75925c365bd895145beefbc806717633, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.84
+      value: -0.84000003
       objectReference: {fileID: 0}
     - target: {fileID: 419716, guid: 75925c365bd895145beefbc806717633, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.052
       objectReference: {fileID: 0}
     - target: {fileID: 419716, guid: 75925c365bd895145beefbc806717633, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1430,6 +1430,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 419716, guid: 75925c365bd895145beefbc806717633, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9553400, guid: 75925c365bd895145beefbc806717633, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 063e370c72fef014598e0ab715691d24, type: 2}
+    - target: {fileID: 9553400, guid: 75925c365bd895145beefbc806717633, type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2512,7 +2520,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 123088, guid: 0755a95e2e1b5f44e8226989fb76f2cf, type: 3}
       propertyPath: m_Name
-      value: TT_Spearman
+      value: Player Model
       objectReference: {fileID: 0}
     - target: {fileID: 455156, guid: 0755a95e2e1b5f44e8226989fb76f2cf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2556,6 +2564,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 455156, guid: 0755a95e2e1b5f44e8226989fb76f2cf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500222, guid: 0755a95e2e1b5f44e8226989fb76f2cf, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d7c0cb601127edc46b6bfa5c784904b1, type: 2}
+    - target: {fileID: 9500222, guid: 0755a95e2e1b5f44e8226989fb76f2cf, type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -13256,7 +13272,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 169662, guid: 3c54df43aea316143beec51be2902cac, type: 3}
       propertyPath: m_Name
-      value: TT_King
+      value: Player Model
       objectReference: {fileID: 0}
     - target: {fileID: 498442, guid: 3c54df43aea316143beec51be2902cac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13300,6 +13316,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 498442, guid: 3c54df43aea316143beec51be2902cac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9562372, guid: 3c54df43aea316143beec51be2902cac, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 22ff4878286c8834b83286e62eac4041, type: 2}
+    - target: {fileID: 9562372, guid: 3c54df43aea316143beec51be2902cac, type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

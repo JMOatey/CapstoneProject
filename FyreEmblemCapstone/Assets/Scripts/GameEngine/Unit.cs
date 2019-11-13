@@ -46,8 +46,20 @@ public class Unit : PlayerMove
 				break;
 		}
 
+        //Update Health Bar
         Transform bar = transform.Find("HP/HealthBar");
         bar.localScale = new Vector3(((float)Health / 10.0f), 0.1f, 1.0f);
+
+        if(Health == 0)
+        {
+            //Death Animation
+            Transform model = transform.Find("Player Model");
+            Animator anim = model.GetComponent<Animator>();
+            anim.Play("death", -1);
+
+            //Need to fix this
+            TurnManager.Instance.RemoveUnit(this);
+        }
 	}
 	protected void MoveUpdate ()
 	{
@@ -72,6 +84,10 @@ public class Unit : PlayerMove
 		}
 		else
 		{
+            //Play move animation and move
+            Transform model = transform.Find("Player Model");
+            Animator anim = model.GetComponent<Animator>();
+            anim.Play("walk", -1);
 			Move();
 		}
 	}
@@ -95,11 +111,6 @@ public class Unit : PlayerMove
 	void OnMouseOver()
     {
         ShowEveryOption();
-    }
-
-    private void OnMouseDown()
-    {
-        Debug.Log("Health: " + Health);
     }
 
     void OnMouseExit()
@@ -222,10 +233,27 @@ public class Unit : PlayerMove
 			{
 				if(hit.collider.tag == "Player" || hit.collider.tag == "Enemy")
 				{
-					Unit unit = hit.collider.GetComponent<Unit>();
+                    //Play Attack Animation
+                    Transform model = transform.Find("Player Model");
+                    Animator anim = model.GetComponent<Animator>();
+                    anim.Play("attack", -1);
+
+                    //Attack Logic
+                    Unit unit = hit.collider.GetComponent<Unit>();
 					Debug.Log(unit);
 					Debug.Log(unit.Health);
-					unit.Health -= AttackDamage;
+                    if(unit.Health > 0)
+                    {
+                        //onHit Animation
+                        Animator hitAnimation = hit.collider.GetComponentInChildren<Animator>();
+                        hitAnimation.Play("onHit", -1);
+
+                        unit.Health -= AttackDamage;
+                        if(unit.Health < 0)
+                        {
+                            unit.Health = 0;
+                        }
+                    }
 					HasAttacked = true;
 				}
 			}
