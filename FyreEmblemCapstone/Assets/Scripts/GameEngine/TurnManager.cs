@@ -35,12 +35,13 @@ public class TurnManager : MonoBehaviour
 
     private void OnGUI()
     {
-        int offset = 20;
-        int initY = 30;
+        int offset = 30;
+        int initX = 85;
+        int initY = 80;
 
         //Turn Queue Label
         GUI.contentColor = Color.black;
-        GUI.Label(new Rect(10, 10, 100, 50), "Turn Queue \n ----------------");
+        GUI.Label(new Rect(initX, initY, 100, 50), "Turn Queue \n ----------------");
 
         //Turn Queue Data
         for(int i = 0; i < Instance.UnitQueue.Count; i++)
@@ -48,12 +49,12 @@ public class TurnManager : MonoBehaviour
             if(Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
             {
                 GUI.contentColor = Color.blue;
-                GUI.Label(new Rect(10, initY += offset, 100, 50), Instance.CurrentUnit.name);
+                GUI.Label(new Rect(initX, initY += offset, 100, 50), Instance.CurrentUnit.name);
             }
             else //All Other Units
             {
                 GUI.contentColor = Color.black;
-                GUI.Label(new Rect(10, initY += offset, 100, 50), Instance.UnitQueue.ElementAt<Unit>(i).name);
+                GUI.Label(new Rect(initX, initY += offset, 100, 50), Instance.UnitQueue.ElementAt<Unit>(i).name);
             }
         }
     }

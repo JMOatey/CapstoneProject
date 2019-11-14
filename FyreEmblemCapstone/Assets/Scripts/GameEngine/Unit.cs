@@ -57,8 +57,10 @@ public class Unit : PlayerMove
             Animator anim = model.GetComponent<Animator>();
             anim.Play("death", -1);
 
-            //Need to fix this
+            //Remove character from Unit Queue if dead
+            TurnManager.Instance.UnitQueue = new Queue<Unit>(TurnManager.Instance.UnitQueue.Where(s => s != this));
             TurnManager.Instance.RemoveUnit(this);
+
         }
 	}
 	protected void MoveUpdate ()
