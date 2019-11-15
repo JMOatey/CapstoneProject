@@ -14,6 +14,7 @@ public enum SelectedAction
 
 public class Unit : PlayerMove
 {
+	public string side;   //keep track of which side unit is on, for temporary unit
 	public bool Finished = false;
 	public float Speed = 0;
 	public int Health = 10;
@@ -104,6 +105,16 @@ public class Unit : PlayerMove
 		foreach (var i in TurnManager.Instance.UnitQueue.ToArray()){
 			i.GetCurrentTile();
 			if(i.tag == AI.OPPONENT && i.CurrentTile == attack){
+				//Play Attack Animation
+                Animator anim = TurnManager.Instance.CurrentUnit.GetComponentInChildren<Animator>();
+                anim.Play("attack", -1);
+
+				if(i.Health > 0){
+					//onHit Animation
+                    Animator hitAnimation = i.GetComponentInChildren<Animator>();
+                    hitAnimation.Play("onHit", -1);
+				}
+				
 				i.Health -= AttackDamage;
 				HasAttacked = true;
 			}

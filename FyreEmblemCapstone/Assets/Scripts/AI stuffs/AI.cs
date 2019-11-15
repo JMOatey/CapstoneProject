@@ -61,6 +61,9 @@ public class AI : MonoBehaviour
 	public float eval(Tile tile, Queue<Unit> unitQ, bool isAttack){
 		float totalScore = 0;
 		bool[] result = new bool[2];
+		//make a copy of the unit queue
+		Queue<Unit> UQ = new Queue<Unit>();
+		bool possAttack = false;      //keep track of whether an attack is possible
 
 		//calculate the attack score
 		if(isAttack){
@@ -71,17 +74,22 @@ public class AI : MonoBehaviour
 			int range = TM.CurrentUnit.AttackRange;
 
 			foreach (var i in unitQ.ToArray()){
+				//make a copy of the unit
+				Unit temp = new Unit();
+				temp.Health = i.Health;
+				temp.side = i.tag;
 				if(i.CurrentTile == tile && i.tag == OPPONENT && ex <= px+range && ex >= px-range && ey <= py+range && ey >= py-range){
 					if(TM.CurrentUnit.Health > 5){
-						i.Health -= TM.CurrentUnit.AttackDamage;
-						totalScore -= i.Health;
-						isAttack = true;
+						temp.Health -= TM.CurrentUnit.AttackDamage;
+						totalScore -= temp.Health;
+						possAttack = true;
 					}
 				}
+				UQ.Enqueue(temp);
 			}
 
 			//Calculate the game over score
-			result = gameOver(unitQ);
+			result = gameOver(UQ);
 			if(result[0]){
 				if(result[1] == true){
 					totalScore += 9999;        //ai won
@@ -91,7 +99,7 @@ public class AI : MonoBehaviour
 				return totalScore;
 			}
 			
-			if(totalScore != 0){
+			if(possAttack){
 				return totalScore;
 			}else{
 				return -10000;
@@ -126,10 +134,10 @@ public class AI : MonoBehaviour
 		bool[] result = new bool[2];
 
 		foreach (var i in units.ToArray()){
-			if(i.tag == OPPONENT && i.Health > 0){
+			if(i.side == OPPONENT && i.Health > 0){
 				enemyCount++;
 			}
-			if(i.tag == PLAYER && i.Health > 0){
+			if(i.side == PLAYER && i.Health > 0){
 				playerCount++;
 			}
 		}
