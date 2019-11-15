@@ -4283,6 +4283,7 @@ MonoBehaviour:
   MoveSpeed: 2
   JumpVelocity: 4.5
   HasMoved: 0
+  side: 
   Finished: 0
   Speed: 1
   Health: 10
@@ -6137,6 +6138,7 @@ MonoBehaviour:
   MoveSpeed: 2
   JumpVelocity: 4.5
   HasMoved: 0
+  side: 
   Finished: 0
   Speed: 7
   Health: 10
@@ -9395,6 +9397,7 @@ MonoBehaviour:
   MoveSpeed: 2
   JumpVelocity: 4.5
   HasMoved: 0
+  side: 
   Finished: 0
   Speed: 4
   Health: 10
@@ -11572,11 +11575,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -141
+      value: 489
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -260
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_SizeDelta.x
@@ -11764,11 +11767,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 200
+      value: 489
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 264
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_SizeDelta.x
@@ -12865,11 +12868,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -200
+      value: 489
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 264
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_SizeDelta.x
@@ -14858,11 +14861,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 489
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 264
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 22449586, guid: cbb4cda4905a0294494c20a4f8f2dc0c, type: 3}
       propertyPath: m_SizeDelta.x
