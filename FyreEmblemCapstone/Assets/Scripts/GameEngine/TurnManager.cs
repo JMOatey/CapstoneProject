@@ -110,7 +110,7 @@ public class TurnManager : MonoBehaviour
         //Create Turn Queue
         int offset = 0;
         float initX = 0.0f;
-        float initY = 0.0f;
+        float initY = 100.0f;
         GameObject baseObj = GameObject.Find("Canvas/TurnQueue/playerLI");
         GameObject parent = GameObject.Find("Canvas/TurnQueue");
 
@@ -151,7 +151,7 @@ public class TurnManager : MonoBehaviour
                 trans.localPosition = new Vector3(initX, initY - offset);
                 trans.localScale = new Vector3(0.6f, 0.6f);
             }
-            offset -= 50;
+            offset += 50;
         }
     }
 
@@ -241,6 +241,10 @@ public class TurnManager : MonoBehaviour
 		unit.Finished = true;
 		Instance.UnitQueue.Enqueue(unit);
 
+        //if next unit is death, remove it from the queue
+        if(Instance.UnitQueue.Peek().Health == 0){
+            Instance.UnitQueue.Dequeue();
+        }
 
 		if(Instance.UnitQueue.Count > 0 && Instance.UnitQueue.Peek().Finished)
 		{

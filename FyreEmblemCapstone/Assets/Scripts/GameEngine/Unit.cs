@@ -51,6 +51,11 @@ public class Unit : PlayerMove
         Transform bar = transform.Find("HP/HealthBar");
         bar.localScale = new Vector3(((float)Health / 10.0f), 0.1f, 1.0f);
 
+		IEnumerator die(){
+			yield return new WaitForSeconds(2);
+			Destroy(this.gameObject);
+		}
+
         if(Health == 0)
         {
             //Death Animation
@@ -65,7 +70,8 @@ public class Unit : PlayerMove
 			TurnManager.Instance.RemoveTurnQueue();
 			//Re-make the queue UI
 			TurnManager.Instance.MakeTurnQueue();
-
+			//Destroy unit game object
+			StartCoroutine(die());
         }
 	}
 	protected void MoveUpdate ()
