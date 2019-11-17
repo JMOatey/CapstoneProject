@@ -213,6 +213,11 @@ public class TurnManager : MonoBehaviour
 		// {
 		// 	pa.BeginTurn();
 		// }
+		foreach(Unit unit in Instance.UnitQueue)
+		{
+			unit.GetCurrentTile();
+			unit.CurrentTile.Occupied = true;
+		}
 		if(Instance.UnitQueue.Count > 0)
 		{
 			Instance.CurrentUnit = Instance.UnitQueue.Peek();
@@ -222,11 +227,7 @@ public class TurnManager : MonoBehaviour
 			}
 		}
 
-		foreach(Unit unit in Instance.UnitQueue)
-		{
-			unit.GetCurrentTile();
-			unit.CurrentTile.Occupied = true;
-		}
+
         UpdateTurnQueue();
     }
 

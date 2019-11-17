@@ -27,8 +27,8 @@ public class Unit : PlayerMove
 
 		MoveStart();
 		GetCurrentTile();
-		ShowEveryOption();
-		HideEverything();
+		// ShowEveryOption();
+		// HideEverything();
 	}
 	
 	void Update () {
