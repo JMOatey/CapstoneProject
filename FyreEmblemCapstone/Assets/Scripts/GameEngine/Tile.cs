@@ -56,13 +56,23 @@ public class Tile : MonoBehaviour
     {
         Reset();
 
-        CheckTile(Vector3.forward, jumpHeight);
-        CheckTile(-Vector3.forward, jumpHeight);
-        CheckTile(Vector3.right, jumpHeight);
-        CheckTile(-Vector3.right, jumpHeight);
+        CheckTile(Vector3.forward, jumpHeight, false);
+        CheckTile(-Vector3.forward, jumpHeight, false);
+        CheckTile(Vector3.right, jumpHeight, false);
+        CheckTile(-Vector3.right, jumpHeight, false);
     }
 
-    public void CheckTile(Vector3 direction, float jumpHeight)
+    public void FindAttackNeighbors(float jumpHeight)
+    {
+        Reset();
+
+        CheckTile(Vector3.forward, jumpHeight, true);
+        CheckTile(-Vector3.forward, jumpHeight, true);
+        CheckTile(Vector3.right, jumpHeight, true);
+        CheckTile(-Vector3.right, jumpHeight, true);
+    }
+
+    public void CheckTile(Vector3 direction, float jumpHeight, bool attack)
     {
         Vector3 halfExtents = new Vector3(0.25f, (1 + jumpHeight) / 2.0f, 0.25f);
         Collider[] colliders = Physics.OverlapBox(transform.position + direction, halfExtents);
@@ -74,7 +84,7 @@ public class Tile : MonoBehaviour
             {
                 RaycastHit hit;
 
-                if(!Physics.Raycast(tile.transform.position, Vector2.up, out hit, 1))
+                if(!Physics.Raycast(tile.transform.position, Vector2.up, out hit, 1) || attack)
                 {
                     AdjacencyList.Add(tile);
                 }

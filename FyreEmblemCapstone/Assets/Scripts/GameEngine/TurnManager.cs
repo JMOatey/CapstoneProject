@@ -231,6 +231,23 @@ public class TurnManager : MonoBehaviour
         UpdateTurnQueue();
     }
 
+	public static string CheckWin()
+	{
+		List<string> NumberOfUnits = new List<string>();
+		foreach(Unit unit in Instance.UnitQueue)
+		{
+			if(!NumberOfUnits.Contains(unit.tag.ToString()))
+			{
+				NumberOfUnits.Add(unit.tag.ToString());
+			}
+		}
+		if(NumberOfUnits.Count == 1)
+		{
+			return NumberOfUnits.First();
+		}
+		return null;
+	}
+
 	public void EndTurn()
 	{
 		// foreach(PlayerAction pa in Units[TurnQueue.Peek()])

@@ -76,6 +76,13 @@ public class Unit : PlayerMove
 			TurnManager.Instance.MakeTurnQueue();
 			//Destroy unit game object
 			StartCoroutine(die());
+			string win = TurnManager.CheckWin();
+			if(win != null)
+			{
+				// UI STUFF
+				Debug.Log($"Team {win} won!");
+			}
+			Health = -1;
         }
 	}
 	protected void MoveUpdate ()
@@ -151,7 +158,7 @@ public class Unit : PlayerMove
 		SelectableTiles.Clear();
 		AttackableTiles.Clear();
 		SelectableTiles.FindAvailableTiles(MoveDistance, CurrentTile, JumpHeight, Tiles);
-		AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles);
+		GetAttackableTiles();
         HasMoved = false;
 		Turn = true;
 		HasAttacked = false;
@@ -303,7 +310,7 @@ public class Unit : PlayerMove
 		foreach(GameObject tile in Tiles)
 		{
 			Tile t = tile.GetComponent<Tile>();
-			t.FindNeighbors(JumpHeight);
+			t.FindAttackNeighbors(JumpHeight);
 		}
 		if(!HasMoved)
 		{
@@ -335,12 +342,12 @@ public class Unit : PlayerMove
 			// List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance || t.Occupied).ToList();
 			foreach(Tile tile in process)
 			{
-				AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles);
+				AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles, true);
 			}
 		}
 		else
 		{
-			AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles);
+			AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles, true);
 		}
     }
 

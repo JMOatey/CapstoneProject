@@ -76,12 +76,20 @@ public class PlayerUtility : MonoBehaviour
 
 public static class PathingExtensions
 {
-    public static void FindAvailableTiles(this List<Tile> graph, int distance, Tile currentTile, float jumpHeight, GameObject[] tiles)
+    public static void FindAvailableTiles(this List<Tile> graph, int distance, Tile currentTile, float jumpHeight, GameObject[] tiles, bool attack = false)
     {
 		foreach(GameObject tile in tiles)
 		{
 			Tile t = tile.GetComponent<Tile>();
-			t.FindNeighbors(jumpHeight);
+			
+			if(attack)
+			{
+				t.FindAttackNeighbors(jumpHeight);
+			}
+			else
+			{
+				t.FindNeighbors(jumpHeight);
+			}
 		}
 		Queue<Tile> process = new Queue<Tile>();
 
