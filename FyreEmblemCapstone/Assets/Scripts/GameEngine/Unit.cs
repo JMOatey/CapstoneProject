@@ -138,10 +138,15 @@ public class Unit : PlayerMove
 		AttackableTiles.Clear();
 		SelectableTiles.FindAvailableTiles(MoveDistance, CurrentTile, JumpHeight, Tiles);
 		AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles);
-		HasMoved = false;
+        HasMoved = false;
 		Turn = true;
 		HasAttacked = false;
-	}
+
+        Transform indicator = transform.Find("Indicator/Cylinder");
+        Transform effect = transform.Find("Indicator/Cylinder/Sparkles");
+        indicator.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+        effect.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+    }
 
 	public void EndTurn()
 	{
@@ -152,7 +157,12 @@ public class Unit : PlayerMove
 			Tile t = tile.GetComponent<Tile>();
 			t.Reset();
 		}
-	}
+
+        Transform indicator = transform.Find("Indicator/Cylinder");
+        Transform effect = transform.Find("Indicator/Cylinder/Sparkles");
+        indicator.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        effect.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+    }
 
 	public void DisplayPossibleMoves()
 	{

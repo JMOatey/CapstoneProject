@@ -33,7 +33,7 @@ public class TurnManager : MonoBehaviour
 	public List<Tile> Board;
 	public int Turn = 1;
 
-    private void OnGUI()
+   /* private void OnGUI()
     {
         int offset = 30;
         int initX = 85;
@@ -48,8 +48,14 @@ public class TurnManager : MonoBehaviour
         {   //Current Unit
             if(Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
             {
-                GUI.contentColor = Color.blue;
-                GUI.Label(new Rect(initX, initY += offset, 100, 50), Instance.CurrentUnit.name);
+                GameObject baseObj = GameObject.Find("Canvas/TurnQueue/playerLI");
+                GameObject li = Instantiate(baseObj);
+                Transform trans = li.transform;
+                trans.localPosition = new Vector3(130.0f, 150.0f);
+                trans.localScale = new Vector3(0.6f, 0.6f);
+                //GUI.contentColor = Color.blue;
+                //GUI.Label(new Rect(initX, initY += offset, 100, 50), Instance.CurrentUnit.name);
+                
             }
             else //All Other Units
             {
@@ -57,40 +63,122 @@ public class TurnManager : MonoBehaviour
                 GUI.Label(new Rect(initX, initY += offset, 100, 50), Instance.UnitQueue.ElementAt<Unit>(i).name);
             }
         }
-    }
+    } */
 
     void Start () 
 	{
 		// Board = C
 		StartTurn();
-	}
+
+        //Create Turn Queue
+        int offset = 0;
+        float initX = 0.0f;
+        float initY = 0.0f;
+        GameObject baseObj = GameObject.Find("Canvas/TurnQueue/playerLI");
+        GameObject parent = GameObject.Find("Canvas/TurnQueue");
+
+        //Turn Queue Data
+        for (int i = 0; i < Instance.UnitQueue.Count; i++)
+        {   //Current Unit
+            if (Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
+            {
+                GameObject li = Instantiate(baseObj, parent.transform);
+                Transform trans = li.transform;
+                foreach (Transform child in trans)
+                {
+                    if (child.gameObject.tag == "Name")
+                    {
+                        child.gameObject.GetComponent<UnityEngine.UI.Text>().text = Instance.UnitQueue.ElementAt<Unit>(i).name;
+
+                    }
+                }
+                trans.localPosition = new Vector3(initX, initY - offset);
+                trans.localScale = new Vector3(0.6f, 0.6f);
+
+            }
+            else //All Other Units
+            {
+                GameObject li = Instantiate(baseObj, parent.transform);
+                Transform trans = li.transform;
+                foreach (Transform child in trans)
+                {
+                    if (child.gameObject.tag == "Name")
+                    {
+                        child.gameObject.GetComponent<UnityEngine.UI.Text>().text = Instance.UnitQueue.ElementAt<Unit>(i).name;
+                    }
+                    else
+                    {
+                        child.gameObject.SetActive(false);
+                    }
+                }
+                trans.localPosition = new Vector3(initX, initY - offset);
+                trans.localScale = new Vector3(0.6f, 0.6f);
+            }
+            offset -= 50;
+        }
+
+    }
+
+    void UpdateTurnQueue()
+    {
+        GameObject baseObj = GameObject.Find("Canvas/TurnQueue/playerLI");
+        GameObject parent = GameObject.Find("Canvas/TurnQueue");
+
+        //Turn Queue Data
+        for (int i = 0; i < Instance.UnitQueue.Count; i++)
+        {   //Current Unit
+            if (Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
+            {
+                Transform elem = parent.transform;
+                foreach(Transform child in elem)
+                {
+                    if(child.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text>().text == Instance.CurrentUnit.name)
+                    {
+                        child.transform.GetChild(1).gameObject.SetActive(true);
+                    }
+                }
+
+            }
+            else //All Other Units
+            {
+                Transform elem = parent.transform;
+                foreach (Transform child in elem)
+                {
+                    if (child.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text>().text == Instance.UnitQueue.ElementAt<Unit>(i).name)
+                    {
+                        child.transform.GetChild(1).gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+    }
 	
 	void Update () {
-	// 	if(TeamQueue.Count == 0)
-	// 	{
-	// 		InitTeamQueue();
-	// 	}
-	// 	if(Input.GetMouseButtonUp(0))
-	// 	{
-	// 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // 	if(TeamQueue.Count == 0)
+        // 	{
+        // 		InitTeamQueue();
+        // 	}
+        // 	if(Input.GetMouseButtonUp(0))
+        // 	{
+        // 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-	// 		RaycastHit hit;
-	// 		if(Physics.Raycast(ray, out hit))
-	// 		{
-	// 			if(Instance.UnitQueue.Peek())
-	// 			{
-	// 				if(Instance.CurrentUnit)
-	// 				{
-	// 					Instance.CurrentUnit.HidePossibleMoves();
-	// 					Debug.Log("Should be hiding!");
-	// 				}
-	// 				Unit player = hit.collider.GetComponent<Unit>();
+        // 		RaycastHit hit;
+        // 		if(Physics.Raycast(ray, out hit))
+        // 		{
+        // 			if(Instance.UnitQueue.Peek())
+        // 			{
+        // 				if(Instance.CurrentUnit)
+        // 				{
+        // 					Instance.CurrentUnit.HidePossibleMoves();
+        // 					Debug.Log("Should be hiding!");
+        // 				}
+        // 				Unit player = hit.collider.GetComponent<Unit>();
 
-	// 				Instance.CurrentUnit = player;
-	// 			}
-	// 		}
-	// 	}
-	}
+        // 				Instance.CurrentUnit = player;
+        // 			}
+        // 		}
+        // 	}
+    }
 
 	// static void InitUnitQueue()
 	// {
@@ -127,7 +215,8 @@ public class TurnManager : MonoBehaviour
 			unit.GetCurrentTile();
 			unit.CurrentTile.Occupied = true;
 		}
-	}
+        UpdateTurnQueue();
+    }
 
 	public void EndTurn()
 	{
