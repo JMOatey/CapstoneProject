@@ -22,9 +22,13 @@ public class Unit : PlayerMove
 	public SelectedAction CurrentAction = SelectedAction.Nothing;
 
 	void Start () {
+		this.HasMoved = false;
 		TurnManager.Instance.AddUnit(this);
 
 		MoveStart();
+		GetCurrentTile();
+		ShowEveryOption();
+		HideEverything();
 	}
 	
 	void Update () {
@@ -245,7 +249,8 @@ public class Unit : PlayerMove
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit))
 			{
-				if((hit.collider.tag == "Player" && team == "Enemy") || (hit.collider.tag == "Enemy" && team == "Player"))
+				Unit unit = hit.collider.GetComponent<Unit>();
+				if(AttackableTiles.Contains(unit.CurrentTile) && ((hit.collider.tag == "Player" && team == "Enemy") || (hit.collider.tag == "Enemy" && team == "Player")))
 				{
                     //Play Attack Animation
                     Transform model = transform.Find("Player Model");
@@ -253,7 +258,6 @@ public class Unit : PlayerMove
                     anim.Play("attack", -1);
 
                     //Attack Logic
-                    Unit unit = hit.collider.GetComponent<Unit>();
 					Debug.Log(unit);
 					Debug.Log(unit.Health);
                     if(unit.Health > 0)
