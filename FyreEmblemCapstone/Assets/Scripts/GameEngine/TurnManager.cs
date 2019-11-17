@@ -69,7 +69,44 @@ public class TurnManager : MonoBehaviour
 	{
 		// Board = C
 		StartTurn();
+        MakeTurnQueue();
+    }
 
+    void UpdateTurnQueue()
+    {
+        GameObject baseObj = GameObject.Find("Canvas/TurnQueue/playerLI");
+        GameObject parent = GameObject.Find("Canvas/TurnQueue");
+
+        //Turn Queue Data
+        for (int i = 0; i < Instance.UnitQueue.Count; i++)
+        {   //Current Unit
+            if (Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
+            {
+                Transform elem = parent.transform;
+                foreach(Transform child in elem)
+                {
+                    if(child.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text>().text == Instance.CurrentUnit.name)
+                    {
+                        child.transform.GetChild(1).gameObject.SetActive(true);
+                    }
+                }
+
+            }
+            else //All Other Units
+            {
+                Transform elem = parent.transform;
+                foreach (Transform child in elem)
+                {
+                    if (child.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text>().text == Instance.UnitQueue.ElementAt<Unit>(i).name)
+                    {
+                        child.transform.GetChild(1).gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+    }
+
+    public void MakeTurnQueue(){
         //Create Turn Queue
         int offset = 0;
         float initX = 0.0f;
@@ -116,39 +153,14 @@ public class TurnManager : MonoBehaviour
             }
             offset -= 50;
         }
-
     }
 
-    void UpdateTurnQueue()
-    {
-        GameObject baseObj = GameObject.Find("Canvas/TurnQueue/playerLI");
+    public void RemoveTurnQueue(){
         GameObject parent = GameObject.Find("Canvas/TurnQueue");
-
-        //Turn Queue Data
-        for (int i = 0; i < Instance.UnitQueue.Count; i++)
-        {   //Current Unit
-            if (Instance.UnitQueue.ElementAt<Unit>(i) == Instance.CurrentUnit)
-            {
-                Transform elem = parent.transform;
-                foreach(Transform child in elem)
-                {
-                    if(child.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text>().text == Instance.CurrentUnit.name)
-                    {
-                        child.transform.GetChild(1).gameObject.SetActive(true);
-                    }
-                }
-
-            }
-            else //All Other Units
-            {
-                Transform elem = parent.transform;
-                foreach (Transform child in elem)
-                {
-                    if (child.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text>().text == Instance.UnitQueue.ElementAt<Unit>(i).name)
-                    {
-                        child.transform.GetChild(1).gameObject.SetActive(false);
-                    }
-                }
+        Transform p = parent.transform;
+        foreach (Transform child in p){
+            if(child.gameObject.name == "playerLI(Clone)"){
+                Destroy(child.gameObject);
             }
         }
     }

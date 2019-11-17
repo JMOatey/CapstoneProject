@@ -61,6 +61,10 @@ public class Unit : PlayerMove
             //Remove character from Unit Queue if dead
             TurnManager.Instance.UnitQueue = new Queue<Unit>(TurnManager.Instance.UnitQueue.Where(s => s != this));
             TurnManager.Instance.RemoveUnit(this);
+			//Clear the turn queue UI
+			TurnManager.Instance.RemoveTurnQueue();
+			//Re-make the queue UI
+			TurnManager.Instance.MakeTurnQueue();
 
         }
 	}
