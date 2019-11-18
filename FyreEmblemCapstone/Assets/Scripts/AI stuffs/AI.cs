@@ -78,7 +78,7 @@ public class AI : MonoBehaviour
 				Unit temp = new Unit();
 				temp.Health = i.Health;
 				temp.side = i.tag;
-				if(i.CurrentTile == tile && i.tag == OPPONENT && ex <= px+range && ex >= px-range && ey <= py+range && ey >= py-range){
+				if(i.CurrentTile == tile && i.tag == OPPONENT && ((ex <= px+range && ex >= px-range && ey == py) ^ (ey <= py+range && ey >= py-range && ex == px))){
 					if(TM.CurrentUnit.Health > 5){
 						temp.Health -= TM.CurrentUnit.AttackDamage;
 						totalScore -= temp.Health;
