@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -303,9 +303,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -416,9 +417,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -529,9 +531,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -642,9 +645,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -832,9 +836,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -945,9 +950,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -1201,9 +1207,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -1314,9 +1321,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -1741,9 +1749,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -1854,9 +1863,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -1967,9 +1977,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -2080,9 +2091,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -2193,9 +2205,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -2306,9 +2319,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -2461,9 +2475,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -2574,9 +2589,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -2729,9 +2745,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -2842,9 +2859,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -3032,9 +3050,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -3145,9 +3164,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -3258,9 +3278,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -3371,9 +3392,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -3526,9 +3548,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -3639,9 +3662,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -3752,9 +3776,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -3865,9 +3890,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -3978,9 +4004,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -4136,9 +4163,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -4249,9 +4277,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -4289,21 +4318,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Turn: 0
-  SelectableTiles: []
   Tiles: []
   CurrentTile: {fileID: 0}
+  SelectableTiles: []
+  JumpHeight: 2
   Moving: 0
   MoveDistance: 5
-  JumpHeight: 2
   MoveSpeed: 2
   JumpVelocity: 4.5
   HasMoved: 0
   Finished: 0
   Speed: 1
   Health: 10
-  Attack: 2
-  AttackRange: 1
   CurrentAction: 3
+  AttackDamage: 2
+  AttackRange: 1
+  HasAttacked: 0
 --- !u!23 &527680847
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4484,9 +4514,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -4597,9 +4628,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -4710,9 +4742,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -4823,9 +4856,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -4936,9 +4970,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -5049,9 +5084,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -5162,9 +5198,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -5275,9 +5312,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -5479,9 +5517,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -5592,9 +5631,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -5705,9 +5745,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -5818,9 +5859,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -5931,9 +5973,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -6044,9 +6087,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -6084,21 +6128,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Turn: 0
-  SelectableTiles: []
   Tiles: []
   CurrentTile: {fileID: 0}
+  SelectableTiles: []
+  JumpHeight: 2
   Moving: 0
   MoveDistance: 5
-  JumpHeight: 2
   MoveSpeed: 2
   JumpVelocity: 4.5
   HasMoved: 0
   Finished: 0
   Speed: 7
   Health: 10
-  Attack: 2
-  AttackRange: 1
   CurrentAction: 3
+  AttackDamage: 2
+  AttackRange: 1
+  HasAttacked: 0
 --- !u!23 &711263792
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6279,9 +6324,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -6392,9 +6438,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -6505,9 +6552,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -6618,9 +6666,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -6731,9 +6780,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -6844,9 +6894,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -6957,9 +7008,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -7070,9 +7122,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -7183,9 +7236,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -7296,9 +7350,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -7409,9 +7464,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -7522,9 +7578,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -7635,13 +7692,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
   Distance: 0
+--- !u!1 &840267238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 840267240}
+  - component: {fileID: 840267239}
+  m_Layer: 0
+  m_Name: SaveScript
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &840267239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840267238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bfcdb1a2ab8d6f489a24965e1b108d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &840267240
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840267238}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 520.5215, y: 335.33298, z: -8.382446}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &847118753
 GameObject:
   m_ObjectHideFlags: 0
@@ -7748,9 +7849,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -7861,9 +7963,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -7974,9 +8077,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -8087,9 +8191,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -8290,9 +8395,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -8403,9 +8509,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -8516,9 +8623,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -8629,9 +8737,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -8742,9 +8851,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -8855,9 +8965,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -8968,9 +9079,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -9081,9 +9193,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -9194,9 +9307,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -9350,21 +9464,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Turn: 0
-  SelectableTiles: []
   Tiles: []
   CurrentTile: {fileID: 0}
+  SelectableTiles: []
+  JumpHeight: 2
   Moving: 0
   MoveDistance: 5
-  JumpHeight: 2
   MoveSpeed: 2
   JumpVelocity: 4.5
   HasMoved: 0
   Finished: 0
   Speed: 4
   Health: 10
-  Attack: 2
-  AttackRange: 1
   CurrentAction: 3
+  AttackDamage: 2
+  AttackRange: 1
+  HasAttacked: 0
 --- !u!1 &1052916751
 GameObject:
   m_ObjectHideFlags: 0
@@ -9513,9 +9628,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -9626,9 +9742,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -9739,9 +9856,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -9852,9 +9970,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -9965,9 +10084,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -10078,9 +10198,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -10191,9 +10312,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -10304,9 +10426,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -10459,9 +10582,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -10572,9 +10696,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -10685,9 +10810,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -10798,9 +10924,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -10911,9 +11038,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -11024,9 +11152,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -11137,9 +11266,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -11250,9 +11380,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -11363,9 +11494,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -11605,9 +11737,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -11718,9 +11851,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -11831,9 +11965,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -11944,9 +12079,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -12057,9 +12193,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -12170,9 +12307,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -12283,9 +12421,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -12396,9 +12535,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -12509,9 +12649,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -12622,9 +12763,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -12735,9 +12877,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -12848,9 +12991,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -13019,9 +13163,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -13132,9 +13277,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -13245,9 +13391,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -13358,9 +13505,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -13471,9 +13619,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -13584,9 +13733,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -13697,9 +13847,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -13810,9 +13961,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -13965,9 +14117,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -14078,9 +14231,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -14191,9 +14345,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -14304,9 +14459,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -14417,9 +14573,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -14530,9 +14687,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -14643,9 +14801,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -14756,9 +14915,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -14869,9 +15029,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -14982,9 +15143,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -15095,9 +15257,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -15298,9 +15461,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -15411,9 +15575,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -15524,9 +15689,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -15637,9 +15803,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -15750,9 +15917,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -15863,9 +16031,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -15976,9 +16145,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -16089,9 +16259,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -16202,9 +16373,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -16315,9 +16487,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -16428,9 +16601,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -16712,9 +16886,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -16825,9 +17000,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -16938,9 +17114,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -17093,9 +17270,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -17206,9 +17384,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -17319,9 +17498,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -17432,9 +17612,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -17587,9 +17768,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -17700,9 +17882,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -17813,9 +17996,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -17926,9 +18110,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -18168,9 +18353,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -18281,9 +18467,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -18498,9 +18685,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -18611,9 +18799,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}
@@ -18724,9 +18913,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Walkable: 0
-  Current: 0
+  Occupied: 0
   Target: 0
   Selectable: 0
+  Attackable: 0
   AdjacencyList: []
   Visited: 0
   Parent: {fileID: 0}

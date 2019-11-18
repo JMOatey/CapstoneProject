@@ -19,7 +19,7 @@ namespace Account
         public GameObject saveOne;
         public GameObject saveTwo;
         public GameObject saveThree;
-        public string[] saveData;
+        public GameSave[] saveData;
         public TokenResult userData;
 
         // Start is called before the first frame update
