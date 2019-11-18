@@ -63,7 +63,8 @@ public class AI : MonoBehaviour
 		bool[] result = new bool[2];
 		//make a copy of the unit queue
 		Queue<Unit> UQ = new Queue<Unit>();
-		bool possAttack = false;      //keep track of whether an attack is possible
+		bool possAttack = false; //keep track of whether it possible to attack
+		bool isKilled = false; //keep track of whether the attack kill the unit
 
 		//calculate the attack score
 		if(isAttack){
@@ -79,11 +80,12 @@ public class AI : MonoBehaviour
 				temp.Health = i.Health;
 				temp.side = i.tag;
 				if(i.CurrentTile == tile && i.tag == OPPONENT && ((ex <= px+range && ex >= px-range && ey == py) ^ (ey <= py+range && ey >= py-range && ex == px))){
-					if(TM.CurrentUnit.Health > 5){
 						temp.Health -= TM.CurrentUnit.AttackDamage;
 						totalScore -= temp.Health;
 						possAttack = true;
-					}
+						if(temp.Health == 0){
+							isKilled = true;
+						}
 				}
 				UQ.Enqueue(temp);
 			}
@@ -99,7 +101,7 @@ public class AI : MonoBehaviour
 				return totalScore;
 			}
 			
-			if(possAttack){
+			if((TM.CurrentUnit.Health > 5 || (totalScore > 5000) || isKilled) && possAttack){
 				return totalScore;
 			}else{
 				return -10000;
