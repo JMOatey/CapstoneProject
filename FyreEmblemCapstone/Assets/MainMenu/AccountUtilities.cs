@@ -7,7 +7,21 @@ namespace Account
 
     public static class GameSaveUtility
     {
+        public static string gameTitle;
         public static string gameSaveSelected;
+        public static string gameSaveData;
+        public static string username;
+
+
+        public static void Save()
+        {
+            GameSave save = new GameSave();
+            save.username = username;
+            save.title = gameTitle;
+            save.data = gameSaveData;
+
+            FileUtility.SaveFile<GameSave>(save, GameSaveUtility.gameSaveSelected);
+        }
     }
 
     public class FileUtility

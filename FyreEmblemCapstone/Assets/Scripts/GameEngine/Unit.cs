@@ -14,16 +14,23 @@ public enum SelectedAction
 
 public class Unit : PlayerMove
 {
+	public string side;   //keep track of which side unit is on, for temporary unit
 	public bool Finished = false;
 	public float Speed = 0;
 	public int Health = 10;
+    public GameObject WinGraphic;
+    public GameObject LoseGraphic;
 
 	public SelectedAction CurrentAction = SelectedAction.Nothing;
 
 	void Start () {
+		this.HasMoved = false;
 		TurnManager.Instance.AddUnit(this);
 
 		MoveStart();
+		GetCurrentTile();
+		// ShowEveryOption();
+		// HideEverything();
 	}
 	
 	void Update () {
@@ -45,7 +52,98 @@ public class Unit : PlayerMove
 			case SelectedAction.Nothing:
 				break;
 		}
-	}
+
+        //Update Health Bar
+        Transform bar = transform.Find("HP/HealthBar");
+        bar.localScale = new Vector3(((float)Health / 10.0f), 0.1f, 1.0f);
+
+		IEnumerator die(){
+			yield return new WaitForSeconds(2);
+			Destroy(this.gameObject);
+		}
+
+        IEnumerator playEndMusic(string win)
+        {
+
+            yield return new WaitForSeconds(6);
+        }
+
+        if (Health == 0)
+        {
+            //Death Animation
+            Transform model = transform.Find("Player Model");
+            Animator anim = model.GetComponent<Animator>();
+            anim.Play("death", -1);
+
+            //Remove character from Unit Queue if dead
+            TurnManager.Instance.UnitQueue = new Queue<Unit>(TurnManager.Instance.UnitQueue.Where(s => s != this));
+            TurnManager.Instance.RemoveUnit(this);
+			//Clear the turn queue UI
+			TurnManager.Instance.RemoveTurnQueue();
+			//Re-make the queue UI
+			TurnManager.Instance.MakeTurnQueue();
+			//Destroy unit game object
+			StartCoroutine(die());
+
+            //Check Win conditions
+            string win = TurnManager.CheckWin();
+            if (win != null)
+            {
+                //stop background music
+                GameObject bgMusic = GameObject.Find("BackgroundMusic");
+                Transform t = bgMusic.transform;
+                AudioSource s = t.GetComponent<AudioSource>();
+                s.Stop();
+
+                //UI Stuff for win/loss condition
+                //if player lose
+                if (win != tag && this.isAI == false)
+                {
+                    //play loss music
+                    Debug.Log("loss");
+                    GameObject lossmusic = GameObject.Find("LossMusic");
+                    Transform trans = lossmusic.transform;
+                    AudioSource lossSound = trans.GetComponent<AudioSource>();
+                    lossSound.Play();
+
+                    //Display Lose Graphic
+                    GameObject[] objs = Resources.FindObjectsOfTypeAll<GameObject>();
+                    foreach(GameObject obj in objs)
+                    {
+                        if(obj.name == "LoseGraphic")
+                        {
+                            LoseGraphic = obj;
+                            LoseGraphic.SetActive(true);
+                        }
+                    }
+                }
+                //if Ai lose
+                else if (win != tag && this.isAI == true)
+                {
+                    //Play win music
+                    Debug.Log("win");
+                    GameObject winmusic = GameObject.Find("WinMusic");
+                    Transform ts = winmusic.transform;
+                    AudioSource winSound = ts.GetComponent<AudioSource>();
+                    winSound.Play();
+
+                    //Display Win Graphic
+                    GameObject[] objs = Resources.FindObjectsOfTypeAll<GameObject>();
+                    foreach (GameObject obj in objs)
+                    {
+                        if (obj.name == "WinGraphic")
+                        {
+                            WinGraphic = obj;
+                            WinGraphic.SetActive(true);
+                        }
+                    }
+                }
+            }
+
+            Health = -1;
+        }
+    }
+
 	protected void MoveUpdate ()
 	{
 		if(!Turn)
@@ -53,14 +151,14 @@ public class Unit : PlayerMove
 			return;
 		}
 		if(HasMoved){
-			if(this.tag == "Enemy"){
+			if(this.isAI == true){
 				TurnManager.Instance.EndTurn();
 			}
 			return;
 		}
 		if(!Moving)
 		{
-			if(this.tag == "Enemy"){
+			if(this.isAI == true){
 				aiMove(AI.MOVE);
 			}else{
 				DisplayPossibleMoves();
@@ -69,6 +167,10 @@ public class Unit : PlayerMove
 		}
 		else
 		{
+            //Play move animation and move
+            Transform model = transform.Find("Player Model");
+            Animator anim = model.GetComponent<Animator>();
+            anim.Play("walk", -1);
 			Move();
 		}
 	}
@@ -82,7 +184,17 @@ public class Unit : PlayerMove
 	void aiAttack(Tile attack){
 		foreach (var i in TurnManager.Instance.UnitQueue.ToArray()){
 			i.GetCurrentTile();
-			if(i.tag == "Player" && i.CurrentTile == attack){
+			if(i.tag == AI.OPPONENT && i.CurrentTile == attack){
+				//Play Attack Animation
+                Animator anim = TurnManager.Instance.CurrentUnit.GetComponentInChildren<Animator>();
+                anim.Play("attack", -1);
+
+				if(i.Health > 0){
+					//onHit Animation
+                    Animator hitAnimation = i.GetComponentInChildren<Animator>();
+                    hitAnimation.Play("onHit", -1);
+				}
+				
 				i.Health -= AttackDamage;
 				HasAttacked = true;
 			}
@@ -105,11 +217,16 @@ public class Unit : PlayerMove
 		SelectableTiles.Clear();
 		AttackableTiles.Clear();
 		SelectableTiles.FindAvailableTiles(MoveDistance, CurrentTile, JumpHeight, Tiles);
-		AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles);
-		HasMoved = false;
+		GetAttackableTiles();
+        HasMoved = false;
 		Turn = true;
 		HasAttacked = false;
-	}
+
+        Transform indicator = transform.Find("Indicator/Cylinder");
+        Transform effect = transform.Find("Indicator/Cylinder/Sparkles");
+        indicator.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+        effect.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+    }
 
 	public void EndTurn()
 	{
@@ -120,7 +237,12 @@ public class Unit : PlayerMove
 			Tile t = tile.GetComponent<Tile>();
 			t.Reset();
 		}
-	}
+
+        Transform indicator = transform.Find("Indicator/Cylinder");
+        Transform effect = transform.Find("Indicator/Cylinder/Sparkles");
+        indicator.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        effect.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+    }
 
 	public void DisplayPossibleMoves()
 	{
@@ -184,7 +306,7 @@ public class Unit : PlayerMove
     {
 		if(!HasAttacked)
 		{
-			if(this.tag == "Enemy"){
+			if(this.isAI == true){
 				if(AI.ATTACK != null){
 					aiAttack(AI.ATTACK);
 				}else{
@@ -198,7 +320,7 @@ public class Unit : PlayerMove
 			DisplayAttackableTiles();
         
 		
-		if(HasAttacked && this.tag == "Enemy"){
+		if(HasAttacked && this.isAI == true){
 			TurnManager.Instance.EndTurn();
 		}
     }
@@ -208,16 +330,34 @@ public class Unit : PlayerMove
 		if(Input.GetMouseButtonUp(0))
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			string team = TurnManager.Instance.CurrentUnit.tag;
 
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit))
 			{
-				if(hit.collider.tag == "Player" || hit.collider.tag == "Enemy")
+				Unit unit = hit.collider.GetComponent<Unit>();
+				if(AttackableTiles.Contains(unit.CurrentTile) && ((hit.collider.tag == "Player" && team == "Enemy") || (hit.collider.tag == "Enemy" && team == "Player")))
 				{
-					Unit unit = hit.collider.GetComponent<Unit>();
+                    //Play Attack Animation
+                    Transform model = transform.Find("Player Model");
+                    Animator anim = model.GetComponent<Animator>();
+                    anim.Play("attack", -1);
+
+                    //Attack Logic
 					Debug.Log(unit);
 					Debug.Log(unit.Health);
-					unit.Health -= AttackDamage;
+                    if(unit.Health > 0)
+                    {
+                        //onHit Animation
+                        Animator hitAnimation = hit.collider.GetComponentInChildren<Animator>();
+                        hitAnimation.Play("onHit", -1);
+
+                        unit.Health -= AttackDamage;
+                        if(unit.Health < 0)
+                        {
+                            unit.Health = 0;
+                        }
+                    }
 					HasAttacked = true;
 				}
 			}
@@ -226,47 +366,47 @@ public class Unit : PlayerMove
 
     public void GetAttackableTiles()
     {
-        foreach(GameObject tile in Tiles)
+		foreach(GameObject tile in Tiles)
 		{
 			Tile t = tile.GetComponent<Tile>();
-			t.FindNeighbors(JumpHeight);
+			t.FindAttackNeighbors(JumpHeight);
 		}
-		Queue<Tile> process = new Queue<Tile>();
-
-		process.Enqueue(CurrentTile);
-		CurrentTile.Visited = true;
-
-		while(process.Count > 0)
+		if(!HasMoved)
 		{
-			Tile t = process.Dequeue();
 			
-			// graph.Add(t);
-			if(t.Distance < MoveDistance)
+			Queue<Tile> process = new Queue<Tile>();
+
+			process.Enqueue(CurrentTile);
+			CurrentTile.Visited = true;
+
+			while(process.Count > 0)
 			{
-				foreach(Tile tile in t.AdjacencyList)
+				Tile t = process.Dequeue();
+				
+				// graph.Add(t);
+				if(t.Distance < MoveDistance)
 				{
-					if(!tile.Visited)
+					foreach(Tile tile in t.AdjacencyList)
 					{
-						tile.Parent = t;
-						tile.Visited = true;
-						tile.Distance = 1 + t.Distance;
-						process.Enqueue(tile);
+						if(!tile.Visited)
+						{
+							tile.Parent = t;
+							tile.Visited = true;
+							tile.Distance = 1 + t.Distance;
+							process.Enqueue(tile);
+						}
 					}
 				}
 			}
-    	}
-		List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance || t.Occupied).ToList();
-		foreach(Tile tile in maxWalkDistance)
-		{
-			AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles);
-		}
-		if(this.tag == "Enemy")
-		{
-
+			// List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance || t.Occupied).ToList();
+			foreach(Tile tile in process)
+			{
+				AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles, true);
+			}
 		}
 		else
 		{
-
+			AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles, true);
 		}
     }
 

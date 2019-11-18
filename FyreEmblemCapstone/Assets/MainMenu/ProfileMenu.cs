@@ -82,6 +82,7 @@ namespace Account
             }
 
             userData = FileUtility.LoadFile<TokenResult>(save_file);
+            GameSaveUtility.username = userData.username;
 
             // load menu data
             if(userData.username.Length > 10)
