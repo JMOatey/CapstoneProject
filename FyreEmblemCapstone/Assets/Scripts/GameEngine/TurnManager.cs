@@ -67,7 +67,7 @@ public class TurnManager : MonoBehaviour
 
     void Start () 
 	{
-		// Board = C
+        // Board = C
 		StartTurn();
         MakeTurnQueue();
     }

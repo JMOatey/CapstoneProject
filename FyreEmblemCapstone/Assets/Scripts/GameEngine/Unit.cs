@@ -18,6 +18,8 @@ public class Unit : PlayerMove
 	public bool Finished = false;
 	public float Speed = 0;
 	public int Health = 10;
+    public GameObject WinGraphic;
+    public GameObject LoseGraphic;
 
 	public SelectedAction CurrentAction = SelectedAction.Nothing;
 
@@ -60,7 +62,13 @@ public class Unit : PlayerMove
 			Destroy(this.gameObject);
 		}
 
-        if(Health == 0)
+        IEnumerator playEndMusic(string win)
+        {
+
+            yield return new WaitForSeconds(6);
+        }
+
+        if (Health == 0)
         {
             //Death Animation
             Transform model = transform.Find("Player Model");
@@ -76,15 +84,66 @@ public class Unit : PlayerMove
 			TurnManager.Instance.MakeTurnQueue();
 			//Destroy unit game object
 			StartCoroutine(die());
-			string win = TurnManager.CheckWin();
-			if(win != null)
-			{
-				// UI STUFF
-				Debug.Log($"Team {win} won!");
-			}
-			Health = -1;
+
+            //Check Win conditions
+            string win = TurnManager.CheckWin();
+            if (win != null)
+            {
+                //stop background music
+                GameObject bgMusic = GameObject.Find("BackgroundMusic");
+                Transform t = bgMusic.transform;
+                AudioSource s = t.GetComponent<AudioSource>();
+                s.Stop();
+
+                //UI Stuff for win/loss condition
+                //if player lose
+                if (win != tag && this.isAI == false)
+                {
+                    //play loss music
+                    Debug.Log("loss");
+                    GameObject lossmusic = GameObject.Find("LossMusic");
+                    Transform trans = lossmusic.transform;
+                    AudioSource lossSound = trans.GetComponent<AudioSource>();
+                    lossSound.Play();
+
+                    //Display Lose Graphic
+                    GameObject[] objs = Resources.FindObjectsOfTypeAll<GameObject>();
+                    foreach(GameObject obj in objs)
+                    {
+                        if(obj.name == "LoseGraphic")
+                        {
+                            LoseGraphic = obj;
+                            LoseGraphic.SetActive(true);
+                        }
+                    }
+                }
+                //if Ai lose
+                else if (win != tag && this.isAI == true)
+                {
+                    //Play win music
+                    Debug.Log("win");
+                    GameObject winmusic = GameObject.Find("WinMusic");
+                    Transform ts = winmusic.transform;
+                    AudioSource winSound = ts.GetComponent<AudioSource>();
+                    winSound.Play();
+
+                    //Display Win Graphic
+                    GameObject[] objs = Resources.FindObjectsOfTypeAll<GameObject>();
+                    foreach (GameObject obj in objs)
+                    {
+                        if (obj.name == "WinGraphic")
+                        {
+                            WinGraphic = obj;
+                            WinGraphic.SetActive(true);
+                        }
+                    }
+                }
+            }
+
+            Health = -1;
         }
-	}
+    }
+
 	protected void MoveUpdate ()
 	{
 		if(!Turn)
