@@ -28,7 +28,16 @@ public class Unit : PlayerMove
 		TurnManager.Instance.AddUnit(this);
 
 		MoveStart();
+		// GetCurrentTile();
+
 		GetCurrentTile();
+		SelectableTiles.Clear();
+		AttackableTiles.Clear();
+		SelectableTiles.FindAvailableTiles(MoveDistance, CurrentTile, JumpHeight, Tiles);
+		GetAttackableTiles();
+        HasMoved = false;
+		Turn = true;
+		HasAttacked = false;
 		// ShowEveryOption();
 		// HideEverything();
 	}
