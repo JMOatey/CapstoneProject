@@ -15,6 +15,13 @@ public class TurnText : MonoBehaviour
     void Update()
     {
         Text text = this.GetComponent<Text>();
-        text.text = TurnManager.Instance.CurrentUnit.name;
+        if(TurnManager.Instance != null) {
+            if(TurnManager.Instance.CurrentUnit != null) {
+                if(TurnManager.Instance.CurrentUnit.name != null)
+                {
+                    text.text = TurnManager.Instance.CurrentUnit.name;
+                }
+            }
+        }
     }
 }
