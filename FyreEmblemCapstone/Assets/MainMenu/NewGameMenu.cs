@@ -21,31 +21,12 @@ public class NewGameMenu : MonoBehaviour
         
     }
 
-
-    public int CheckSaves()
-        {
-            string base_filename = "save_{0}";
-            int i = 0;
-
-            string filename = String.Format(base_filename, i);
-            while(FileUtility.CheckFile(filename))
-            {
-                filename = String.Format(base_filename, i);
-                i++;
-            }
-
-            Debug.Log(String.Format("{0} local saves found", i));
-
-            return i;
-        }
-
-
     public void PlayButton()
     {
-        int saveCount = CheckSaves();
-
         GameSaveUtility.gameTitle = titleInput.text;
-        GameSaveUtility.gameSaveSelected = String.Format("save_{0}", saveCount + 1);
+        GameSaveUtility.NewSaveName();
+        GameSaveUtility.Save();
+        GameSaveUtility.Load();
 
         SceneManager.LoadScene("Tactics");
     }

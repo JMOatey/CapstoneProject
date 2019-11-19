@@ -34,6 +34,7 @@ public class Unit : PlayerMove
 	}
 	
 	void Update () {
+		// Debug.Log(transform.position);
 		switch(CurrentAction)
 		{
 			case SelectedAction.Attack:

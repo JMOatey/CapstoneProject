@@ -44,6 +44,13 @@ public class PlayerMove : PlayerUtility
 		}
 	}
 
+
+	public void SetPosition(Vector3 pos)
+	{
+		transform.position = pos;
+	}
+
+
 	public void MoveToTile(Tile tile)
 	{
 		Path.Clear();

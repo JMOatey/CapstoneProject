@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Account
 {
@@ -9,8 +11,10 @@ namespace Account
     {
         public static string gameTitle;
         public static string gameSaveSelected;
-        public static string gameSaveData;
+        public static SaveData gameSaveData;
+        public static bool loadGame = false;
         public static string username;
+        public static int gameID;
 
 
         public static void Save()
@@ -19,8 +23,89 @@ namespace Account
             save.username = username;
             save.title = gameTitle;
             save.data = gameSaveData;
+            save.id = gameID;
 
-            FileUtility.SaveFile<GameSave>(save, GameSaveUtility.gameSaveSelected);
+            Debug.Log(GameSaveUtility.gameSaveSelected);
+            FileUtility.SaveFile<GameSave>(save, Path.Combine("saves", GameSaveUtility.gameSaveSelected));
+        }
+
+
+        public static void Load()
+        {
+            GameSave save = FileUtility.LoadFile<GameSave>(Path.Combine("saves", GameSaveUtility.gameSaveSelected));
+            username = save.username;
+            gameTitle = save.title;
+            gameID = save.id;
+            gameSaveData = save.data;
+
+            // Debug.Log(username);
+            Debug.Log(gameTitle);
+        }
+
+
+        public static List<GameSave> LoadSaves()
+        {
+            List<GameSave> loadedSaves = new List<GameSave>();
+            string tempPath = Path.Combine(Application.persistentDataPath, "data/saves");
+            Debug.Log("Searching: " + tempPath);
+
+            if (!Directory.Exists(tempPath))
+            {
+                Directory.CreateDirectory(tempPath);
+            }
+
+            string[] files = Directory.GetFiles(tempPath);
+            Debug.Log(String.Format("Loading {0} file(s)", files.Length));
+
+            for(int i = 0; i < files.Length; i++)
+            {
+                string filename = Path.GetFileNameWithoutExtension(files[i]);
+                filename = Path.Combine("saves", filename);
+
+                Debug.Log(filename);
+                GameSave save = FileUtility.LoadFile<GameSave>(filename);
+                Debug.Log(save.id); 
+
+                loadedSaves.Add(save);
+            }
+
+            return loadedSaves;
+        }
+
+
+        public static void NewSaveName()
+        {
+            string tempPath = Path.Combine(Application.persistentDataPath, "data/saves");
+            Debug.Log("Searching: " + tempPath);
+
+            if (!Directory.Exists(tempPath))
+            {
+                Directory.CreateDirectory(tempPath);
+            }
+
+            string[] files = Directory.GetFiles(tempPath);
+            Debug.Log(String.Format("Found {0} file(s)", files.Length));
+
+            int new_id = 0;
+            for(int i = 0; i < files.Length; i++)
+            {
+                // string filename = files[i];
+                string filename = Path.GetFileNameWithoutExtension(files[i]);
+                filename = Path.Combine("saves", filename);
+
+                Debug.Log(filename);
+                GameSave save = FileUtility.LoadFile<GameSave>(filename);
+                Debug.Log(save.id); 
+
+                if(save.id >= new_id)
+                {
+                    new_id = save.id;
+                }
+            }
+
+            gameID = new_id+1;
+            gameSaveSelected = String.Format("save_{0}", new_id+1);
+            Debug.Log("New File: " + gameSaveSelected);
         }
     }
 
@@ -79,7 +164,29 @@ namespace Account
     {
         public string username;
         public string title;
-        public string data;
+        public SaveData data;
+        public int id;
+    }
+
+
+    [System.Serializable]
+    public class SaveData
+    {
+        public string current;
+        public SaveUnit support;
+        public SaveUnit main;
+        public SaveUnit bad;
+    }
+
+
+    [System.Serializable]
+    public class SaveUnit
+    {
+        public string name;
+        public float x, y, z;
+        public float f_x, f_y, f_z;
+        public int health;
+        public string tag;
     }
 
 

@@ -15,6 +15,9 @@ public class RoundText : MonoBehaviour
     void Update()
     {
         Text txt = this.GetComponent<Text>();
-        txt.text = TurnManager.Instance.Turn.ToString();
+        if(TurnManager.Instance != null)
+        {
+            txt.text = TurnManager.Instance.Turn.ToString();
+        }
     }
 }

@@ -81,6 +81,8 @@ namespace Account
         public void PlayButton()
         {
             GameSaveUtility.gameSaveSelected = gameSaveSelected;
+            GameSaveUtility.Load();
+            GameSaveUtility.loadGame = true;
             SceneManager.LoadScene("Tactics");
         }
 
@@ -119,11 +121,11 @@ namespace Account
                         gameSavesContainer.transform);
 
                     gameSavePanel.transform.Translate(0.0f, -65.0f * i, 0.0f);
-                    gameSavePanel.GetComponentInChildren<TextMeshProUGUI>().SetText(String.Format("Save {0}: {1}", i, save.username));
+                    gameSavePanel.GetComponentInChildren<TextMeshProUGUI>().SetText(String.Format("{2}-{0} [{1}]", save.id, save.username, save.title));
                     gameSavePanel.tag = "GameSavePanel";
                     // gameSavePanel.GetComponent<Button>().onClick.AddListener(delegate{SelectSave(String.Format("save_{0}", i));});
 
-                    int j = i;
+                    int j = save.id;
                     gameSavePanel.GetComponent<Button>().onClick.AddListener(
                         () => {
                             SelectSave(String.Format("save_{0}", j));
@@ -132,7 +134,7 @@ namespace Account
                     gameSavePanel.SetActive(true);
 
 
-                    Debug.Log(gameSavePanel.transform.position);
+                    // Debug.Log(gameSavePanel.transform.position);
 
                     i++;
                 }
@@ -149,43 +151,38 @@ namespace Account
 
         public int CheckSaves()
         {
-            string base_filename = "save_{0}";
-            int i = 0;
-
-            string filename = String.Format(base_filename, i);
-            while(FileUtility.CheckFile(filename))
-            {
-                filename = String.Format(base_filename, i);
-                i++;
-            }
-
-            Debug.Log(String.Format("{0} local saves found", i));
-
-            return i;
+            return GameSaveUtility.LoadSaves().Count;
         }
 
         public bool LoadSaves()
         {
             // Clear saves
 
-            gameSaves = new List<GameSave>();
+            // gameSaves = new List<GameSave>();
 
             // Load saves
+            gameSaves = GameSaveUtility.LoadSaves();
 
-            string base_filename = "save_{0}";
-            int i = 0;
+            // string base_filename = "save_{0}";
+            // int i = 0;
 
-            string filename = String.Format(base_filename, i);
-            while(FileUtility.CheckFile(filename))
+            // string filename = String.Format(base_filename, i);
+            // while(FileUtility.CheckFile(filename))
+            // {
+            //     GameSave save = FileUtility.LoadFile<GameSave>(filename);
+
+            //     gameSaves.Add(save);
+
+            //     Debug.Log("Loaded " + filename);
+
+            //     i++;
+            //     filename = String.Format(base_filename, i);
+            // }
+
+            // return false;
+            if(gameSaves.Count > 0)
             {
-                GameSave save = FileUtility.LoadFile<GameSave>(filename);
-
-                gameSaves.Add(save);
-
-                Debug.Log("Loaded " + filename);
-
-                i++;
-                filename = String.Format(base_filename, i);
+                return true;
             }
 
             return false;
@@ -230,6 +227,55 @@ namespace Account
                         return true;
                     }
                 }
+            }
+
+            return false;
+        }
+
+
+        public bool PostSaves()
+        {
+            if(FileUtility.CheckFile("user"))
+            {
+                // int i = 0;
+                foreach(GameSave save in gameSaves)
+                {
+                    string data = JsonUtility.ToJson(save);
+
+                    UnityWebRequest postSavesRequest = UnityWebRequest.Put(String.Format(CloudAPI.SaveUrl + "/{0}", save.id), data);
+                    postSavesRequest.SetRequestHeader("Authorization", "Bearer " + userData.access_token);
+                    postSavesRequest.SendWebRequest();
+
+                    while(!postSavesRequest.isDone);
+
+                    // Handle request result
+                if(postSavesRequest.isNetworkError || postSavesRequest.isHttpError)
+                {
+                    Debug.Log("Error while making sign in request: " + postSavesRequest.error);
+                }
+                else
+                {
+                    string fetchSavesResult = postSavesRequest.downloadHandler.text;
+
+                    CloudSaveResult result = JsonUtility.FromJson<CloudSaveResult>(fetchSavesResult);
+
+                    if(result.code)
+                    {
+                        Debug.Log(JsonUtility.ToJson(result.message));
+
+                        int saveCount = CheckSaves();
+
+                        for(int i = 0; i < result.message.Length; i++)
+                        {
+                            FileUtility.SaveFile(JsonUtility.ToJson(result.message[i]), String.Format("save_{0}", saveCount + i));
+                        }
+
+                        return true;
+                    }
+                }
+                }
+                
+                
             }
 
             return false;
