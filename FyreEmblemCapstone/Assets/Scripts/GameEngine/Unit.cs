@@ -100,6 +100,7 @@ public class Unit : PlayerMove
             if (win != null)
             {
                 //stop background music
+				Debug.Log("here");
                 GameObject bgMusic = GameObject.Find("BackgroundMusic");
                 Transform t = bgMusic.transform;
                 AudioSource s = t.GetComponent<AudioSource>();
