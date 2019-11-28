@@ -327,10 +327,8 @@ public class Unit : PlayerMove
 				Attack();
 			}	
 		}
-			GetAttackableTiles();
-			DisplayAttackableTiles();
-        
-		
+		GetAttackableTiles();
+		DisplayAttackableTiles();
 		if(HasAttacked && this.isAI == true){
 			TurnManager.Instance.EndTurn();
 		}
@@ -384,7 +382,6 @@ public class Unit : PlayerMove
 		}
 		if(!HasMoved)
 		{
-			
 			Queue<Tile> process = new Queue<Tile>();
 
 			process.Enqueue(CurrentTile);
@@ -394,8 +391,8 @@ public class Unit : PlayerMove
 			{
 				Tile t = process.Dequeue();
 				
-				// graph.Add(t);
-				if(t.Distance < MoveDistance)
+				AttackableTiles.Add(t);
+				if(t.Distance < (MoveDistance + AttackRange))
 				{
 					foreach(Tile tile in t.AdjacencyList)
 					{
@@ -409,15 +406,34 @@ public class Unit : PlayerMove
 					}
 				}
 			}
-			// List<Tile> maxWalkDistance = SelectableTiles.Where(t => t.Distance == MoveDistance || t.Occupied).ToList();
-			foreach(Tile tile in process)
-			{
-				AttackableTiles.FindAvailableTiles(AttackRange, tile, JumpHeight, Tiles, true);
-			}
+
 		}
 		else
 		{
-			AttackableTiles.FindAvailableTiles(AttackRange, CurrentTile, JumpHeight, Tiles, true);
+			Queue<Tile> process = new Queue<Tile>();
+
+			process.Enqueue(CurrentTile);
+			CurrentTile.Visited = true;
+
+			while(process.Count > 0)
+			{
+				Tile t = process.Dequeue();
+				
+				AttackableTiles.Add(t);
+				if(t.Distance < AttackRange)
+				{
+					foreach(Tile tile in t.AdjacencyList)
+					{
+						if(!tile.Visited)
+						{
+							tile.Parent = t;
+							tile.Visited = true;
+							tile.Distance = 1 + t.Distance;
+							process.Enqueue(tile);
+						}
+					}
+				}
+			}
 		}
     }
 
