@@ -24,6 +24,7 @@ namespace Account
             save.title = gameTitle;
             save.data = gameSaveData;
             save.id = gameID;
+            save.time = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 
             Debug.Log(GameSaveUtility.gameSaveSelected);
             FileUtility.SaveFile<GameSave>(save, Path.Combine("saves", GameSaveUtility.gameSaveSelected));
@@ -47,7 +48,7 @@ namespace Account
         {
             List<GameSave> loadedSaves = new List<GameSave>();
             string tempPath = Path.Combine(Application.persistentDataPath, "data/saves");
-            Debug.Log("Searching: " + tempPath);
+            // Debug.Log("Searching: " + tempPath);
 
             if (!Directory.Exists(tempPath))
             {
@@ -62,9 +63,9 @@ namespace Account
                 string filename = Path.GetFileNameWithoutExtension(files[i]);
                 filename = Path.Combine("saves", filename);
 
-                Debug.Log(filename);
+                // Debug.Log(filename);
                 GameSave save = FileUtility.LoadFile<GameSave>(filename);
-                Debug.Log(save.id); 
+                // Debug.Log(save.id); 
 
                 loadedSaves.Add(save);
             }
@@ -76,7 +77,7 @@ namespace Account
         public static void NewSaveName()
         {
             string tempPath = Path.Combine(Application.persistentDataPath, "data/saves");
-            Debug.Log("Searching: " + tempPath);
+            // Debug.Log("Searching: " + tempPath);
 
             if (!Directory.Exists(tempPath))
             {
@@ -84,7 +85,7 @@ namespace Account
             }
 
             string[] files = Directory.GetFiles(tempPath);
-            Debug.Log(String.Format("Found {0} file(s)", files.Length));
+            // Debug.Log(String.Format("Found {0} file(s)", files.Length));
 
             int new_id = 0;
             for(int i = 0; i < files.Length; i++)
@@ -93,9 +94,9 @@ namespace Account
                 string filename = Path.GetFileNameWithoutExtension(files[i]);
                 filename = Path.Combine("saves", filename);
 
-                Debug.Log(filename);
+                // Debug.Log(filename);
                 GameSave save = FileUtility.LoadFile<GameSave>(filename);
-                Debug.Log(save.id); 
+                // Debug.Log(save.id); 
 
                 if(save.id >= new_id)
                 {
@@ -166,6 +167,7 @@ namespace Account
         public string title;
         public SaveData data;
         public int id;
+        public int time;
     }
 
 
@@ -217,6 +219,13 @@ namespace Account
     public class CloudSaveResult
     {
         public GameSave[] message;
+        public bool code;
+    }
+
+    [System.Serializable]
+    public class CloudSaveUpdateResult
+    {
+        public string message;
         public bool code;
     }
 
