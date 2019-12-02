@@ -219,6 +219,8 @@ public class TurnManager : MonoBehaviour
 		{
 			unit.GetCurrentTile();
 			unit.CurrentTile.Occupied = true;
+            unit.AttackableTiles.Clear();
+            unit.SelectableTiles.Clear();
 		}
 		if(Instance.UnitQueue.Count > 0)
 		{
