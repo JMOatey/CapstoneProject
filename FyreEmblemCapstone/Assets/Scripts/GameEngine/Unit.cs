@@ -249,6 +249,7 @@ public class Unit : PlayerMove
 			t.Reset();
 		}
 
+		HasMoved = false;
         Transform indicator = transform.Find("Indicator/Cylinder");
         Transform effect = transform.Find("Indicator/Cylinder/Sparkles");
         indicator.localScale = new Vector3(0.0f, 0.0f, 0.0f);
