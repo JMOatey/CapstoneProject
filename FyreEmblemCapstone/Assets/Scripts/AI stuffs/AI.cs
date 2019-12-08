@@ -43,6 +43,7 @@ public class AI : MonoBehaviour
 		//try to attack first
 		ATTACK = ai.bestMove(TM.CurrentUnit.attackTiles, true);
 		if(ATTACK != null){
+			Debug.Log("AI attacks");
 			TM.SelectAttack();
 		//if not attack this turn, then move or wait
 		}else{
@@ -50,8 +51,10 @@ public class AI : MonoBehaviour
 			List<Tile> list = TM.CurrentUnit.SelectableTiles;
 			MOVE = ai.bestMove(list, false);
 			if(MOVE == null){
+				Debug.Log("AI remains in place");
 				TM.EndTurn();
 			}else{
+				Debug.Log("AI moves to tile");
 				TM.SelectMove();
 			}
 		}
@@ -94,8 +97,10 @@ public class AI : MonoBehaviour
 			result = gameOver(UQ);
 			if(result[0]){
 				if(result[1] == true){
+					Debug.Log("AI wons");
 					totalScore += 9999;        //ai won
 				}else{
+					Debug.Log("Player wons");
 					totalScore -= 9999;        //player won
 				}
 				return totalScore;
@@ -201,6 +206,9 @@ public class AI : MonoBehaviour
 			}
 			
 			if(equalScore.Count != 0){
+				Debug.Log("AI best attack score: " + bestScore);
+				Debug.Log("AI list of best attack moves: " + equalScore);
+				Debug.Log("AI selected best attack move: " + bestMv);
 				bestMv = equalScore[Random.Range(0,equalScore.Count)];
 			}
 			return bestMv;	
@@ -208,7 +216,6 @@ public class AI : MonoBehaviour
 
 		for(int i = 0; i < tiles.Count; i++){
 			float tempScore = eval(tiles[i], TM.UnitQueue, isAttack);
-			//Debug.Log(tempScore);
 			if(tempScore > bestScore){          //for move with equal values, get the lastest one
 				bestScore = tempScore;
 				equalScore.Clear();
@@ -220,6 +227,9 @@ public class AI : MonoBehaviour
 			}
 		}
 
+		Debug.Log("AI best move score: " + bestScore);
+		Debug.Log("AI list of best moves: " + equalScore);
+		Debug.Log("AI selected best move: " + bestMv);
 		bestMv = equalScore[Random.Range(0,equalScore.Count)];
 
 		return bestMv;	
